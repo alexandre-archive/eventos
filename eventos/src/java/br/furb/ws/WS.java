@@ -25,7 +25,7 @@ package br.furb.ws;
  * PUT api/Events/1
  * DELETE api/Events/1
  * 
- * GET api/Users/1/Events
+ * GET api/Users/1/Events  
  * 
  * $.ajax(method: "POST")
  * 

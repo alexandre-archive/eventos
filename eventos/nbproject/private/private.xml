@@ -1,14 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
+    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/marcospaulo/Documents/NetBeansProjects/eventos/src/java/br/furb/entity/Comment.java</file>
-            <file>file:/C:/Users/marcospaulo/Documents/NetBeansProjects/eventos/src/java/br/furb/entity/User.java</file>
-            <file>file:/C:/Users/marcospaulo/Documents/NetBeansProjects/eventos/web/index.xhtml</file>
-            <file>file:/C:/Users/marcospaulo/Documents/NetBeansProjects/eventos/src/java/br/furb/entity/Permission.java</file>
-            <file>file:/C:/Users/marcospaulo/Documents/NetBeansProjects/eventos/src/java/br/furb/ws/WS.java</file>
-            <file>file:/C:/Users/marcospaulo/Documents/NetBeansProjects/eventos/src/java/br/furb/entity/Event.java</file>
-            <file>file:/C:/Users/marcospaulo/Documents/NetBeansProjects/eventos/src/java/br/furb/entity/Profile.java</file>
+            <file>file:/D:/git/eventos/eventos/src/java/br/furb/ws/WS.java</file>
+            <file>file:/D:/git/eventos/eventos/web/WEB-INF/web.xml</file>
         </group>
     </open-files>
 </project-private>
