@@ -46,6 +46,12 @@
             code {
                 font-size: 80%;
             }
+
+            .cover {
+                width: 100%;
+                height: 120px;
+            }
+
         </style>
 
         <!-- Just for debugging purposes. Don't actually copy this line! -->
@@ -56,6 +62,8 @@
           <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
           <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
         <![endif]-->
+
+        
     </head>
 
     <body>
@@ -74,7 +82,7 @@
                 </div>
                 <div class="navbar-collapse collapse">
                     <ul class="nav navbar-nav">
-                        <li><a href="#">Home</a></li>
+                        <li><a href="/eventos/home.html">Home</a></li>
                         <li><a href="#">Seus eventos</a></li>
                         <li><a href="#">Encontre mais eventos</a></li>
                         <li class="active"><a href="#">Criar evento</a></li>
@@ -92,36 +100,65 @@
             <!-- Main component for a primary marketing message or call to action -->
             <div class="jumbotron" style="width: 60%; margin-left: 20%">
                 <div class="form-horizontal">
+
                     <div class="form-group">
-                        <div class="col-md-6">
-                            <input class="form-control" placeholder="Título do evento"/>
+
+                        <div class="form-group">
+                            <div class="col-md-12">
+                                <img class="cover" alt="cover" src="img/themes/06_bonfire.jpg" style="opacity: 1;">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-md-12">
+                                <input class="form-control" placeholder="Título do evento"/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-6" style="width: 45.8%; padding-right: 0">
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
+                                    <input class="form-control"/>
+                                </div>
+                            </div>
+                            <div class="col-md-1" style="padding-top: 1%;">
+                                <span class="text-center">-</span>
+                            </div>
+                            <div class="col-md-6" style="width: 45.8%; padding-left: 0">
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
+                                    <input class="form-control"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-12">
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="glyphicon glyphicon-map-marker"></i></span>
+                                    <input class="form-control" placeholder="Localização"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-12">
+                                <textarea class="form-control" rows="3" placeholder="Detalhes"></textarea>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-12">
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                                    <input class="form-control" placeholder="Convidar por nome ou email"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-4">
+                                <a class="btn btn-lg btn-success" href="#" role="button">Criar</a>
+                            </div>
                         </div>
                     </div>
-                    <div class="form-group">
-                        <div class="col-md-6">
-                            <input class="form-control"/>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="col-md-6">
-                            <input class="form-control" placeholder="Localização"/>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="col-md-6">
-                            <textarea class="form-control" rows="3" placeholder="Detalhes"></textarea>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="col-md-6">
-                            <input class="form-control" placeholder="Convidar por nome ou email"/>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="col-md-4">
-                            <a class="btn btn-lg btn-primary" href="#" role="button">Criar</a>
-                        </div>
-                    </div>
+
                 </div>
             </div>
 
@@ -138,7 +175,6 @@
         ================================================== -->
         <!-- Placed at the end of the document so the pages load faster -->
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
-        <script src="js/bootstrap.min.js"></script>
-        <script src="js/bootstrap-datetimepicker.min.js"></script>
+        <script src="js/vendor/bootstrap.min.js"></script>
     </body>
 </html>
