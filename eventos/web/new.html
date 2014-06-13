@@ -1,6 +1,6 @@
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" ng-app>
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -13,6 +13,8 @@
 
         <!-- Bootstrap core CSS -->
         <link href="css/bootstrap.min.css" rel="stylesheet">
+
+        <link href="css/bootstrap-datetimepicker.min.css" rel="stylesheet">
 
         <style type="text/css">
             body {
@@ -63,10 +65,10 @@
           <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
         <![endif]-->
 
-        
+
     </head>
 
-    <body>
+    <body ng-controller="EventCtrl">
 
         <!-- Fixed navbar -->
         <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -105,7 +107,7 @@
 
                         <div class="form-group">
                             <div class="col-md-12">
-                                <img class="cover" alt="cover" src="img/themes/06_bonfire.jpg" style="opacity: 1;">
+                                <img class="cover" alt="" ng-src="{{getCover()}}" style="opacity: 1;">
                             </div>
                         </div>
 
@@ -118,7 +120,7 @@
                             <div class="col-md-6" style="width: 45.8%; padding-right: 0">
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
-                                    <input class="form-control"/>
+                                    <input type='text' class="form-control" id='initTime' readonly=""/>
                                 </div>
                             </div>
                             <div class="col-md-1">
@@ -127,7 +129,7 @@
                             <div class="col-md-6" style="width: 45.8%; padding-left: 0">
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
-                                    <input class="form-control"/>
+                                    <input type='text' class="form-control" id='endTime' readonly=""/>
                                 </div>
                             </div>
                         </div>
@@ -158,7 +160,6 @@
                             </div>
                         </div>
                     </div>
-
                 </div>
             </div>
 
@@ -176,5 +177,32 @@
         <!-- Placed at the end of the document so the pages load faster -->
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
         <script src="js/vendor/bootstrap.min.js"></script>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.2.16/angular.min.js"></script>
+        <script src="js/moment.min.js"></script>
+        <script src="js/moment-with-langs.min.js"></script>
+        <!-- http://eonasdan.github.io/bootstrap-datetimepicker/ -->
+        <script src="js/bootstrap-datetimepicker.min.js"></script>
+
+        <script type="text/javascript">
+            $(function() {
+                $("#initTime, #endTime").datetimepicker({
+                    language: 'pt-BR'
+                });
+            });
+            
+            function EventCtrl($scope) {
+                $scope.getRandomInt = function (min, max) {
+                    return Math.floor(Math.random() * (max - min + 1)) + min;
+                };
+                
+                $scope.getCover = function () {
+                    var src = "img/covers/jpg/" + $scope.getRandomInt(1, 30) + ".jpg";
+                    /* Force to fetch. */
+                    var img = new Image();
+                    img.src = src;
+                    return src;
+                };
+            };
+        </script>
     </body>
 </html>
