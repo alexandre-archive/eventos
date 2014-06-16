@@ -6,6 +6,10 @@
 
 package br.furb.ws;
 
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
+
 /**
  * JSON { "name" : "joao", "passwd" : "haha", "requestType": "nextEvents" }
  * requestTypes: newEvent, nextEvents
@@ -30,6 +34,13 @@ package br.furb.ws;
  * $.ajax(method: "POST")
  * 
  */
+@Path("events")
 public class WS {
+    
+    @GET
+    @Produces("text/html")
+    public String ping() {
+        return "OK";
+    }
     
 }
