@@ -7,7 +7,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="description" content="">
         <meta name="author" content="">
-        <link rel="shortcut icon" href="../../assets/ico/favicon.ico">
+        <link rel="shortcut icon" href="favicon.ico">
 
         <title>Eventos Manager - Criar evento</title>
 
@@ -16,45 +16,7 @@
 
         <link href="css/bootstrap-datetimepicker.min.css" rel="stylesheet">
 
-        <style type="text/css">
-            body {
-                min-height: 2000px;
-                padding-top: 70px;
-            }
-
-            html {
-                position: relative;
-                min-height: 100%;
-            }
-
-            #footer {
-                position: absolute;
-                bottom: 0;
-                width: 100%;
-                /* Set the fixed height of the footer here */
-                height: 60px;
-                background-color: #f5f5f5;
-            }
-
-            .container .text-muted {
-                margin: 20px 0;
-            }
-
-            #footer > .container {
-                padding-right: 15px;
-                padding-left: 15px;
-            }
-
-            code {
-                font-size: 80%;
-            }
-
-            .cover {
-                width: 100%;
-                height: 120px;
-            }
-
-        </style>
+        <link href="css/main.css" rel="stylesheet">
 
         <!-- Just for debugging purposes. Don't actually copy this line! -->
         <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
@@ -64,7 +26,6 @@
           <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
           <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
         <![endif]-->
-
 
     </head>
 
@@ -85,13 +46,13 @@
                 <div class="navbar-collapse collapse">
                     <ul class="nav navbar-nav">
                         <li><a href="/eventos/home.html">Home</a></li>
-                        <li><a href="#">Seus eventos</a></li>
-                        <li><a href="#">Encontre mais eventos</a></li>
-                        <li class="active"><a href="#">Criar evento</a></li>
+                        <li><a href="/eventos/myevents.html">Seus eventos</a></li>
+                        <li><a href="/eventos/find.html">Encontre mais eventos</a></li>
+                        <li class="active"><a href="/eventos/new.html">Criar evento</a></li>
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
-                        <li><a href="#">Sobre</a></li>
-                        <li><a href="#">Contato</a></li>
+                        <li><a href="/eventos/about.html">Sobre</a></li>
+                        <li><a href="/eventos/contact.html">Contato</a></li>
                     </ul>
                 </div><!--/.nav-collapse -->
             </div>
@@ -167,7 +128,7 @@
 
         <div id="footer">
             <div class="container">
-                <p class="text-muted">Place sticky footer content here.</p>
+                <p class="text-muted">&copy; Eventos Manager 2014</p>
             </div>
         </div>
 
@@ -175,9 +136,9 @@
         <!-- Bootstrap core JavaScript
         ================================================== -->
         <!-- Placed at the end of the document so the pages load faster -->
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+        <script src="js/vendor/jquery-1.11.0.min.js"></script>
         <script src="js/vendor/bootstrap.min.js"></script>
-        <script src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.2.16/angular.min.js"></script>
+        <script src="js/angular.min.js"></script>
         <script src="js/moment.min.js"></script>
         <script src="js/moment-with-langs.min.js"></script>
         <!-- http://eonasdan.github.io/bootstrap-datetimepicker/ -->
@@ -189,13 +150,13 @@
                     language: 'pt-BR'
                 });
             });
-            
+
             function EventCtrl($scope) {
-                $scope.getRandomInt = function (min, max) {
+                $scope.getRandomInt = function(min, max) {
                     return Math.floor(Math.random() * (max - min + 1)) + min;
                 };
-                
-                $scope.getCover = function () {
+
+                $scope.getCover = function() {
                     var src = "img/covers/jpg/" + $scope.getRandomInt(1, 30) + ".jpg";
                     /* Force to fetch. */
                     var img = new Image();
