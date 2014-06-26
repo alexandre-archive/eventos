@@ -6,12 +6,13 @@
 
 package br.furb.entity;
 
-import java.util.ArrayList;
+import javax.persistence.Entity;
 
 /**
  *
  * @author marcospaulo
  */
+@Entity
 public class User {
     
     private long id;

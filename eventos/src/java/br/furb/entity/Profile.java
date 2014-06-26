@@ -7,12 +7,18 @@
 package br.furb.entity;
 
 import java.util.ArrayList;
+import javax.persistence.Entity;
+import javax.persistence.Id;
 
 /**
  *
  * @author marcospaulo
  */
+@Entity
 public class Profile {
+    
+    @Id
+    private long id;
     
     private String name;
     
@@ -44,6 +50,14 @@ public class Profile {
      */
     public void setPermissions(ArrayList<Permission> permissions) {
         this.permissions = permissions;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
     
 }
