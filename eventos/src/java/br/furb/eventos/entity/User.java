@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-package br.furb.entity;
+package br.furb.eventos.entity;
 
 import javax.persistence.Entity;
 

@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-package br.furb.ws;
+package br.furb.eventos.ws;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;

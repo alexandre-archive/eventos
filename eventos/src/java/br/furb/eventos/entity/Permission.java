@@ -1,4 +1,4 @@
-package br.furb.entity;
+package br.furb.eventos.entity;
 
 import java.util.ArrayList;
 import javax.persistence.Entity;
