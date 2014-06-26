@@ -9,13 +9,11 @@ package br.furb.entity;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import javax.persistence.Entity;
+import javax.persistence.Id;
 
 
-
-/**
- *
- * @author marcospaulo
- */
+@Entity
 public class Event {
 
     /**
@@ -138,6 +136,7 @@ public class Event {
         Public
     }
     
+    @Id
     private long id;
     
     private String name;
