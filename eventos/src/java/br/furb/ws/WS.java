@@ -33,13 +33,22 @@ import javax.ws.rs.Produces;
  * 
  * $.ajax(method: "POST")
  * 
+ * autenticacao
+ * 
+ * basica - servletfilter, jsf face listnet
+ * 
+ * api jaas
+ * 
+ * spring security
+ *   roles
+ *   permission
+ * 
+ * 
+ * 
  */
-@Path("events")
 public class WS {
     
-    @GET
-    @Produces("text/html")
-    public String ping() {
+    public String get() {
         return "OK";
     }
     
