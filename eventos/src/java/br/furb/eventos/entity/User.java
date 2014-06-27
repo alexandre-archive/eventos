@@ -7,6 +7,8 @@
 package br.furb.eventos.entity;
 
 import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.OneToOne;
 
 /**
  *
@@ -15,6 +17,7 @@ import javax.persistence.Entity;
 @Entity
 public class User {
     
+    @Id
     private long id;
     
     private String name;
@@ -23,7 +26,16 @@ public class User {
     private String login;
     private String pwd;
 
+    @OneToOne
     private Profile profile;
+    
+    public User(String name, String email, String lastname, String login, String pwd) {
+        this.name  = name;
+        this.email = email;
+        this.lastname = lastname;
+        this.login = login;
+        this.pwd = pwd;
+    }
     
     /**
      * @return the name
@@ -107,6 +119,14 @@ public class User {
      */
     public void setProfile(Profile profile) {
         this.profile = profile;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
     
     
