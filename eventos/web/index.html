@@ -33,6 +33,7 @@
                         <li><a href="#myevents" role="tab" data-toggle="tab">Seus eventos</a></li>
                         <li><a href="#find" role="tab" data-toggle="tab">Encontre mais eventos</a></li>
                         <li><a href="#new" role="tab" data-toggle="tab">Criar evento</a></li>
+                        <li><a href="#profile" role="tab" data-toggle="tab">Perfil</a></li>
                         <li><a href="#about" role="tab" data-toggle="tab">Sobre</a></li>
                         <li><a href="#contact" role="tab" data-toggle="tab">Contato</a></li>
                     </ul>
@@ -43,21 +44,31 @@
         <div class="tab-content">
             <div class="tab-pane active" id="home">
                 <div class="container">
-
-                    <!-- Main component for a primary marketing message or call to action -->
                     <div class="jumbotron">
-                        <h1>Navbar example</h1>
-                        <p>This example is a quick exercise to illustrate how the default, static and fixed to top navbar work. It includes the responsive CSS and HTML, so it also adapts to your viewport and device.</p>
-                        <p>To see the difference between static and fixed top navbars, just scroll.</p>
-                        <p>
-                            <a class="btn btn-lg btn-primary" href="../../components/#navbar" role="button">View navbar docs &raquo;</a>
-                        </p>
+                        <h1>Bem vindo</h1>
                     </div>
-
                 </div>
             </div>
-            <div class="tab-pane" id="myevents">myevents</div>
-            <div class="tab-pane" id="find">find</div>
+            <div class="tab-pane" id="myevents" ng-controller="MyEventsCtrl">
+                <div class="container">
+                    <div class="jumbotron">
+                        <div ng-show="UserEvents.length > 0"></div>
+                        <div ng-show="UserEvents.length === 0">
+                            <div class="alert alert-info" role="alert">Você ainda não possui eventos.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="tab-pane" id="find" ng-controller="FindEventsCtrl">
+                <div class="container">
+                    <div class="jumbotron">
+                        <div ng-show="AllEvents.length > 0"></div>
+                        <div ng-show="AllEvents.length === 0">
+                            <div class="alert alert-info" role="alert">Nenhum evento encontrado.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div class="tab-pane" id="new" ng-controller="NewEventCtrl">
                 <div class="container">
                     <div class="jumbotron" style="width: 60%; margin-left: 20%">
@@ -127,6 +138,7 @@
                     </div>
                 </div> <!-- /container -->
             </div>
+            <div class="tab-pane" id="profile">profile</div>
             <div class="tab-pane" id="about">about</div>
             <div class="tab-pane" id="contact">contact</div>
         </div>
@@ -168,7 +180,17 @@
                 });
             });
 
-            function NewEventCtrl($scope, $http) {
+            function MyEventsCtrl ($scope, $http) {
+                
+                $scope.UserEvents = [];
+                
+            }
+            
+            function FindEventsCtrl ($scope, $http) {
+                $scope.AllEvents = [];
+            }
+
+            function NewEventCtrl ($scope, $http) {
                 
                 $(function() {
                     /* Force to fetch. */
