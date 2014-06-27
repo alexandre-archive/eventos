@@ -46,3 +46,42 @@ code {
     height: 120px;
     border-radius: 50%;
 }
+
+/*body {
+    min-width: 768px !important;
+    overflow-y: auto;
+}*/
+
+.jumbotron {
+    min-width: 240px !important;
+    overflow: hidden;
+}
+
+.event-box {
+    border: 1px #C9C9C9 solid;
+    background-color: #FFFFFF;
+    outline-style: none;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.border-fade:hover {
+    box-shadow: 2px 2px 19px #aaa;
+    -o-box-shadow: 2px 2px 19px #aaa;
+    -webkit-box-shadow: 2px 2px 19px #aaa;
+    -moz-box-shadow: 2px 2px 19px #aaa;
+
+    /* For IE 5.5 - 7 */
+    /* for IE4 - IE7 */
+    filter:
+        progid:DXImageTransform.Microsoft.Shadow(Strength=9, Direction=1, Color=#C4C4C4),
+        progid:DXImageTransform.Microsoft.Shadow(Strength=9, Direction=90, Color=#C4C4C4),
+        progid:DXImageTransform.Microsoft.Shadow(Strength=9, Direction=180, Color=#C4C4C4),
+        progid:DXImageTransform.Microsoft.Shadow(Strength=9, Direction=270, Color=#C4C4C4);
+    -ms-filter: "
+        progid:DXImageTransform.Microsoft.Shadow(Strength=9, Direction=1, Color=#C4C4C4),
+        progid:DXImageTransform.Microsoft.Shadow(Strength=9, Direction=90, Color=#C4C4C4),
+        progid:DXImageTransform.Microsoft.Shadow(Strength=9, Direction=180, Color=#C4C4C4),
+        progid:DXImageTransform.Microsoft.Shadow(Strength=9, Direction=270, Color=#C4C4C4)
+        ";
+}

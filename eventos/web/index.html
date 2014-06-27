@@ -25,6 +25,12 @@
         <div class="navbar navbar-default navbar-fixed-top" role="navigation">
             <div class="container">
                 <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
                     <a class="navbar-brand" href="/eventos">Eventos Manager</a>
                 </div>
                 <div class="navbar-collapse collapse" id="tabMenu">
@@ -52,7 +58,17 @@
             <div class="tab-pane" id="myevents" ng-controller="MyEventsCtrl">
                 <div class="container">
                     <div class="jumbotron">
-                        <div ng-show="UserEvents.length > 0"></div>
+                        <div ng-show="UserEvents.length > 0">
+                            <div class="form-horizontal">
+                                <div class="col-md-5 event-box border-fade" ng-repeat="e in UserEvents" ng-class="$index % 2 !== 0 ? 'col-md-offset-2' : ''">
+                                    <div class="form-group">
+                                        <div class="col-md-12">
+                                            <label>{{e.Title}}</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                         <div ng-show="UserEvents.length === 0">
                             <div class="alert alert-info" role="alert">Você ainda não possui eventos.</div>
                         </div>
@@ -73,74 +89,88 @@
                 <div class="container">
                     <div class="jumbotron" style="width: 60%; margin-left: 20%">
                         <form role="form" ng-submit="submit()">
-                        <div class="form-horizontal">
-                            <div class="form-group">
-                                <div class="col-md-12">
-                                    <img class="cover" alt="" ng-src="{{src}}" style="opacity: 1;">
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <div class="col-md-12">
-                                    <input class="form-control" placeholder="Título do evento" ng-model="Dto.Title" required/>
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <div class="col-md-6" style="width: 45.8%; padding-right: 0">
-                                    <div class="input-group">
-                                        <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
-                                        <input type="text" class="form-control" id="initTime" ng-model="Dto.InitialDate" required/>
+                            <div class="form-horizontal">
+                                <div class="form-group">
+                                    <div class="col-md-12">
+                                        <img class="cover" alt="" ng-src="{{src}}" style="opacity: 1;" />
                                     </div>
                                 </div>
-                                <div class="col-md-1">
-                                    <span class="text-center" style="display: block; line-height: 32px; vertical-align: middle;">-</span>
+
+                                <div class="form-group">
+                                    <div class="col-md-12">
+                                        <input class="form-control" placeholder="Título do evento" ng-model="Dto.Title" required/>
+                                    </div>
                                 </div>
-                                <div class="col-md-6" style="width: 45.8%; padding-left: 0">
-                                    <div class="input-group">
-                                        <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
-                                        <input type="text" class="form-control" id="endTime" ng-model="Dto.FinalDate"/>
+
+                                <div class="form-group">
+                                    <div class="col-md-6">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
+                                            <input type="text" class="form-control" id="initTime" ng-model="Dto.InitialDate" required/>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
+                                            <input type="text" class="form-control" id="endTime" ng-model="Dto.FinalDate"/>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-md-12">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><i class="glyphicon glyphicon-map-marker"></i></span>
+                                            <input class="form-control" placeholder="Localização" ng-model="Dto.Location" required/>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-md-12">
+                                        <textarea class="form-control" rows="3" placeholder="Detalhes" ng-model="Dto.Detail"></textarea>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-md-12">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                                            <input class="form-control" placeholder="Convidar por nome ou email" ng-model="Dto.Guests"/>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-md-4">
+                                        <button class="btn btn-lg btn-success" type="submit">Criar</button>
                                     </div>
                                 </div>
                             </div>
-
-                            <div class="form-group">
-                                <div class="col-md-12">
-                                    <div class="input-group">
-                                        <span class="input-group-addon"><i class="glyphicon glyphicon-map-marker"></i></span>
-                                        <input class="form-control" placeholder="Localização" ng-model="Dto.Location" required/>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <div class="col-md-12">
-                                    <textarea class="form-control" rows="3" placeholder="Detalhes" ng-model="Dto.Detail"></textarea>
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <div class="col-md-12">
-                                    <div class="input-group">
-                                        <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                                        <input class="form-control" placeholder="Convidar por nome ou email" ng-model="Dto.Guests"/>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <div class="col-md-4">
-                                    <button class="btn btn-lg btn-success" type="submit">Criar</button>
-                                </div>
-                            </div>
-                        </div>
                         </form>
                     </div>
                 </div> <!-- /container -->
             </div>
-            <div class="tab-pane" id="profile">profile</div>
+            <div class="tab-pane" id="profile">
+                <div class="container">
+                    <div class="jumbotron">
+                        <div class="form-horizontal">
+                            <div class="form-group">
+                                <div class="col-md-2">
+                                    <img class="profile-photo" alt="" src="https://lh5.googleusercontent.com/--fK08SiAPcA/AAAAAAAAAAI/AAAAAAAAABU/7GiuAp4r3RA/s120-c/photo.jpg" style="opacity: 1;" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-12">
+                                    <strong>Alexandre Vicenzi</strong>    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div class="tab-pane" id="about">
-            <div class="container">
+                <div class="container">
                     <div class="jumbotron">
                         <div class="form-horizontal">
                             <div class="form-group">
@@ -150,19 +180,19 @@
                             </div>
                             <div class="form-group">
                                 <div class="col-md-2">
-                                    <img class="profile-photo" alt="" src="https://lh5.googleusercontent.com/--fK08SiAPcA/AAAAAAAAAAI/AAAAAAAAABU/7GiuAp4r3RA/s120-c/photo.jpg" style="opacity: 1;">
+                                    <img class="profile-photo" alt="" src="https://lh5.googleusercontent.com/--fK08SiAPcA/AAAAAAAAAAI/AAAAAAAAABU/7GiuAp4r3RA/s120-c/photo.jpg" style="opacity: 1;" />
                                 </div>
                                 <div class="col-md-6 profile-info"><span><strong>Alexandre Vicenzi</strong><br />Cargo</span><br />vicenzi.alexandre@gmail.com</div>
                             </div>
                             <div class="form-group">
                                 <div class="col-md-2">
-                                    <img class="profile-photo" alt="" src="https://lh6.googleusercontent.com/-R35uCFFUd6k/AAAAAAAAAAI/AAAAAAAAAG4/XdGwaMJattA/s120-c/photo.jpgg" style="opacity: 1;">
+                                    <img class="profile-photo" alt="" src="https://lh6.googleusercontent.com/-R35uCFFUd6k/AAAAAAAAAAI/AAAAAAAAAG4/XdGwaMJattA/s120-c/photo.jpgg" style="opacity: 1;" />
                                 </div>
                                 <div class="col-md-6 profile-info"><strong>Marcos Souza</strong><br />Cargo<br />email</div>
                             </div>
                             <div class="form-group">
                                 <div class="col-md-2">
-                                    <img class="profile-photo" alt="" src="https://lh6.googleusercontent.com/-684rS6GWmeo/AAAAAAAAAAI/AAAAAAAAAAA/EE96cKnokVI/s120-c/photo.jpg" style="opacity: 1;">
+                                    <img class="profile-photo" alt="" src="https://lh6.googleusercontent.com/-684rS6GWmeo/AAAAAAAAAAI/AAAAAAAAAAA/EE96cKnokVI/s120-c/photo.jpg" style="opacity: 1;" />
                                 </div>
                                 <div class="col-md-6 profile-info"><strong>Priscila Assini</strong><br />Cargo<br />email</div>
                             </div>
@@ -176,11 +206,12 @@
                         <div class="alert alert-danger" role="alert">Erro ao buscar informações de contato. Não tente novamente mais tarde. :P</div>
                     </div>
                 </div>
-        </div>
+            </div>
 
-        <div id="footer">
-            <div class="container">
-                <p class="text-muted">&copy; Eventos Manager 2014</p>
+            <div id="footer">
+                <div class="container">
+                    <p class="text-muted">&copy; Eventos Manager 2014</p>
+                </div>
             </div>
         </div>
 
@@ -193,76 +224,97 @@
         <script src="js/bootstrap-datetimepicker.min.js"></script>
 
         <script src="js/main.js"></script>
-        
+
         <script>
-            function getRandomInt(min, max) {
-                return Math.floor(Math.random() * (max - min + 1)) + min;
-            };
-                
-            $(function() {
-                /* Para que ao apertar F5 não perder a tab atual.  */
-                var url = document.location.toString();
+                                                function getRandomInt(min, max) {
+                                                    return Math.floor(Math.random() * (max - min + 1)) + min;
+                                                }
+                                                ;
 
-                if (url.match('#')) {
-                    $('#tabMenu a[href=#'+url.split('#')[1]+']').tab('show') ;
-                } else {
-                    $('#tabMenu a:first').tab('show');
-                }
-                $('#tabMenu a').on('click', function (e) {
-                    window.location.hash = e.target.hash;
-                });
+                                                $(function() {
+                                                    /* Para que ao apertar F5 não perder a tab atual.  */
+                                                    var url = document.location.toString();
 
-                $("#initTime, #endTime").datetimepicker({
-                    language: 'pt-BR'
-                });
-            });
+                                                    if (url.match('#')) {
+                                                        $('#tabMenu a[href=#' + url.split('#')[1] + ']').tab('show');
+                                                    } else {
+                                                        $('#tabMenu a:first').tab('show');
+                                                    }
+                                                    $('#tabMenu a').on('click', function(e) {
+                                                        window.location.hash = e.target.hash;
+                                                    });
 
-            function MyEventsCtrl ($scope, $http) {
-                
-                $scope.UserEvents = [];
-                
-            }
-            
-            function FindEventsCtrl ($scope, $http) {
-                $scope.AllEvents = [];
-            }
+                                                    $("#initTime, #endTime").datetimepicker({
+                                                        language: 'pt-BR'
+                                                    });
+                                                });
 
-            function NewEventCtrl ($scope, $http) {
-                
-                $(function() {
-                    /* Force to fetch. */
-                    var img = new Image();
-                    img.src = $scope.src;
-                });
-                
-                $scope.Dto = {
-                    Title: "",
-                    InitialDate: null,
-                    FinalDate: null,
-                    Location: "",
-                    Detail: "",
-                    Guests: "",
-                };
-                
-                $scope.src = "img/covers/jpg/" + getRandomInt(1, 30) + ".jpg";
-                                
-                $scope.submit = function () {
-                    
-                    console.log($scope.Dto);
-                    
-                    $http({
-                        method: 'POST',
-                        url: '/eventos/api/events',
-                        data: $scope.Dto,
-                    })
-                    .success(function(data, status, headers, config) {
-                        alert(status);
-                    })
-                    .error(function(data, status, headers, config) {
-                        alert(status);
-                    });
-                };
-            };
+                                                function MyEventsCtrl($scope, $http) {
+
+                                                    $scope.UserEvents = [
+                                                        {
+                                                            CoverUrl: "",
+                                                            Title: "Evento 1",
+                                                            InitialDate: null,
+                                                            FinalDate: null,
+                                                            Location: "",
+                                                            Detail: "",
+                                                            Guests: "",
+                                                        },
+                                                        {
+                                                            CoverUrl: "",
+                                                            Title: "Evento 2",
+                                                            InitialDate: null,
+                                                            FinalDate: null,
+                                                            Location: "",
+                                                            Detail: "",
+                                                            Guests: "",
+                                                        }, ];
+
+                                                }
+
+                                                function FindEventsCtrl($scope, $http) {
+                                                    $scope.AllEvents = [];
+                                                }
+
+                                                function NewEventCtrl($scope, $http) {
+
+                                                    $(function() {
+                                                        /* Force to fetch. */
+                                                        var img = new Image();
+                                                        img.src = $scope.src;
+                                                    });
+
+                                                    $scope.Dto = {
+                                                        CoverUrl: "",
+                                                        Title: "",
+                                                        InitialDate: null,
+                                                        FinalDate: null,
+                                                        Location: "",
+                                                        Detail: "",
+                                                        Guests: "",
+                                                    };
+
+                                                    $scope.src = "img/covers/jpg/" + getRandomInt(1, 30) + ".jpg";
+
+                                                    $scope.submit = function() {
+
+                                                        console.log($scope.Dto);
+
+                                                        $http({
+                                                            method: 'POST',
+                                                            url: '/eventos/api/events',
+                                                            data: $scope.Dto,
+                                                        })
+                                                                .success(function(data, status, headers, config) {
+                                                                    alert(status);
+                                                                })
+                                                                .error(function(data, status, headers, config) {
+                                                                    alert(status);
+                                                                });
+                                                    };
+                                                }
+                                                ;
         </script>
     </body>
 </html>
