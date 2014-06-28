@@ -70,9 +70,35 @@
                         <div ng-show="UserEvents.length > 0">
                             <div class="form-horizontal">
                                 <div class="col-md-5 event-box border-fade" ng-repeat="e in UserEvents" ng-class="$index % 2 !== 0 ? 'col-md-offset-2' : ''">
-                                    <div class="form-group">
+                                    <img class="cover-event" alt="cover" src="" ng-src="{{fetchImage(e.CoverUrl)}}"/>
+                                    <div class="form-group line">
                                         <div class="col-md-12">
                                             <label>{{e.Title}}</label>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <span><i class="glyphicon glyphicon-map-marker"></i> {{e.Location}}</span>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <span><i class="glyphicon glyphicon-time"></i> {{e.Date}}</span>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <span><i class="glyphicon glyphicon-user"></i> {{e.Guests}}</span>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <span>{{e.TotalGuests}}</span>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <hr class="divider-horizontal"/>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <label>{{e.Due ? 'Você foi?' : 'Você vai?'}}</label>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <select class="form-control"
+                                                    style="width: 120px;"
+                                                    ng-model="e.Status" 
+                                                    ng-options="status.name for status in e.stList track by status.id">
+                                            </select>
                                         </div>
                                     </div>
                                 </div>
@@ -160,18 +186,19 @@
                     </div>
                 </div> <!-- /container -->
             </div>
-            <div class="tab-pane" id="profile">
+            <div class="tab-pane" id="profile" ng-controller="ProfileCtrl">
                 <div class="container">
                     <div class="jumbotron">
                         <div class="form-horizontal">
                             <div class="form-group">
                                 <div class="col-md-2">
-                                    <img class="profile-photo" alt="" src="https://lh5.googleusercontent.com/--fK08SiAPcA/AAAAAAAAAAI/AAAAAAAAABU/7GiuAp4r3RA/s120-c/photo.jpg" style="opacity: 1;" />
+                                    <img class="profile-photo border-fade" alt="" ng-src="{{getPhoto()}}" style="opacity: 1;" />
                                 </div>
                             </div>
                             <div class="form-group">
-                                <div class="col-md-12">
-                                    <strong>Alexandre Vicenzi</strong>    
+                                <div class="col-md-4 text-left">
+                                    <strong>{{Dto.FullName}}</strong><br />
+                                    <small>{{Dto.Email}}</small>
                                 </div>
                             </div>
                         </div>
@@ -225,6 +252,7 @@
         </div>
 
         <script src="js/jquery-1.11.0.min.js"></script>
+        <script src="js/underscore-min.js"></script>
         <script src="js/bootstrap.min.js"></script>
         <script src="js/angular.min.js"></script>
         <script src="js/moment.min.js"></script>
@@ -235,96 +263,23 @@
         <script src="js/main.js"></script>
 
         <script>
+                                        $(function() {
+                                            /* Para que ao apertar F5 não perder a tab atual.  */
+                                            var url = document.location.toString();
 
-                                                function getRandomInt(min, max) {
-                                                    return Math.floor(Math.random() * (max - min + 1)) + min;
-                                                }
-                                                ;
+                                            if (url.match('#')) {
+                                                $('#tabMenu a[href=#' + url.split('#')[1] + ']').tab('show');
+                                            } else {
+                                                $('#tabMenu a:first').tab('show');
+                                            }
+                                            $('#tabMenu a').on('click', function(e) {
+                                                window.location.hash = e.target.hash;
+                                            });
 
-                                                $(function() {
-                                                    /* Para que ao apertar F5 não perder a tab atual.  */
-                                                    var url = document.location.toString();
-
-                                                    if (url.match('#')) {
-                                                        $('#tabMenu a[href=#' + url.split('#')[1] + ']').tab('show');
-                                                    } else {
-                                                        $('#tabMenu a:first').tab('show');
-                                                    }
-                                                    $('#tabMenu a').on('click', function(e) {
-                                                        window.location.hash = e.target.hash;
-                                                    });
-
-                                                    $("#initTime, #endTime").datetimepicker({
-                                                        language: 'pt-BR'
-                                                    });
-                                                });
-
-                                                function MyEventsCtrl($scope, $http) {
-
-                                                    $scope.UserEvents = [
-                                                        {
-                                                            CoverUrl: "",
-                                                            Title: "Evento 1",
-                                                            InitialDate: null,
-                                                            FinalDate: null,
-                                                            Location: "",
-                                                            Detail: "",
-                                                            Guests: "",
-                                                        },
-                                                        {
-                                                            CoverUrl: "",
-                                                            Title: "Evento 2",
-                                                            InitialDate: null,
-                                                            FinalDate: null,
-                                                            Location: "",
-                                                            Detail: "",
-                                                            Guests: "",
-                                                        }, ];
-
-                                                }
-
-                                                function FindEventsCtrl($scope, $http) {
-                                                    $scope.AllEvents = [];
-                                                }
-
-                                                function NewEventCtrl($scope, $http) {
-
-                                                    $(function() {
-                                                        /* Force to fetch. */
-                                                        var img = new Image();
-                                                        img.src = $scope.src;
-                                                    });
-
-                                                    $scope.Dto = {
-                                                        CoverUrl: "",
-                                                        Title: "",
-                                                        InitialDate: null,
-                                                        FinalDate: null,
-                                                        Location: "",
-                                                        Detail: "",
-                                                        Guests: "",
-                                                    };
-
-                                                    $scope.src = "img/covers/jpg/" + getRandomInt(1, 30) + ".jpg";
-
-                                                    $scope.submit = function() {
-
-                                                        console.log($scope.Dto);
-
-                                                        $http({
-                                                            method: 'POST',
-                                                            url: '/eventos/api/events',
-                                                            data: $scope.Dto,
-                                                        })
-                                                                .success(function(data, status, headers, config) {
-                                                                    alert(status);
-                                                                })
-                                                                .error(function(data, status, headers, config) {
-                                                                    alert(status);
-                                                                });
-                                                    };
-                                                }
-                                                ;
+                                            $("#initTime, #endTime").datetimepicker({
+                                                language: 'pt-BR'
+                                            });
+                                        });
         </script>
     </body>
 </html>
