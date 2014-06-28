@@ -65,14 +65,14 @@
         <div class="container" ng-controller="LoginCtrl">
             <form class="form-signin" role="form" ng-submit="doLogin()">
                 <h3 class="form-signin-heading">Seu login</h3>
-                <input type="email" class="form-control" placeholder="Email" ng-model="user" required autofocus>
-                <input type="password" class="form-control" placeholder="Senha" ng-model="pwd" required>
+                <input id="email" type="email" class="form-control" placeholder="Email" ng-model="user" required autofocus>
+                <input id="pwd" type="password" class="form-control" placeholder="Senha" ng-model="pwd" required>
                 <label class="checkbox">
                     <input type="checkbox" value="remember-me"> Lembrar-me
                 </label>
                 <button class="btn btn-lg btn-primary btn-block" type="submit">Fazer login</button>
                 <button class="btn btn-sm btn-success btn-block" type="button" ng-click="createAccount()">Criar uma conta</button>
-                <div class="alert alert-danger btn-block" role="alert" ng-show="invalidLogin">O e-mail ou a senha inseridos estão incorretos.</div>
+                <div class="ng-cloak alert alert-danger btn-block" role="alert" ng-show="invalidLogin">O e-mail ou a senha inseridos estão incorretos.</div>
             </form>
         </div> <!-- /container -->
 
