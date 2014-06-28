@@ -7,6 +7,8 @@
 package br.furb.eventos.ws;
 
 import br.furb.eventos.dto.NewEventDto;
+import br.furb.eventos.entity.Event;
+import br.furb.eventos.entity.EventDAO;
 import br.furb.eventos.entity.Permission;
 import br.furb.eventos.entity.PermissionDAO;
 import br.furb.eventos.entity.Profile;
@@ -56,10 +58,15 @@ public class EventsResource {
         //ProfileDAO dao = ProfileDAO.getInstance();
         //dao.salvar(p);
         //return "Profile salvo...";
-        Permission p = new Permission("nome do permission");
-        PermissionDAO dao = PermissionDAO.getInstance();
-        dao.salvar(p);
-        return "Permission salvo...";
+        //Permission p = new Permission("nome do permission");
+        //PermissionDAO dao = PermissionDAO.getInstance();
+        //dao.salvar(p);
+        //return "Permission salvo...";
+        
+        Event e = new Event("Game", "Metal Gear Solid Version");
+        EventDAO dao = EventDAO.getInstance();
+        dao.salvar(e);
+        return "Event salvo...";
     }
 
     /**
