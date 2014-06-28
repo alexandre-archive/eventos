@@ -1,6 +1,6 @@
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" ng-app="App">
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -9,12 +9,9 @@
         <meta name="author" content="">
         <link rel="shortcut icon" href="favicon.ico">
 
-        <title>Eventos Manager - Login</title>
+        <title>Eventos Manager</title>
 
-        <!-- Bootstrap core CSS -->
         <link href="css/bootstrap.min.css" rel="stylesheet">
-
-        <!-- Custom styles for this template -->
 
         <style type="text/css">
             body {
@@ -58,37 +55,30 @@
                 border-top-right-radius: 0;
             }
         </style>
-
-        <!-- Just for debugging purposes. Don't actually copy this line! -->
-        <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
-
         <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
         <!--[if lt IE 9]>
           <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
           <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
         <![endif]-->
     </head>
-
     <body>
-
-        <div class="container">
-
-            <form class="form-signin" role="form">
-                <h2 class="form-signin-heading">Seu login</h2>
-                <input type="email" class="form-control" placeholder="Email" required autofocus>
-                <input type="password" class="form-control" placeholder="Senha" required>
+        <div class="container" ng-controller="LoginCtrl">
+            <form class="form-signin" role="form" ng-submit="doLogin()">
+                <h3 class="form-signin-heading">Seu login</h3>
+                <input type="email" class="form-control" placeholder="Email" ng-model="user" required autofocus>
+                <input type="password" class="form-control" placeholder="Senha" ng-model="pwd" required>
                 <label class="checkbox">
                     <input type="checkbox" value="remember-me"> Lembrar-me
                 </label>
-                <button class="btn btn-lg btn-primary btn-block" type="submit">Entrar</button>
-                <button class="btn btn-lg btn-success btn-block" type="button" onclick="window.location.assign('/eventos/signup.html')">Criar conta</button>
+                <button class="btn btn-lg btn-primary btn-block" type="submit">Fazer login</button>
+                <button class="btn btn-sm btn-success btn-block" type="button" ng-click="createAccount()">Criar uma conta</button>
+                <div class="alert alert-danger btn-block" role="alert" ng-show="invalidLogin">O e-mail ou a senha inseridos estão incorretos.</div>
             </form>
-
         </div> <!-- /container -->
 
-
-        <!-- Bootstrap core JavaScript
-        ================================================== -->
-        <!-- Placed at the end of the document so the pages load faster -->
+        <script src="js/jquery-1.11.0.min.js"></script>
+        <script src="js/bootstrap.min.js"></script>
+        <script src="js/angular.min.js"></script>
+        <script src="js/main.js"></script>
     </body>
 </html>

@@ -52,6 +52,13 @@ code {
     overflow-y: auto;
 }*/
 
+.navbar .divider-vertical {
+    height: 50px;
+    margin: 0 1px;
+    border-right: 1px solid #ffffff;
+    border-left: 1px solid #f2f2f2;
+}
+
 .jumbotron {
     min-width: 240px !important;
     overflow: hidden;
