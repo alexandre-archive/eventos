@@ -109,14 +109,14 @@ public class User {
      * @return the profile
      */
     public Profile getProfile() {
-        return profile;
+        return null;
     }
 
     /**
      * @param profile the profile to set
      */
     public void setProfile(Profile profile) {
-        this.profile = profile;
+        //this.profile = profile;
     }
 
     public long getId() {
