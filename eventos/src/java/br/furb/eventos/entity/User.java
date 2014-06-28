@@ -19,7 +19,8 @@ public class User {
     private String lastname;
     private String login;
     private String pwd;
-
+    private Profile profile;
+    
     //@OneToOne
     //private Profile profile;
 
