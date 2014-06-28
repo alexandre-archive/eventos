@@ -11,6 +11,8 @@ import java.util.Date;
 import java.util.HashMap;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Temporal;
+import static javax.persistence.TemporalType.DATE;
 
 
 @Entity
@@ -143,6 +145,7 @@ public class Event {
     private String description;
     
     private String address;
+    @Temporal(DATE)
     private Date date;
     private User owner;
     private HashMap<User, UserStatus> guests;
@@ -150,8 +153,6 @@ public class Event {
     private String coverImage;
     
     private ArrayList<String> images;
-    
-    private ArrayList<User> likes;
  
     private EventStatus status;
     

@@ -7,6 +7,8 @@
 package br.furb.eventos.ws;
 
 import br.furb.eventos.dto.NewEventDto;
+import br.furb.eventos.entity.User;
+import br.furb.eventos.entity.UserDAO;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.PathParam;
@@ -42,7 +44,10 @@ public class EventsResource {
     @Produces("application/json")
     public String getJson() {
         //TODO return proper representation object
-        return "OK";
+        User u = new User("Teste", "teste@hehe.com", "ln", "teste", "pwd");
+        UserDAO dao = UserDAO.getInstance();
+        dao.salvar(u);
+        return "User salvo...";
     }
 
     /**

@@ -11,7 +11,7 @@ public class PersistenseUtil {
     private PersistenseUtil() {}
     
     public static EntityManager getEntityManager() {
-        if (emf != null)
+        if (emf == null)
             emf = Persistence.createEntityManagerFactory("eventosPU");
         return emf.createEntityManager();
     }

@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Temporal;
+import static javax.persistence.TemporalType.DATE;
 
 @Entity
 public class Comment {
@@ -13,9 +15,8 @@ public class Comment {
     
     private User user;
     private String comment;
+    @Temporal(DATE)
     private Date date;
-    
-    private ArrayList<Comment> comments;
 
     /**
      * @return the id
@@ -71,20 +72,6 @@ public class Comment {
      */
     public void setDate(Date date) {
         this.date = date;
-    }
-
-    /**
-     * @return the comments
-     */
-    public ArrayList<Comment> getComments() {
-        return comments;
-    }
-
-    /**
-     * @param comments the comments to set
-     */
-    public void setComments(ArrayList<Comment> comments) {
-        this.comments = comments;
     }
     
 }

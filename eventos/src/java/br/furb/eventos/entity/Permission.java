@@ -12,8 +12,6 @@ public class Permission {
     private String name;
     private String route;
     private String function;
-    
-    private ArrayList<Permission> permissions;
 
     /**
      * @return the name
@@ -55,20 +53,6 @@ public class Permission {
      */
     public void setFunction(String function) {
         this.function = function;
-    }
-
-    /**
-     * @return the permissions
-     */
-    public ArrayList<Permission> getPermissions() {
-        return permissions;
-    }
-
-    /**
-     * @param permissions the permissions to set
-     */
-    public void setPermissions(ArrayList<Permission> permissions) {
-        this.permissions = permissions;
     }
 
     public Long getId() {
