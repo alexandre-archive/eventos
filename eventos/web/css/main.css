@@ -12,6 +12,19 @@ html {
     min-height: 100%;
 }
 
+.line {
+    line-height: 24px;
+}
+
+.divider-horizontal hr {
+    border: 0;
+    border-bottom: 1px solid rgba(255,255,255,0.3);
+    border-top: 1px solid rgba(0,0,0,0.1);
+    color: #fff;
+    height: 0;
+    width: 93%;
+}
+
 #footer {
     position: fixed;
     bottom: 0;
@@ -72,8 +85,18 @@ code {
     border: 1px #C9C9C9 solid;
     background-color: #FFFFFF;
     outline-style: none;
-    padding: 20px;
-    border-radius: 10px;
+    //padding: 20px;
+    border-radius: 4px;
+}
+
+.cover-event {
+    position: relative;
+    width: calc(100% + 15px + 15px);
+    height: 100%;
+    margin-left: -15px;
+    margin-right: -15px;
+    margin-bottom: 10px;
+    opacity: 1;
 }
 
 .border-fade:hover {
