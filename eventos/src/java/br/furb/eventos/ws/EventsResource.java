@@ -7,6 +7,8 @@
 package br.furb.eventos.ws;
 
 import br.furb.eventos.dto.NewEventDto;
+import br.furb.eventos.entity.Comment;
+import br.furb.eventos.entity.CommentDAO;
 import br.furb.eventos.entity.Event;
 import br.furb.eventos.entity.EventDAO;
 import br.furb.eventos.entity.Permission;
@@ -62,11 +64,14 @@ public class EventsResource {
         //PermissionDAO dao = PermissionDAO.getInstance();
         //dao.salvar(p);
         //return "Permission salvo...";
-        
-        Event e = new Event("Game", "Metal Gear Solid Version");
-        EventDAO dao = EventDAO.getInstance();
-        dao.salvar(e);
-        return "Event salvo...";
+        //Event e = new Event("Game", "Metal Gear Solid Version");
+        //EventDAO dao = EventDAO.getInstance();
+        //dao.salvar(e);
+        //return "Event salvo...";
+        Comment c = new Comment("HAUahuAhuaHU");
+        CommentDAO dao = CommentDAO.getInstance();
+        dao.salvar(c);
+        return "Comment salvo...";
     }
 
     /**
