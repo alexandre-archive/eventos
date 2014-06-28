@@ -3,6 +3,7 @@
   <persistence-unit name="eventosPU" transaction-type="RESOURCE_LOCAL">
     <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
     <class>br.furb.eventos.entity.User</class>
+    <class>br.furb.eventos.entity.Profile</class>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:sqlite:\\C:\Users\Public\eventos.db"/>
       <property name="javax.persistence.jdbc.user" value="root"/>
