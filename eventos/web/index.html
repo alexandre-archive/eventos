@@ -55,17 +55,14 @@
             </div>
         </div>
 
-        <div class="ng-cloak tab-content">
-            <div class="tab-pane active" id="home">
-                <div class="container">
-                    <div class="jumbotron">
+        <div class="container">
+            <div class="jumbotron">
+
+                <div class="ng-cloak tab-content">
+                    <div class="tab-pane active" id="home">
                         <h1>Bem vindo {{username()}}</h1>
                     </div>
-                </div>
-            </div>
-            <div class="tab-pane" id="myevents" ng-controller="MyEventsCtrl">
-                <div class="container">
-                    <div class="jumbotron">
+                    <div class="tab-pane" id="myevents" ng-controller="MyEventsCtrl">
                         <div ng-show="UserEvents.length > 0">
                             <div class="form-horizontal">
                                 <div class="event-box border-fade" ng-repeat="e in UserEvents">
@@ -117,14 +114,10 @@
                             <div class="alert alert-info" role="alert">Você ainda não possui eventos.</div>
                         </div>
                     </div>
-                </div>
-            </div>
-            <div class="tab-pane" id="find" ng-controller="FindEventsCtrl">
-                <div class="container">
-                    <div class="jumbotron">
+                    <div class="tab-pane" id="find" ng-controller="FindEventsCtrl">
                         <div ng-show="AllEvents.length > 0">
                             <div class="form-horizontal">
-                                <div class="event-box border-fade" ng-repeat="e in AllEvents | filter:{Answer:0}">
+                                <div class="event-box border-fade" ng-repeat="e in AllEvents| filter:{Answer:0}">
                                     <img class="cover-event" 
                                          alt="cover" 
                                          src="" 
@@ -183,11 +176,7 @@
                             <div class="alert alert-info" role="alert">Nenhum evento novo encontrado.</div>
                         </div>
                     </div>
-                </div>
-            </div>
-            <div class="tab-pane" id="new" ng-controller="NewEventCtrl">
-                <div class="container">
-                    <div class="jumbotron" style="width: 60%; margin-left: 20%">
+                    <div class="tab-pane" id="new" ng-controller="NewEventCtrl">
                         <form role="form" ng-submit="submit()">
                             <div class="form-horizontal">
                                 <div class="form-group">
@@ -264,11 +253,7 @@
                             </div>
                         </form>
                     </div>
-                </div> <!-- /container -->
-            </div>
-            <div class="tab-pane" id="profile" ng-controller="ProfileCtrl">
-                <div class="container">
-                    <div class="jumbotron">
+                    <div class="tab-pane" id="profile" ng-controller="ProfileCtrl">
                         <div class="form-horizontal">
                             <div class="form-group">
                                 <div class="col-md-2">
@@ -283,11 +268,7 @@
                             </div>
                         </div>
                     </div>
-                </div>
-            </div>
-            <div class="tab-pane" id="about">
-                <div class="container">
-                    <div class="jumbotron">
+                    <div class="tab-pane" id="about">
                         <div class="form-horizontal">
                             <div class="form-group">
                                 <div class="col-md-12">
@@ -314,23 +295,18 @@
                             </div>
                         </div>
                     </div>
-                </div>
-            </div>
-            <div class="tab-pane" id="contact">
-                <div class="container">
-                    <div class="jumbotron">
+                    <div class="tab-pane" id="contact">
                         <div class="alert alert-danger" role="alert">Erro ao buscar informações de contato. Não tente novamente mais tarde. :P</div>
                     </div>
                 </div>
             </div>
-
-            <div id="footer">
-                <div class="container">
-                    <p class="text-muted">&copy; Eventos Manager 2014</p>
-                </div>
+        </div>
+        <div id="footer">
+            <div class="container">
+                <p class="text-muted">&copy; Eventos Manager 2014</p>
             </div>
         </div>
-
+        
         <script src="js/jquery-1.11.0.min.js"></script>
         <script src="js/underscore-min.js"></script>
         <script src="js/bootstrap.min.js"></script>
@@ -341,26 +317,5 @@
         <script src="js/bootstrap-datetimepicker.min.js"></script>
 
         <script src="js/main.js"></script>
-
-        <script>
-            $(function() {
-                /* Para que ao apertar F5 não perder a tab atual.  */
-                var url = document.location.toString();
-                var tab = url.split('#')[1].split('?')[0];
-                if (url.match('#')) {
-                    $('#tabMenu a[href=#' + tab + ']').tab('show');
-                } else {
-                    $('#tabMenu a:first').tab('show');
-                }
-
-                $('#tabMenu a').on('click', function(e) {
-                    window.location.hash = e.target.hash;
-                });
-
-                $("#initTime, #endTime").datetimepicker({
-                    language: 'pt-BR'
-                });
-            });
-        </script>
     </body>
 </html>

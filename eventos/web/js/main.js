@@ -3,6 +3,44 @@ if (typeof (Storage) === "undefined") {
     window.location.assign('/eventos/update.html');
 }
 
+function getTab() {
+    var url = document.location.toString();
+
+    if (url.match('#')) {
+        return url.split('#')[1].split('?')[0];
+    } else {
+        return null;
+    }
+}
+
+$('a[data-toggle="tab"]').on('show.bs.tab', function(e) {
+    var tab = getTab();
+
+    if (tab === "new") {
+        $('.jumbotron').css('width', '60%').css('margin-left', '20%');
+    } else {
+        $('.jumbotron').css('width', '100%').css('margin-left', '0');
+    }
+});
+
+$(function() {
+    /* Para que ao apertar F5 não perder a tab atual.  */
+    var tab = getTab();
+
+    if (tab) {
+        $('#tabMenu a[href=#' + tab + ']').tab('show');
+    } else {
+        $('#tabMenu a:first').tab('show');
+    }
+
+    $('#tabMenu a').on('click', function(e) {
+        window.location.hash = e.target.hash;
+    });
+    $("#initTime, #endTime").datetimepicker({
+        language: 'pt-BR'
+    });
+});
+
 /* Force to fetch an image on ng-src. */
 function fetchImage(src) {
     if (!src)
@@ -21,7 +59,7 @@ var App = angular.module('App', [])
                 return input ? "Sim" : "Não";
             };
         })
-        .filter('Aswer', function() {
+        .filter('Answer', function() {
             return function(input) {
                 switch (input) {
                     case 1:
@@ -92,7 +130,6 @@ App.controller('LoginCtrl', ['$scope', '$http', '$sce', '$rootScope', '$q', func
                 window.localStorage.login = $scope.user;
                 window.localStorage.username = "UserName";
                 window.localStorage.isAuthenticated = true;
-
                 window.location.assign("/eventos");
             } else {
                 $scope.invalidLogin = true;
@@ -186,12 +223,10 @@ App.controller('MyEventsCtrl', ['$scope', '$http', '$sce', '$rootScope', '$q', f
                     Answer: 2,
                     Due: true,
                 }, ];
-
             _.each($scope.UserEvents, function(item) {
                 item.stList = $rootScope.getEventStatus(item.Due)
                 item.Status = _.findWhere($rootScope.getEventStatus(item.Due), {id: item.Answer});
             });
-
         };
 
         $scope.updateEventStatus = function(e) {
@@ -201,11 +236,10 @@ App.controller('MyEventsCtrl', ['$scope', '$http', '$sce', '$rootScope', '$q', f
                 EventId: e.Id,
                 Answer: e.Status.id,
             };
-
             console.log(data);
         };
 
-        $('a[href="#myevents"]').on('shown.bs.tab', function(e) {
+        $('a[href="#myevents"]').on('show.bs.tab', function(e) {
             $scope.reload();
             $scope.$digest();
         });
@@ -272,7 +306,6 @@ App.controller('FindEventsCtrl', ['$scope', '$http', '$sce', '$rootScope', '$q',
                     Due: true,
                 }
             ];
-
             _.each($scope.AllEvents, function(item) {
                 //fetchImage(item.Owner.PhotoUrl);
                 item.stList = $rootScope.getEventStatus(item.Due)
@@ -283,13 +316,11 @@ App.controller('FindEventsCtrl', ['$scope', '$http', '$sce', '$rootScope', '$q',
         $scope.updateEventStatus = function(e, status) {
 
             e.Answer = status;
-
             var data = {
                 UseId: parseInt(window.localStorage.userId),
                 EventId: e.Id,
                 Answer: status,
             };
-
             console.log(data);
         };
 
@@ -297,7 +328,6 @@ App.controller('FindEventsCtrl', ['$scope', '$http', '$sce', '$rootScope', '$q',
             $scope.reload();
             $scope.$digest(); // ou $scope.$apply(function() { $()... });
         });
-
     }]);
 
 App.controller('NewEventCtrl', ['$scope', '$http', '$sce', '$rootScope', '$q', function($scope, $http, $sce, $rootScope, $q) {
@@ -337,8 +367,7 @@ App.controller('NewEventCtrl', ['$scope', '$http', '$sce', '$rootScope', '$q', f
             });
         };
 
-        $('a[href="#new"]').on('shown.bs.tab', function(e) {
-            console.log('tab new');
+        $('a[href="#new"]').on('show.bs.tab', function(e) {
         });
     }]);
 
