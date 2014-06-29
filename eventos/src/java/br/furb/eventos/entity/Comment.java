@@ -1,6 +1,5 @@
 package br.furb.eventos.entity;
 
-import java.util.ArrayList;
 import java.util.Date;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -18,6 +17,14 @@ public class Comment {
     @Temporal(DATE)
     private Date date;
 
+    public Comment() {
+        this.id = 0;
+    }
+    
+    public Comment(String comment) {
+        this.comment = comment;
+    }
+    
     /**
      * @return the id
      */

@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Temporal;
 import static javax.persistence.TemporalType.DATE;
@@ -139,6 +140,7 @@ public class Event {
     }
     
     @Id
+    @GeneratedValue
     private long id;
     
     private String name;
@@ -157,6 +159,15 @@ public class Event {
     private EventStatus status;
     
     private EventType type;
+    
+    public Event(String name, String description) {
+        this.name = name;
+        this.description = description;
+    }
+    
+    public Event () {
+        this.id = 0;
+    }
     
     /*
     
