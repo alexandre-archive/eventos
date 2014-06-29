@@ -146,48 +146,53 @@ App.controller('ProfileCtrl', ['$scope', '$http', '$sce', '$rootScope', '$q', fu
     }]);
 
 App.controller('MyEventsCtrl', ['$scope', '$http', '$sce', '$rootScope', '$q', function($scope, $http, $sce, $rootScope, $q) {
-        $scope.UserEvents = [
-            {
-                Owner: {
-                    FullName: "Dick Pirocona Dura",
-                    PhotoUrl: "img/covers/jpg/5.jpg",
-                    Login: "",
-                    Id: 2,
-                },
-                Id: 1,
-                CoverUrl: "img/covers/jpg/1.jpg",
-                Title: "Evento 1",
-                Date: "seg, 14 de julho, 19:00",
-                Location: "Blumenau",
-                Detail: "",
-                Guests: "João Silva, Marcelo Pinto, Kid Bengala e mais",
-                TotalGuests: "151 pessoas vão",
-                Answer: 1,
-                Due: false,
-            },
-            {
-                Owner: {
-                    FullName: "Dick Pirocona Dura",
-                    PhotoUrl: "img/covers/jpg/5.jpg",
-                    Login: "",
-                    Id: 2,
-                },
-                Id: 2,
-                CoverUrl: "img/covers/jpg/2.jpg",
-                Title: "Evento 2",
-                Date: "sex, 27 de junho, 12:00",
-                Location: "Rio do Sul",
-                Detail: "",
-                Guests: "Sasha Gray, Rocco, Kid Bengala e mais",
-                TotalGuests: "300 pessoas foram",
-                Answer: 2,
-                Due: true,
-            }, ];
+        $scope.UserEvents = [];
 
-        _.each($scope.UserEvents, function(item) {
-            item.stList = $rootScope.getEventStatus(item.Due)
-            item.Status = _.findWhere($rootScope.getEventStatus(item.Due), {id: item.Answer});
-        });
+        $scope.reload = function() {
+            $scope.UserEvents = [
+                {
+                    Owner: {
+                        FullName: "Dick Pirocona Dura",
+                        PhotoUrl: "img/covers/jpg/5.jpg",
+                        Login: "",
+                        Id: 2,
+                    },
+                    Id: 1,
+                    CoverUrl: "img/covers/jpg/1.jpg",
+                    Title: "Evento 1",
+                    Date: "seg, 14 de julho, 19:00",
+                    Location: "Blumenau",
+                    Detail: "",
+                    Guests: "João Silva, Marcelo Pinto, Kid Bengala e mais",
+                    TotalGuests: "151 pessoas vão",
+                    Answer: 1,
+                    Due: false,
+                },
+                {
+                    Owner: {
+                        FullName: "Dick Pirocona Dura",
+                        PhotoUrl: "img/covers/jpg/5.jpg",
+                        Login: "",
+                        Id: 2,
+                    },
+                    Id: 2,
+                    CoverUrl: "img/covers/jpg/2.jpg",
+                    Title: "Evento 2",
+                    Date: "sex, 27 de junho, 12:00",
+                    Location: "Rio do Sul",
+                    Detail: "",
+                    Guests: "Sasha Gray, Rocco, Kid Bengala e mais",
+                    TotalGuests: "300 pessoas foram",
+                    Answer: 2,
+                    Due: true,
+                }, ];
+
+            _.each($scope.UserEvents, function(item) {
+                item.stList = $rootScope.getEventStatus(item.Due)
+                item.Status = _.findWhere($rootScope.getEventStatus(item.Due), {id: item.Answer});
+            });
+
+        };
 
         $scope.updateEventStatus = function(e) {
 
@@ -199,71 +204,81 @@ App.controller('MyEventsCtrl', ['$scope', '$http', '$sce', '$rootScope', '$q', f
 
             console.log(data);
         };
+
+        $('a[href="#myevents"]').on('shown.bs.tab', function(e) {
+            $scope.reload();
+            $scope.$digest();
+        });
     }]);
 
 App.controller('FindEventsCtrl', ['$scope', '$http', '$sce', '$rootScope', '$q', function($scope, $http, $sce, $rootScope, $q) {
-        $scope.AllEvents = [
-            {
-                Owner: {
-                    FullName: "Dick Piroquinha",
-                    PhotoUrl: "img/covers/jpg/1.jpg",
-                    Login: "",
-                    Id: 1,
-                },
-                Id: 1,
-                CoverUrl: "img/covers/jpg/5.jpg",
-                Title: "Evento 1",
-                Date: "seg, 14 de julho, 19:00",
-                Location: "Blumenau",
-                Detail: "",
-                Guests: "João Silva, Marcelo Pinto, Kid Bengala e mais",
-                TotalGuests: "151 pessoas vão",
-                Answer: 0,
-                Due: false,
-            },
-            {
-                Owner: {
-                    FullName: "Dick Pirocona",
-                    PhotoUrl: "img/covers/jpg/2.jpg",
-                    Login: "",
-                    Id: 2,
-                },
-                Id: 2,
-                CoverUrl: "img/covers/jpg/12.jpg",
-                Title: "Evento 2",
-                Date: "sex, 27 de junho, 12:00",
-                Location: "Rio do Sul",
-                Detail: "",
-                Guests: "Sasha Gray, Rocco, Kid Bengala e mais",
-                TotalGuests: "300 pessoas foram",
-                Answer: 0,
-                Due: true,
-            },
-            {
-                Owner: {
-                    FullName: "Dick Pirocona Dura",
-                    PhotoUrl: "img/covers/jpg/5.jpg",
-                    Login: "",
-                    Id: 2,
-                },
-                Id: 2,
-                CoverUrl: "img/covers/jpg/15.jpg",
-                Title: "Evento 2",
-                Date: "sex, 27 de junho, 12:00",
-                Location: "Rio do Sul",
-                Detail: "",
-                Guests: "Sasha Gray, Rocco, Kid Bengala e mais",
-                TotalGuests: "300 pessoas foram",
-                Answer: 0,
-                Due: true,
-            },
-        ];
+        $scope.AllEvents = [];
 
-        _.each($scope.AllEvents, function(item) {
-            //fetchImage(item.Owner.PhotoUrl);
-            item.stList = $rootScope.getEventStatus(item.Due)
-            item.Status = _.findWhere($rootScope.getEventStatus(item.Due), {id: item.Answer});
-        });
+        $scope.reload = function() {
+
+            $scope.AllEvents = [
+                {
+                    Owner: {
+                        FullName: "Dick Piroquinha",
+                        PhotoUrl: "img/covers/jpg/1.jpg",
+                        Login: "",
+                        Id: 1,
+                    },
+                    Id: 1,
+                    CoverUrl: "img/covers/jpg/5.jpg",
+                    Title: "Evento 1",
+                    Date: "seg, 14 de julho, 19:00",
+                    Location: "Blumenau",
+                    Detail: "",
+                    Guests: "João Silva, Marcelo Pinto, Kid Bengala e mais",
+                    TotalGuests: "151 pessoas vão",
+                    Answer: 0,
+                    Due: false,
+                },
+                {
+                    Owner: {
+                        FullName: "Dick Pirocona",
+                        PhotoUrl: "img/covers/jpg/2.jpg",
+                        Login: "",
+                        Id: 2,
+                    },
+                    Id: 2,
+                    CoverUrl: "img/covers/jpg/12.jpg",
+                    Title: "Evento 2",
+                    Date: "sex, 27 de junho, 12:00",
+                    Location: "Rio do Sul",
+                    Detail: "",
+                    Guests: "Sasha Gray, Rocco, Kid Bengala e mais",
+                    TotalGuests: "300 pessoas foram",
+                    Answer: 0,
+                    Due: true,
+                },
+                {
+                    Owner: {
+                        FullName: "Dick Pirocona Dura",
+                        PhotoUrl: "img/covers/jpg/5.jpg",
+                        Login: "",
+                        Id: 2,
+                    },
+                    Id: 2,
+                    CoverUrl: "img/covers/jpg/15.jpg",
+                    Title: "Evento 2",
+                    Date: "sex, 27 de junho, 12:00",
+                    Location: "Rio do Sul",
+                    Detail: "",
+                    Guests: "Sasha Gray, Rocco, Kid Bengala e mais",
+                    TotalGuests: "300 pessoas foram",
+                    Answer: 0,
+                    Due: true,
+                }
+            ];
+
+            _.each($scope.AllEvents, function(item) {
+                //fetchImage(item.Owner.PhotoUrl);
+                item.stList = $rootScope.getEventStatus(item.Due)
+                item.Status = _.findWhere($rootScope.getEventStatus(item.Due), {id: item.Answer});
+            });
+        };
 
         $scope.updateEventStatus = function(e, status) {
 
@@ -277,18 +292,26 @@ App.controller('FindEventsCtrl', ['$scope', '$http', '$sce', '$rootScope', '$q',
 
             console.log(data);
         };
+
+        $('a[href="#find"]').on('show.bs.tab', function(e) {
+            $scope.reload();
+            $scope.$digest(); // ou $scope.$apply(function() { $()... });
+        });
+
     }]);
 
 App.controller('NewEventCtrl', ['$scope', '$http', '$sce', '$rootScope', '$q', function($scope, $http, $sce, $rootScope, $q) {
 
-        $scope.Dto = {
-            CoverUrl: "",
-            Title: "",
-            InitialDate: null,
-            FinalDate: null,
-            Location: "",
-            Detail: "",
-            Guests: "",
+        $scope.reset = function() {
+            $scope.Dto = {
+                CoverUrl: "",
+                Title: "",
+                InitialDate: null,
+                FinalDate: null,
+                Location: "",
+                Detail: "",
+                Guests: "",
+            };
         };
 
         $scope.reloadCover = function() {
@@ -306,14 +329,17 @@ App.controller('NewEventCtrl', ['$scope', '$http', '$sce', '$rootScope', '$q', f
                 method: 'POST',
                 url: '/eventos/api/events',
                 data: $scope.Dto,
-            })
-                    .success(function(data, status, headers, config) {
-                        alert(status);
-                    })
-                    .error(function(data, status, headers, config) {
-                        alert(status);
-                    });
+            }).success(function(data, status, headers, config) {
+                alert(status);
+                reset();
+            }).error(function(data, status, headers, config) {
+                alert(status);
+            });
         };
+
+        $('a[href="#new"]').on('shown.bs.tab', function(e) {
+            console.log('tab new');
+        });
     }]);
 
 App.controller('Ctrl', ['$scope', '$http', '$sce', '$rootScope', '$q', function($scope, $http, $sce, $rootScope, $q) {
