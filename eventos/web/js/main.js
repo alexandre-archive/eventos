@@ -1,9 +1,12 @@
+/* IE < 8 or another unsuported browser */
 if (typeof (Storage) === "undefined") {
     window.location.assign('/eventos/update.html');
 }
 
-/* Force to fetch. */
+/* Force to fetch an image on ng-src. */
 function fetchImage(src) {
+    if (!src)
+        return;
     var img = new Image();
     img.src = src;
 }
@@ -62,12 +65,16 @@ var App = angular.module('App', [])
                 if (due) {
                     return [{id: 1, name: "Sim"},
                         {id: 2, name: "Não"},
-                        {id: 4, name: "Não Sei"},];
+                        {id: 4, name: "Não Sei"}, ];
                 } else {
                     return [{id: 1, name: "Sim"},
                         {id: 2, name: "Não"},
-                        {id: 3, name: "Talvez"},];
+                        {id: 3, name: "Talvez"}, ];
                 }
+            };
+            
+            $rootScope.goToProfile = function (p) {
+                console.log(p);
             };
         });
 
@@ -80,6 +87,7 @@ App.controller('LoginCtrl', ['$scope', '$http', '$sce', '$rootScope', '$q', func
         $scope.doLogin = function() {
             if ($scope.user && $scope.pwd) {
 
+                window.localStorage.userId = 1;
                 window.localStorage.login = $scope.user;
                 window.localStorage.username = "UserName";
                 window.localStorage.isAuthenticated = true;
@@ -139,6 +147,13 @@ App.controller('ProfileCtrl', ['$scope', '$http', '$sce', '$rootScope', '$q', fu
 App.controller('MyEventsCtrl', ['$scope', '$http', '$sce', '$rootScope', '$q', function($scope, $http, $sce, $rootScope, $q) {
         $scope.UserEvents = [
             {
+                Owner: {
+                    FullName: "Dick Pirocona Dura",
+                    PhotoUrl: "img/covers/jpg/5.jpg",
+                    Login: "",
+                    Id: 2,
+                },
+                Id: 1,
                 CoverUrl: "img/covers/jpg/1.jpg",
                 Title: "Evento 1",
                 Date: "seg, 14 de julho, 19:00",
@@ -150,6 +165,13 @@ App.controller('MyEventsCtrl', ['$scope', '$http', '$sce', '$rootScope', '$q', f
                 Due: false,
             },
             {
+                Owner: {
+                    FullName: "Dick Pirocona Dura",
+                    PhotoUrl: "img/covers/jpg/5.jpg",
+                    Login: "",
+                    Id: 2,
+                },
+                Id: 2,
                 CoverUrl: "img/covers/jpg/2.jpg",
                 Title: "Evento 2",
                 Date: "sex, 27 de junho, 12:00",
@@ -160,15 +182,100 @@ App.controller('MyEventsCtrl', ['$scope', '$http', '$sce', '$rootScope', '$q', f
                 Answer: 2,
                 Due: true,
             }, ];
-        
-        _.each($scope.UserEvents, function (item) {
+
+        _.each($scope.UserEvents, function(item) {
             item.stList = $rootScope.getEventStatus(item.Due)
-            item.Status = _.findWhere($rootScope.getEventStatus(item.Due), {id : item.Answer});
+            item.Status = _.findWhere($rootScope.getEventStatus(item.Due), {id: item.Answer});
         });
+
+        $scope.updateEventStatus = function(e) {
+
+            var data = {
+                UseId: parseInt(window.localStorage.userId),
+                EventId: e.Id,
+                Answer: e.Status.id,
+            };
+
+            console.log(data);
+        };
     }]);
 
 App.controller('FindEventsCtrl', ['$scope', '$http', '$sce', '$rootScope', '$q', function($scope, $http, $sce, $rootScope, $q) {
-        $scope.AllEvents = [];
+        $scope.AllEvents = [
+            {
+                Owner: {
+                    FullName: "Dick Piroquinha",
+                    PhotoUrl: "img/covers/jpg/1.jpg",
+                    Login: "",
+                    Id: 1,
+                },
+                Id: 1,
+                CoverUrl: "img/covers/jpg/5.jpg",
+                Title: "Evento 1",
+                Date: "seg, 14 de julho, 19:00",
+                Location: "Blumenau",
+                Detail: "",
+                Guests: "João Silva, Marcelo Pinto, Kid Bengala e mais",
+                TotalGuests: "151 pessoas vão",
+                Answer: 0,
+                Due: false,
+            },
+            {
+                Owner: {
+                    FullName: "Dick Pirocona",
+                    PhotoUrl: "img/covers/jpg/2.jpg",
+                    Login: "",
+                    Id: 2,
+                },
+                Id: 2,
+                CoverUrl: "img/covers/jpg/12.jpg",
+                Title: "Evento 2",
+                Date: "sex, 27 de junho, 12:00",
+                Location: "Rio do Sul",
+                Detail: "",
+                Guests: "Sasha Gray, Rocco, Kid Bengala e mais",
+                TotalGuests: "300 pessoas foram",
+                Answer: 0,
+                Due: true,
+            },
+            {
+                Owner: {
+                    FullName: "Dick Pirocona Dura",
+                    PhotoUrl: "img/covers/jpg/5.jpg",
+                    Login: "",
+                    Id: 2,
+                },
+                Id: 2,
+                CoverUrl: "img/covers/jpg/15.jpg",
+                Title: "Evento 2",
+                Date: "sex, 27 de junho, 12:00",
+                Location: "Rio do Sul",
+                Detail: "",
+                Guests: "Sasha Gray, Rocco, Kid Bengala e mais",
+                TotalGuests: "300 pessoas foram",
+                Answer: 0,
+                Due: true,
+            },
+        ];
+
+        _.each($scope.AllEvents, function(item) {
+            //fetchImage(item.Owner.PhotoUrl);
+            item.stList = $rootScope.getEventStatus(item.Due)
+            item.Status = _.findWhere($rootScope.getEventStatus(item.Due), {id: item.Answer});
+        });
+
+        $scope.updateEventStatus = function(e, status) {
+
+            e.Answer = status;
+
+            var data = {
+                UseId: parseInt(window.localStorage.userId),
+                EventId: e.Id,
+                Answer: status,
+            };
+
+            console.log(data);
+        };
     }]);
 
 App.controller('NewEventCtrl', ['$scope', '$http', '$sce', '$rootScope', '$q', function($scope, $http, $sce, $rootScope, $q) {

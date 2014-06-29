@@ -12,6 +12,12 @@ html {
     min-height: 100%;
 }
 
+.btn2 {
+    margin-right: -10px;
+    margin-left:  -10px;
+    width: calc(100% + 10px + 10px) !important;
+}
+
 .line {
     line-height: 24px;
 }
@@ -64,6 +70,16 @@ code {
     border-radius: 50%;
 }
 
+.profile-photo-cover {
+    margin-top: -40px;
+    margin-left: 75%;
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    z-index: 1;
+    position: relative;
+}
+
 /*body {
     min-width: 768px !important;
     overflow-y: auto;
@@ -87,6 +103,14 @@ code {
     outline-style: none;
     //padding: 20px;
     border-radius: 4px;
+    margin: 1%;
+
+    position: relative;
+    min-height: 1px;
+    padding-right: 15px;
+    padding-left: 15px;
+    width: 48%;
+    float: left;
 }
 
 .cover-event {
@@ -95,7 +119,7 @@ code {
     height: 100%;
     margin-left: -15px;
     margin-right: -15px;
-    margin-bottom: 10px;
+    //margin-bottom: 10px;
     opacity: 1;
 }
 
