@@ -72,9 +72,10 @@ var App = angular.module('App', [])
                         {id: 3, name: "Talvez"}, ];
                 }
             };
-            
-            $rootScope.goToProfile = function (p) {
+
+            $rootScope.goToProfile = function(p) {
                 console.log(p);
+                window.location.assign('/eventos/index.html#profile?id=' + p.Id);
             };
         });
 
@@ -290,8 +291,12 @@ App.controller('NewEventCtrl', ['$scope', '$http', '$sce', '$rootScope', '$q', f
             Guests: "",
         };
 
-        $scope.src = "img/covers/jpg/" + getRandomInt(1, 30) + ".jpg";
-        fetchImage($scope.src);
+        $scope.reloadCover = function() {
+            $scope.src = "img/covers/jpg/" + getRandomInt(1, 30) + ".jpg";
+            fetchImage($scope.src);
+        };
+
+        $scope.reloadCover();
 
         $scope.submit = function() {
 

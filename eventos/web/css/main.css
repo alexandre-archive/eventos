@@ -71,10 +71,10 @@ code {
 }
 
 .profile-photo-cover {
-    margin-top: -40px;
-    margin-left: 75%;
-    width: 80px;
-    height: 80px;
+    margin-top: -30px;
+    margin-left: 85%;
+    width: 60px;
+    height: 60px;
     border-radius: 50%;
     z-index: 1;
     position: relative;
@@ -121,6 +121,15 @@ code {
     margin-right: -15px;
     //margin-bottom: 10px;
     opacity: 1;
+}
+
+.btn-cover {
+    padding-left: 6px;
+    margin-top: -40px;
+}
+
+.btn-cover>button, .btn-cover>span {
+    background-color:  transparent !important;
 }
 
 .border-fade:hover {
