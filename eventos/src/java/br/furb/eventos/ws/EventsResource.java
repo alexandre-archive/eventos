@@ -52,18 +52,23 @@ public class EventsResource {
     @Produces("application/json")
     public String getJson() {
         //TODO return proper representation object
-        User u = new User();
-        u.setName("Teste");
-        u.setEmail("teste@hehe.com");
-        u.setId(1l);
-        UserDAO dao = UserDAO.getInstance();
+        //User u = new User();
+        //u.setName("Teste");
+        //u.setEmail("teste@hehe.com");
+        //u.setId(1l);
+        //UserDAO dao = UserDAO.getInstance();
         
-        //if (dao.verifyUser(u))
-        //    return "User salvo...";
+        Profile p = new Profile();
+        p.setName("nome do profile");
+        p.setId(51l);
+        ProfileDAO dao = ProfileDAO.getInstance();
+        
+        //if (dao.verify(p))
+        //    return "existe...";
         //else
-        //    return "User nao existe...";
+        //    return "nao existe...";
         
-        dao.remove(u);
+        dao.remove(p);
         return "Removed";
         
         //Profile p = new Profile("nome do profile");

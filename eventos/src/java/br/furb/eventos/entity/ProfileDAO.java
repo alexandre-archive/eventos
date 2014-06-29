@@ -4,6 +4,8 @@ package br.furb.eventos.entity;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
+import javax.persistence.NoResultException;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
 public class ProfileDAO {
@@ -61,5 +63,36 @@ public class ProfileDAO {
             PersistenseUtil.close(em);
         }
         return profiles;
+    }
+    
+    public void remove(Profile p) {
+        EntityManager em = PersistenseUtil.getEntityManager();
+        
+        EntityTransaction et = em.getTransaction();
+        
+        et.begin();
+        em.remove(em.find(Profile.class, p.getId()));
+        et.commit();
+        
+        PersistenseUtil.close(em);
+    }
+    
+    public boolean verify (Profile prof) {
+        
+        if (prof == null)
+            return false;
+        
+        EntityManager em = PersistenseUtil.getEntityManager();
+        
+        Query q = em.createQuery("select p from Profile p where p.name = :name");
+        q.setParameter("name", prof.getName());
+        
+        try {
+            Profile p = (Profile) q.getSingleResult();
+        } catch (NoResultException e) {
+            return false;
+        }
+        PersistenseUtil.close(em);
+        return true;
     }
 }

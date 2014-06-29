@@ -54,7 +54,7 @@ public class UserDAO {
         PersistenseUtil.close(em);
     }
     
-    public boolean verifyUser (User u) {
+    public boolean verify (User u) {
         
         if (u == null)
             return false;
