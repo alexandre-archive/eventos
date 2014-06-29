@@ -52,10 +52,20 @@ public class EventsResource {
     @Produces("application/json")
     public String getJson() {
         //TODO return proper representation object
-        //User u = new User("Teste", "teste@hehe.com", "ln", "teste", "pwd");
-        //UserDAO dao = UserDAO.getInstance();
-        //dao.salvar(u);
-        //return "User salvo...";
+        User u = new User();
+        u.setName("Teste");
+        u.setEmail("teste@hehe.com");
+        u.setId(1l);
+        UserDAO dao = UserDAO.getInstance();
+        
+        //if (dao.verifyUser(u))
+        //    return "User salvo...";
+        //else
+        //    return "User nao existe...";
+        
+        dao.remove(u);
+        return "Removed";
+        
         //Profile p = new Profile("nome do profile");
         //ProfileDAO dao = ProfileDAO.getInstance();
         //dao.salvar(p);
@@ -68,10 +78,10 @@ public class EventsResource {
         //EventDAO dao = EventDAO.getInstance();
         //dao.salvar(e);
         //return "Event salvo...";
-        Comment c = new Comment("HAUahuAhuaHU");
-        CommentDAO dao = CommentDAO.getInstance();
-        dao.salvar(c);
-        return "Comment salvo...";
+        //Comment c = new Comment("HAUahuAhuaHU");
+        //CommentDAO dao = CommentDAO.getInstance();
+        //dao.salvar(c);
+        //return "Comment salvo...";
     }
 
     /**

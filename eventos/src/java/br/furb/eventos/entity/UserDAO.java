@@ -4,7 +4,10 @@ package br.furb.eventos.entity;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
+import javax.persistence.NoResultException;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
 
 public class UserDAO {
     
@@ -18,7 +21,7 @@ public class UserDAO {
     }
     
     @SuppressWarnings("null")
-    public void salvar (User user) {
+    public void save (User user) {
         EntityManager em;
         em = PersistenseUtil.getEntityManager();
         EntityTransaction et = em.getTransaction();
@@ -37,6 +40,40 @@ public class UserDAO {
         } finally {
             PersistenseUtil.close(em);
         }
+    }
+    
+    public void remove(User u) {
+        EntityManager em = PersistenseUtil.getEntityManager();
+        
+        EntityTransaction et = em.getTransaction();
+        
+        et.begin();
+        em.remove(em.find(User.class, u.getId()));
+        et.commit();
+        
+        PersistenseUtil.close(em);
+    }
+    
+    public boolean verifyUser (User u) {
+        
+        if (u == null)
+            return false;
+        
+        EntityManager em = PersistenseUtil.getEntityManager();
+        
+        //Query q = em.createQuery("select u from User u where u.name = :name AND u.email = :email AND u.lastname = :lastname");
+        Query q = em.createQuery("select u from User u where u.name = :name AND u.email = :email");
+        q.setParameter("name", u.getName());
+        q.setParameter("email", u.getEmail());
+        //q.setParameter("lastname", u.getLastname());
+        
+        try {
+            User user = (User) q.getSingleResult();
+        } catch (NoResultException e) {
+            return false;
+        }
+        PersistenseUtil.close(em);
+        return true;
     }
     
     public List<User> getAllUsers() {
