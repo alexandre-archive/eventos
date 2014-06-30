@@ -102,7 +102,6 @@ code {
     border: 1px #C9C9C9 solid;
     background-color: #FFFFFF;
     outline-style: none;
-    //padding: 20px;
     border-radius: 4px;
     margin: 1%;
     position: relative;
@@ -113,11 +112,10 @@ code {
     float: left;
 }
 
-.event-box-single {
+.event-box-single, .mini-box {
     border: 1px #C9C9C9 solid;
     background-color: #FFFFFF;
     outline-style: none;
-    //padding: 20px;
     border-radius: 4px;
     position: relative;
     min-height: 1px;
@@ -125,11 +123,36 @@ code {
     padding-left: 15px;
     width: 100%;
     float: left;
+    margin-bottom: 10px;
+}
+
+.mini-box {
+    padding: 15px !important;
+}
+
+.w100 {
+    position: relative;
+    float: left;
+    width: 100%;
+}
+
+.w50 {
+    position: relative;
+    float: left;
+    width: 49%;
+}
+
+.w50-left {
+    margin-left: 1%;
+}
+
+.w50-rigth {
+   margin-right: 1%;
 }
 
 .event-single-title {
-    margin-top: -20px;
-    margin-bottom: 20px;
+    margin-top: -15px;
+    margin-bottom: 15px;
 }
 
 .cover-event {

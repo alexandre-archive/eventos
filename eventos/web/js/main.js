@@ -149,11 +149,6 @@ var App = angular.module('App', [])
                 }
             };
 
-            $rootScope.goToProfile = function(p) {
-                window.location.hash = '#profile?id=' + p.Id;
-                window.location.reload();
-            };
-
             $rootScope.showAlertBox = function(msg, type, dismiss) {
                 $rootScope.showAlert = true;
                 $rootScope.alertMessage = msg;
@@ -179,6 +174,16 @@ var App = angular.module('App', [])
                     $rootScope.alertClass += " alert-dismissible";
                     $rootScope.dismiss = dismiss;
                 }
+            };
+
+            $rootScope.goToProfile = function(p) {
+                window.location.hash = '#profile?id=' + p.Id;
+                //window.location.reload();
+            };
+
+            $rootScope.goToEvent = function(e) {
+                window.location.hash = '#find?id=' + e.Id;
+                //window.location.reload();
             };
 
             $rootScope.showAlert = false;

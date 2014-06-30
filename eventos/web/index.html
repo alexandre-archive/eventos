@@ -40,16 +40,16 @@
                 </div>
                 <div class="navbar-collapse collapse" id="tabMenu">
                     <ul class="nav navbar-nav" role="tablist">
-                        <li><a href="#home" role="tab" data-toggle="tab">Home</a></li>
-                        <li><a href="#myevents" role="tab" data-toggle="tab">Seus eventos</a></li>
-                        <li><a href="#find" role="tab" data-toggle="tab">Encontre mais eventos</a></li>
-                        <li><a href="#new" role="tab" data-toggle="tab">Criar evento</a></li>
-                        <li><a href="#profile" role="tab" data-toggle="tab">Perfil</a></li>
+                        <li><a href="#home" role="tab" data-toggle="tab_">Home</a></li>
+                        <li><a href="#myevents" role="tab" data-toggle="tab_">Seus eventos</a></li>
+                        <li><a href="#find" role="tab" data-toggle="tab_">Encontre mais eventos</a></li>
+                        <li><a href="#new" role="tab" data-toggle="tab_">Criar evento</a></li>
+                        <li><a href="#profile" role="tab" data-toggle="tab_">Perfil</a></li>
                         <li class="divider-vertical"></li>
-                        <li><a href="javascript:void(0);" ng-click="doLogout();" role="tab" data-toggle="tab">Sair</a></li>
+                        <li><a href="javascript:void(0);" ng-click="doLogout();" role="tab" data-toggle="tab_">Sair</a></li>
                         <li class="divider-vertical"></li>
-                        <li><a href="#about" role="tab" data-toggle="tab">Sobre</a></li>
-                        <li><a href="#contact" role="tab" data-toggle="tab">Contato</a></li>
+                        <li><a href="#about" role="tab" data-toggle="tab_">Sobre</a></li>
+                        <li><a href="#contact" role="tab" data-toggle="tab_">Contato</a></li>
                     </ul>
                 </div><!--/.nav-collapse -->
             </div>
@@ -77,6 +77,7 @@
                                          alt="cover" 
                                          src="" 
                                          title="{{e.Title}}"
+                                         ng-click="goToEvent(e)"
                                          ng-src="{{fetchImage(e.CoverUrl)}}"/>
                                     <img class="profile-photo-cover border-fade" 
                                          alt="owner" 
@@ -129,6 +130,7 @@
                                          alt="cover" 
                                          src="" 
                                          title="{{Event.Title}}"
+                                         ng-click="goToEvent(Event)"
                                          ng-src="{{fetchImage(Event.CoverUrl)}}"/>
                                     <img class="profile-photo-cover border-fade" 
                                          alt="owner" 
@@ -136,43 +138,74 @@
                                          title="{{Event.Owner.FullName}}"
                                          ng-click="goToProfile(Event.Owner)"
                                          ng-src="{{fetchImage(Event.Owner.PhotoUrl)}}"/>
-                                    <div class="form-group line">
-                                        <div class="col-md-12 event-single-title">
-                                            <h3>{{Event.Title}}</h3>
-                                        </div>
-                                        <div class="col-md-12">
-                                            <span><i class="glyphicon glyphicon-map-marker"></i> {{Event.Location}}</span>
-                                        </div>
-                                        <div class="col-md-12">
-                                            <span><i class="glyphicon glyphicon-time"></i> {{Event.Date}}</span>
-                                        </div>
-                                        <div class="col-md-12">
-                                            <span><i class="glyphicon glyphicon-user"></i> {{Event.Guests}}</span>
-                                        </div>
-                                        <div class="col-md-12">
-                                            <span>{{Event.TotalGuests}}</span>
-                                        </div>
-                                        <div class="col-md-12">
-                                            <hr class="divider-horizontal"/>
-                                        </div>
-                                        <div class="col-md-12">
-                                            <label>{{Event.Due ? 'Você foi?' : 'Você vai?'}}</label>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="col-md-3">
-                                                <button type="button" 
-                                                        class="btn btn-primary btn2" 
-                                                        ng-click="updateEventStatus(Event, 1)">Sim</button>
+                                    <h3 class="event-single-title">{{Event.Title}}</h3>
+                                </div>
+
+                                <div class="w100">
+                                    <div class="w50 w50-rigth">
+                                        <div class="mini-box">
+                                            <div class="input-group">
+                                                <input class="form-control" placeholder="Compartilhe algo"/>
+                                                <div class="input-group-btn">
+                                                    <button type="button" class="btn btn-default">OK</button>
+                                                </div>
                                             </div>
-                                            <div class="col-md-3" ng-show="!e.Due">
-                                                <button type="button" 
-                                                        class="btn btn-primary btn2" 
-                                                        ng-click="updateEventStatus(Event, 3)">Talvez</button>
+                                        </div>
+                                    </div>
+                                    <div class="w50 w50-left">
+                                        <div class="mini-box">
+                                            <div class="form-group">
+                                                <div class="col-md-12">
+                                                    <strong>Detalhes</strong>
+                                                </div>
                                             </div>
-                                            <div class="col-md-3">
-                                                <button type="button" 
-                                                        class="btn btn-primary btn2" 
-                                                        ng-click="updateEventStatus(Event, 2)">Não</button>
+                                            <div class="form-group">
+                                                <div class="col-md-12">
+                                                    <span><i class="glyphicon glyphicon-map-marker"></i> {{Event.Location}}</span>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="col-md-12">
+                                                    <span><i class="glyphicon glyphicon-time"></i> {{Event.Date}}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="mini-box">
+                                            <div class="form-group">
+                                                <div class="col-md-12">
+                                                    <label>{{Event.Due ? 'Você foi?' : 'Você vai?'}}</label>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="col-md-12">
+                                                    <div class="col-md-3">
+                                                        <button type="button" 
+                                                                class="btn btn-primary btn2" 
+                                                                ng-click="updateEventStatus(Event, 1)">Sim</button>
+                                                    </div>
+                                                    <div class="col-md-3" ng-show="!e.Due">
+                                                        <button type="button" 
+                                                                class="btn btn-primary btn2" 
+                                                                ng-click="updateEventStatus(Event, 3)">Talvez</button>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <button type="button" 
+                                                                class="btn btn-primary btn2" 
+                                                                ng-click="updateEventStatus(Event, 2)">Não</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="mini-box">
+                                            <div class="form-group">
+                                                <div class="col-md-12">
+                                                    <span><i class="glyphicon glyphicon-user"></i> {{Event.Guests}}</span>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="col-md-12">
+                                                    <span>{{Event.TotalGuests}}</span>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -187,6 +220,7 @@
                                              alt="cover" 
                                              src="" 
                                              title="{{e.Title}}"
+                                             ng-click="goToEvent(e)"
                                              ng-src="{{fetchImage(e.CoverUrl)}}"/>
                                         <img class="profile-photo-cover border-fade" 
                                              alt="owner" 

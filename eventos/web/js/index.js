@@ -28,7 +28,7 @@ $(document).ready(function() {
 
     /* Para que ao apertar F5 não perder a tab atual. */
     $('#tabMenu a').on('click', function(e) {
-        forceRealod = false;
+        forceRealod = window.location.hash !== e.target.hash;
         window.location.hash = e.target.hash;
     });
 
