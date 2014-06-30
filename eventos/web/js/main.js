@@ -178,12 +178,10 @@ var App = angular.module('App', [])
 
             $rootScope.goToProfile = function(p) {
                 window.location.hash = '#profile?id=' + p.Id;
-                //window.location.reload();
             };
 
             $rootScope.goToEvent = function(e) {
                 window.location.hash = '#find?id=' + e.Id;
-                //window.location.reload();
             };
 
             $rootScope.showAlert = false;
