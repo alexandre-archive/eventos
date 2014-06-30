@@ -115,6 +115,38 @@ var App = angular.module('App', [])
                 console.log(p);
                 window.location.assign('/eventos/index.html#profile?id=' + p.Id);
             };
+
+            $rootScope.showAlertBox = function(msg, type, dismiss) {
+                $rootScope.showAlert = true;
+                $rootScope.alertMessage = msg;
+                $rootScope.alertClass = "";
+
+                switch (type)
+                {
+                    case "i":
+                        $rootScope.alertClass += "alert-info";
+                        break;
+                    case "w":
+                        $rootScope.alertClass += "alert-warning";
+                        break;
+                    case "e":
+                        $rootScope.alertClass += "alert-danger";
+                        break;
+                    case "s":
+                        $rootScope.alertClass += "alert-success";
+                        break;
+                }
+
+                if (dismiss) {
+                    $rootScope.alertClass += " alert-dismissible";
+                    $rootScope.dismiss = dismiss;
+                }
+            };
+
+            $rootScope.showAlert = false;
+            $rootScope.message = "";
+            $rootScope.alertClass = "";
+            $rootScope.dismiss = false;
         });
 
 App.controller('LoginCtrl', ['$scope', '$http', '$sce', '$rootScope', '$q', function($scope, $http, $sce, $rootScope, $q) {
@@ -223,6 +255,7 @@ App.controller('MyEventsCtrl', ['$scope', '$http', '$sce', '$rootScope', '$q', f
                     Answer: 2,
                     Due: true,
                 }, ];
+            
             _.each($scope.UserEvents, function(item) {
                 item.stList = $rootScope.getEventStatus(item.Due)
                 item.Status = _.findWhere($rootScope.getEventStatus(item.Due), {id: item.Answer});
@@ -360,10 +393,10 @@ App.controller('NewEventCtrl', ['$scope', '$http', '$sce', '$rootScope', '$q', f
                 url: '/eventos/api/events',
                 data: $scope.Dto,
             }).success(function(data, status, headers, config) {
-                alert(status);
-                reset();
+                $rootScope.showAlertBox("Evento cadastrado com sucesso.", "i", true);
+                $scope.reset();
             }).error(function(data, status, headers, config) {
-                alert(status);
+                $rootScope.showAlertBox("Erro ao processar request. Código: " + status, "e", true);
             });
         };
 
