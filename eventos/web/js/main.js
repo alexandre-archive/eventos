@@ -1,8 +1,16 @@
-/* IE < 8 or another unsuported browser */
+/* 
+ IE < 8 or another unsuported browser.
+ Web storage is supported in Internet Explorer 8+, Firefox, Opera, Chrome, and Safari.
+ */
 if (typeof (Storage) === "undefined") {
     window.location.assign('/eventos/update.html');
 }
 
+/*
+ Helper functions
+ */
+
+/* Return actual tab. */
 function getTab() {
     var url = document.location.toString();
 
@@ -13,9 +21,10 @@ function getTab() {
     }
 }
 
-function getQueryStringValue (key) {  
-  return unescape(window.location.href.replace(new RegExp("^(?:.*[&\\?]" + escape(key).replace(/[\.\+\*]/g, "\\$&") + "(?:\\=([^&]*))?)?.*$", "i"), "$1"));  
-}  
+/* Return the value of given key on query string. */
+function getQueryStringValue(key) {
+    return unescape(window.location.href.replace(new RegExp("^(?:.*[&\\?]" + escape(key).replace(/[\.\+\*]/g, "\\$&") + "(?:\\=([^&]*))?)?.*$", "i"), "$1"));
+}
 
 /* Force to fetch an image on ng-src. */
 function fetchImage(src) {
@@ -29,6 +38,46 @@ function getRandomInt(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
+function setLoginInfo(id, login, fullName, isAuthenticated) {
+    window.localStorage.userId = id || -1;
+    window.localStorage.login = login || "";
+    window.localStorage.username = fullName || "";
+    window.localStorage.isAuthenticated = isAuthenticated || false;
+}
+
+/*
+ Session timeout control.
+ */
+
+function checkTimeout() {
+    // Only validate session timeout if user is logged in.
+    if (window.localStorage.isAuthenticated !== "true") {
+        return;
+    }
+
+    var now = (new Date()).getTime();
+    var lastAccess = Date.parse(localStorage.lastAccess);
+
+    if ((now - lastAccess) > (10/*min*/ * 60/*sec*/ * 1000/*mili*/)) {
+        alert('Session timeout.');
+        setLoginInfo();
+        window.location.assign('/eventos/signin.html');
+    }
+}
+;
+
+setInterval(function() {
+    checkTimeout();
+}, 60/*sec*/ * 1000/*mili*/);
+
+$(document).ready(function() {
+    checkTimeout();
+    window.localStorage.lastAccess = new Date();
+});
+
+/*
+ AngularJS modules.
+ */
 var App = angular.module('App', [])
         .factory('lastAccessInterceptor', function() {
             return {
@@ -136,27 +185,6 @@ var App = angular.module('App', [])
             $rootScope.message = "";
             $rootScope.alertClass = "";
             $rootScope.dismiss = false;
-            
-            $rootScope.checkTimeout = function () {
-                // Only validate session timeout if user is logged in.
-                if (window.localStorage.isAuthenticated !== "true") {
-                    return;
-                }
-                
-                var now = (new Date()).getTime();
-                var lastAccess = Date.parse(localStorage.lastAccess);
-                
-                if ((now - lastAccess) > (10/*min*/ * 60/*sec*/ * 1000/*mili*/)) {
-                    alert('Session timeout.');
-                    $rootScope.doLogout();
-                }
-            };
-            
-            $rootScope.checkTimeout();
-            
-            setTimeout(function(){
-                 $rootScope.checkTimeout();
-            }, 60/*sec*/ * 1000/*mili*/);
         });
 
 App.controller('LoginCtrl', ['$scope', '$http', '$sce', '$rootScope', '$q', function($scope, $http, $sce, $rootScope, $q) {
@@ -176,12 +204,10 @@ App.controller('LoginCtrl', ['$scope', '$http', '$sce', '$rootScope', '$q', func
                     method: 'GET',
                     url: '/eventos/api/user/' + $scope.user,
                 }).success(function(data, status, headers, config) {
-                    window.localStorage.userId = data.id;
-                    window.localStorage.login = data.login;
-                    window.localStorage.username = data.fullName;
-                    window.localStorage.isAuthenticated = true;
+                    setLoginInfo(data.id, data.login, data.fullName, true);
                     window.location.assign("/eventos");
                 }).error(function(data, status, headers, config) {
+                    setLoginInfo();
                     $scope.invalidLogin = true;
                 });
 
@@ -225,7 +251,7 @@ App.controller('ProfileCtrl', ['$scope', '$http', '$sce', '$rootScope', '$q', fu
                 SurName: "Piroquinha",
                 Email: "teste@teste.com",
                 PhotoUrl: "https://lh5.googleusercontent.com/--fK08SiAPcA/AAAAAAAAAAI/AAAAAAAAABU/7GiuAp4r3RA/s120-c/photo.jpg",
-            };  
+            };
         }
         else
         {
@@ -234,7 +260,7 @@ App.controller('ProfileCtrl', ['$scope', '$http', '$sce', '$rootScope', '$q', fu
                 SurName: "Vicenzi",
                 Email: "foo@bar.com",
                 PhotoUrl: "https://lh5.googleusercontent.com/--fK08SiAPcA/AAAAAAAAAAI/AAAAAAAAABU/7GiuAp4r3RA/s120-c/photo.jpg",
-            };            
+            };
         }
 
         $scope.Dto.FullName = $scope.Dto.Name + ' ' + $scope.Dto.SurName;
@@ -315,71 +341,100 @@ App.controller('MyEventsCtrl', ['$scope', '$http', '$sce', '$rootScope', '$q', f
     }]);
 
 App.controller('FindEventsCtrl', ['$scope', '$http', '$sce', '$rootScope', '$q', function($scope, $http, $sce, $rootScope, $q) {
+
+        $scope.Event = null;
         $scope.AllEvents = [];
 
         $scope.reload = function() {
 
-            $scope.AllEvents = [
-                {
-                    Owner: {
-                        FullName: "Dick Piroquinha",
-                        PhotoUrl: "img/covers/jpg/1.jpg",
-                        Login: "",
+            var id = parseInt(getQueryStringValue("id"));
+
+            $scope.SingleEvent = id && !isNaN(id);
+
+            if ($scope.SingleEvent) {
+                $scope.Event = {
+                        Owner: {
+                            FullName: "Dick Piroquinha",
+                            PhotoUrl: "img/covers/jpg/1.jpg",
+                            Login: "",
+                            Id: 1,
+                        },
                         Id: 1,
+                        CoverUrl: "img/covers/jpg/5.jpg",
+                        Title: "Evento 1",
+                        Date: "seg, 14 de julho, 19:00",
+                        Location: "Blumenau",
+                        Detail: "",
+                        Guests: "João Silva, Marcelo Pinto, Kid Bengala e mais",
+                        TotalGuests: "151 pessoas vão",
+                        Answer: 0,
+                        Due: false,
+                    };
+            } else {
+
+                $scope.AllEvents = [
+                    {
+                        Owner: {
+                            FullName: "Dick Piroquinha",
+                            PhotoUrl: "img/covers/jpg/1.jpg",
+                            Login: "",
+                            Id: 1,
+                        },
+                        Id: 1,
+                        CoverUrl: "img/covers/jpg/5.jpg",
+                        Title: "Evento 1",
+                        Date: "seg, 14 de julho, 19:00",
+                        Location: "Blumenau",
+                        Detail: "",
+                        Guests: "João Silva, Marcelo Pinto, Kid Bengala e mais",
+                        TotalGuests: "151 pessoas vão",
+                        Answer: 0,
+                        Due: false,
                     },
-                    Id: 1,
-                    CoverUrl: "img/covers/jpg/5.jpg",
-                    Title: "Evento 1",
-                    Date: "seg, 14 de julho, 19:00",
-                    Location: "Blumenau",
-                    Detail: "",
-                    Guests: "João Silva, Marcelo Pinto, Kid Bengala e mais",
-                    TotalGuests: "151 pessoas vão",
-                    Answer: 0,
-                    Due: false,
-                },
-                {
-                    Owner: {
-                        FullName: "Dick Pirocona",
-                        PhotoUrl: "img/covers/jpg/2.jpg",
-                        Login: "",
+                    {
+                        Owner: {
+                            FullName: "Dick Pirocona",
+                            PhotoUrl: "img/covers/jpg/2.jpg",
+                            Login: "",
+                            Id: 2,
+                        },
                         Id: 2,
+                        CoverUrl: "img/covers/jpg/12.jpg",
+                        Title: "Evento 2",
+                        Date: "sex, 27 de junho, 12:00",
+                        Location: "Rio do Sul",
+                        Detail: "",
+                        Guests: "Sasha Gray, Rocco, Kid Bengala e mais",
+                        TotalGuests: "300 pessoas foram",
+                        Answer: 0,
+                        Due: true,
                     },
-                    Id: 2,
-                    CoverUrl: "img/covers/jpg/12.jpg",
-                    Title: "Evento 2",
-                    Date: "sex, 27 de junho, 12:00",
-                    Location: "Rio do Sul",
-                    Detail: "",
-                    Guests: "Sasha Gray, Rocco, Kid Bengala e mais",
-                    TotalGuests: "300 pessoas foram",
-                    Answer: 0,
-                    Due: true,
-                },
-                {
-                    Owner: {
-                        FullName: "Dick Pirocona Dura",
-                        PhotoUrl: "img/covers/jpg/5.jpg",
-                        Login: "",
+                    {
+                        Owner: {
+                            FullName: "Dick Pirocona Dura",
+                            PhotoUrl: "img/covers/jpg/5.jpg",
+                            Login: "",
+                            Id: 2,
+                        },
                         Id: 2,
-                    },
-                    Id: 2,
-                    CoverUrl: "img/covers/jpg/15.jpg",
-                    Title: "Evento 2",
-                    Date: "sex, 27 de junho, 12:00",
-                    Location: "Rio do Sul",
-                    Detail: "",
-                    Guests: "Sasha Gray, Rocco, Kid Bengala e mais",
-                    TotalGuests: "300 pessoas foram",
-                    Answer: 0,
-                    Due: true,
-                }
-            ];
-            _.each($scope.AllEvents, function(item) {
-                //fetchImage(item.Owner.PhotoUrl);
-                item.stList = $rootScope.getEventStatus(item.Due)
-                item.Status = _.findWhere($rootScope.getEventStatus(item.Due), {id: item.Answer});
-            });
+                        CoverUrl: "img/covers/jpg/15.jpg",
+                        Title: "Evento 2",
+                        Date: "sex, 27 de junho, 12:00",
+                        Location: "Rio do Sul",
+                        Detail: "",
+                        Guests: "Sasha Gray, Rocco, Kid Bengala e mais",
+                        TotalGuests: "300 pessoas foram",
+                        Answer: 0,
+                        Due: true,
+                    }
+                ];
+
+                _.each($scope.AllEvents, function(item) {
+                    //fetchImage(item.Owner.PhotoUrl);
+                    item.stList = $rootScope.getEventStatus(item.Due)
+                    item.Status = _.findWhere($rootScope.getEventStatus(item.Due), {id: item.Answer});
+                });
+            }
         };
 
         $scope.updateEventStatus = function(e, status) {

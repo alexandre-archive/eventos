@@ -105,13 +105,31 @@ code {
     //padding: 20px;
     border-radius: 4px;
     margin: 1%;
-
     position: relative;
     min-height: 1px;
     padding-right: 15px;
     padding-left: 15px;
     width: 48%;
     float: left;
+}
+
+.event-box-single {
+    border: 1px #C9C9C9 solid;
+    background-color: #FFFFFF;
+    outline-style: none;
+    //padding: 20px;
+    border-radius: 4px;
+    position: relative;
+    min-height: 1px;
+    padding-right: 15px;
+    padding-left: 15px;
+    width: 100%;
+    float: left;
+}
+
+.event-single-title {
+    margin-top: -20px;
+    margin-bottom: 20px;
 }
 
 .cover-event {

@@ -40,7 +40,7 @@
                 </div>
                 <div class="navbar-collapse collapse" id="tabMenu">
                     <ul class="nav navbar-nav" role="tablist">
-                        <li class="active"><a href="#home" role="tab" data-toggle="tab">Home</a></li>
+                        <li><a href="#home" role="tab" data-toggle="tab">Home</a></li>
                         <li><a href="#myevents" role="tab" data-toggle="tab">Seus eventos</a></li>
                         <li><a href="#find" role="tab" data-toggle="tab">Encontre mais eventos</a></li>
                         <li><a href="#new" role="tab" data-toggle="tab">Criar evento</a></li>
@@ -56,7 +56,7 @@
         </div>
 
         <div class="container">
-            <div class="jumbotron">
+            <div class="ng-cloak jumbotron">
                 <div class="ng-cloak alert" ng-class="alertClass" role="alert" ng-show="showAlert">
                     <button ng-show="dismiss" type="button" class="close" data-dismiss="alert">
                         <span aria-hidden="true">&times;</span>
@@ -122,65 +122,124 @@
                         </div>
                     </div>
                     <div class="tab-pane" id="find" ng-controller="FindEventsCtrl">
-                        <div ng-show="AllEvents.length > 0">
+                        <div ng-show="SingleEvent">
                             <div class="form-horizontal">
-                                <div class="event-box border-fade" ng-repeat="e in AllEvents| filter:{Answer:0}">
+                                <div class="event-box-single">
                                     <img class="cover-event" 
                                          alt="cover" 
                                          src="" 
-                                         title="{{e.Title}}"
-                                         ng-src="{{fetchImage(e.CoverUrl)}}"/>
+                                         title="{{Event.Title}}"
+                                         ng-src="{{fetchImage(Event.CoverUrl)}}"/>
                                     <img class="profile-photo-cover border-fade" 
                                          alt="owner" 
                                          src=""
-                                         title="{{e.Owner.FullName}}"
-                                         ng-click="goToProfile(e.Owner)"
-                                         ng-src="{{fetchImage(e.Owner.PhotoUrl)}}"/>
+                                         title="{{Event.Owner.FullName}}"
+                                         ng-click="goToProfile(Event.Owner)"
+                                         ng-src="{{fetchImage(Event.Owner.PhotoUrl)}}"/>
                                     <div class="form-group line">
-                                        <div class="col-md-12">
-                                            <label>{{e.Title}}</label>
+                                        <div class="col-md-12 event-single-title">
+                                            <h3>{{Event.Title}}</h3>
                                         </div>
                                         <div class="col-md-12">
-                                            <span><i class="glyphicon glyphicon-map-marker"></i> {{e.Location}}</span>
+                                            <span><i class="glyphicon glyphicon-map-marker"></i> {{Event.Location}}</span>
                                         </div>
                                         <div class="col-md-12">
-                                            <span><i class="glyphicon glyphicon-time"></i> {{e.Date}}</span>
+                                            <span><i class="glyphicon glyphicon-time"></i> {{Event.Date}}</span>
                                         </div>
                                         <div class="col-md-12">
-                                            <span><i class="glyphicon glyphicon-user"></i> {{e.Guests}}</span>
+                                            <span><i class="glyphicon glyphicon-user"></i> {{Event.Guests}}</span>
                                         </div>
                                         <div class="col-md-12">
-                                            <span>{{e.TotalGuests}}</span>
+                                            <span>{{Event.TotalGuests}}</span>
                                         </div>
                                         <div class="col-md-12">
                                             <hr class="divider-horizontal"/>
                                         </div>
                                         <div class="col-md-12">
-                                            <label>{{e.Due ? 'Você foi?' : 'Você vai?'}}</label>
+                                            <label>{{Event.Due ? 'Você foi?' : 'Você vai?'}}</label>
                                         </div>
-                                        <div class="col-md-12">
+                                        <div class="col-md-6">
                                             <div class="col-md-3">
                                                 <button type="button" 
                                                         class="btn btn-primary btn2" 
-                                                        ng-click="updateEventStatus(e, 1)">Sim</button>
+                                                        ng-click="updateEventStatus(Event, 1)">Sim</button>
                                             </div>
                                             <div class="col-md-3" ng-show="!e.Due">
                                                 <button type="button" 
                                                         class="btn btn-primary btn2" 
-                                                        ng-click="updateEventStatus(e, 3)">Talvez</button>
+                                                        ng-click="updateEventStatus(Event, 3)">Talvez</button>
                                             </div>
                                             <div class="col-md-3">
                                                 <button type="button" 
                                                         class="btn btn-primary btn2" 
-                                                        ng-click="updateEventStatus(e, 2)">Não</button>
+                                                        ng-click="updateEventStatus(Event, 2)">Não</button>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div ng-show="AllEvents.length === 0 || (AllEvents | filter:{Answer:0}).length === 0">
-                            <div class="alert alert-info" role="alert">Nenhum evento novo encontrado.</div>
+                        <div ng-show="!SingleEvent">
+                            <div ng-show="AllEvents.length > 0">
+                                <div class="form-horizontal">
+                                    <div class="event-box border-fade" ng-repeat="e in AllEvents| filter:{Answer:0}">
+                                        <img class="cover-event" 
+                                             alt="cover" 
+                                             src="" 
+                                             title="{{e.Title}}"
+                                             ng-src="{{fetchImage(e.CoverUrl)}}"/>
+                                        <img class="profile-photo-cover border-fade" 
+                                             alt="owner" 
+                                             src=""
+                                             title="{{e.Owner.FullName}}"
+                                             ng-click="goToProfile(e.Owner)"
+                                             ng-src="{{fetchImage(e.Owner.PhotoUrl)}}"/>
+                                        <div class="form-group line">
+                                            <div class="col-md-12">
+                                                <label>{{e.Title}}</label>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <span><i class="glyphicon glyphicon-map-marker"></i> {{e.Location}}</span>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <span><i class="glyphicon glyphicon-time"></i> {{e.Date}}</span>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <span><i class="glyphicon glyphicon-user"></i> {{e.Guests}}</span>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <span>{{e.TotalGuests}}</span>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <hr class="divider-horizontal"/>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <label>{{e.Due ? 'Você foi?' : 'Você vai?'}}</label>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <div class="col-md-3">
+                                                    <button type="button" 
+                                                            class="btn btn-primary btn2" 
+                                                            ng-click="updateEventStatus(e, 1)">Sim</button>
+                                                </div>
+                                                <div class="col-md-3" ng-show="!e.Due">
+                                                    <button type="button" 
+                                                            class="btn btn-primary btn2" 
+                                                            ng-click="updateEventStatus(e, 3)">Talvez</button>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <button type="button" 
+                                                            class="btn btn-primary btn2" 
+                                                            ng-click="updateEventStatus(e, 2)">Não</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div ng-show="AllEvents.length === 0 || (AllEvents | filter:{Answer:0}).length === 0">
+                                <div class="alert alert-info" role="alert">Nenhum evento novo encontrado.</div>
+                            </div>
                         </div>
                     </div>
                     <div class="tab-pane" id="new" ng-controller="NewEventCtrl">
@@ -324,38 +383,6 @@
         <script src="js/bootstrap-datetimepicker.min.js"></script>
 
         <script src="js/main.js"></script>
-
-        <script type="text/javascript">
-
-            $(document).ready(function() {
-                $('a[data-toggle="tab"]').on('show.bs.tab', function(e) {
-                    var tab = getTab();
-                    if (tab === "new") {
-                    $('.jumbotron').css('width', '60%').css('margin-left', '20%');
-                    } else {
-                    $('.jumbotron').css('width', '100%').css('margin-left', '0');
-                    }
-                    });
-                    $(function() {
-                    /* Para que ao apertar F5 não perder a tab atual.  */
-                    var tab = getTab();
-
-                    if (tab) {
-                        $('#tabMenu a[href=#' + tab + ']').tab('show');
-                    } else {
-                        $('#tabMenu a:first').tab('show');
-                    }
-
-                    $('#tabMenu a').on('click', function(e) {
-                        window.location.hash = e.target.hash;
-                    });
-                    
-                    $("#initTime, #endTime").datetimepicker({
-                        language: 'pt-BR'
-                    });
-                });
-            });
-
-        </script>
+        <script src="js/index.js"></script>
     </body>
 </html>
