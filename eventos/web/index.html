@@ -64,7 +64,7 @@
                     </button>
                     {{alertMessage}}
                 </div>
-                
+
                 <div class="ng-cloak tab-content">
                     <div class="tab-pane active" id="home">
                         <h1>Bem vindo {{username()}}</h1>
@@ -324,5 +324,36 @@
         <script src="js/bootstrap-datetimepicker.min.js"></script>
 
         <script src="js/main.js"></script>
+
+        <script type="text/javascript">
+
+                                                $(document).ready(function() {
+                                        $('a[data-toggle="tab"]').on('show.bs.tab', function(e) {
+                                        var tab = getTab();
+                                                if (tab === "new") {
+                                        $('.jumbotron').css('width', '60%').css('margin-left', '20%');
+                                        } else {
+                                        $('.jumbotron').css('width', '100%').css('margin-left', '0');
+                                        }
+                                        });
+                                                $(function() {
+                                                /* Para que ao apertar F5 não perder a tab atual.  */
+                                                var tab = getTab();
+                                                        if (tab) {
+                                                $('#tabMenu a[href=#' + tab + ']').tab('show');
+                                                } else {
+                                                $('#tabMenu a:first').tab('show');
+                                                }
+
+                                                $('#tabMenu a').on('click', function(e) {
+                                                window.location.hash = e.target.hash;
+                                                });
+                                                        $("#initTime, #endTime").datetimepicker({
+                                                language: 'pt-BR'
+                                                });
+                                                });
+                                                });
+
+        </script>
     </body>
 </html>

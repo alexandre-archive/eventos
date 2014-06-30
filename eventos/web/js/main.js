@@ -13,34 +13,6 @@ function getTab() {
     }
 }
 
-$('a[data-toggle="tab"]').on('show.bs.tab', function(e) {
-    var tab = getTab();
-
-    if (tab === "new") {
-        $('.jumbotron').css('width', '60%').css('margin-left', '20%');
-    } else {
-        $('.jumbotron').css('width', '100%').css('margin-left', '0');
-    }
-});
-
-$(function() {
-    /* Para que ao apertar F5 não perder a tab atual.  */
-    var tab = getTab();
-
-    if (tab) {
-        $('#tabMenu a[href=#' + tab + ']').tab('show');
-    } else {
-        $('#tabMenu a:first').tab('show');
-    }
-
-    $('#tabMenu a').on('click', function(e) {
-        window.location.hash = e.target.hash;
-    });
-    $("#initTime, #endTime").datetimepicker({
-        language: 'pt-BR'
-    });
-});
-
 /* Force to fetch an image on ng-src. */
 function fetchImage(src) {
     if (!src)
@@ -54,6 +26,19 @@ function getRandomInt(min, max) {
 }
 
 var App = angular.module('App', [])
+        .factory('lastAccessInterceptor', function() {
+            return {
+                'request': function(config) {
+                    window.localStorage.lastAccess = new Date();
+                    return config;
+                },
+                'response': function(response) {
+                    return response;
+                }};
+        })
+        .config(['$httpProvider', function($httpProvider) {
+                $httpProvider.interceptors.push('lastAccessInterceptor');
+            }])
         .filter('SimNao', function() {
             return function(input) {
                 return input ? "Sim" : "Não";
@@ -147,6 +132,27 @@ var App = angular.module('App', [])
             $rootScope.message = "";
             $rootScope.alertClass = "";
             $rootScope.dismiss = false;
+            
+            $rootScope.checkTimeout = function () {
+                // Only validate session timeout if user is logged in.
+                if (window.localStorage.isAuthenticated !== "true") {
+                    return;
+                }
+                
+                var now = (new Date()).getTime();
+                var lastAccess = Date.parse(localStorage.lastAccess);
+                
+                if ((now - lastAccess) > (10/*min*/ * 60/*sec*/ * 1000/*mili*/)) {
+                    alert('Session timeout.');
+                    $rootScope.doLogout();
+                }
+            };
+            
+            $rootScope.checkTimeout();
+            
+            setTimeout(function(){
+                 $rootScope.checkTimeout();
+            }, 60/*sec*/ * 1000/*mili*/);
         });
 
 App.controller('LoginCtrl', ['$scope', '$http', '$sce', '$rootScope', '$q', function($scope, $http, $sce, $rootScope, $q) {
@@ -155,14 +161,26 @@ App.controller('LoginCtrl', ['$scope', '$http', '$sce', '$rootScope', '$q', func
         $scope.user = null;
         $scope.pwd = null;
 
-        $scope.doLogin = function() {
-            if ($scope.user && $scope.pwd) {
+        $scope.validateLogin = function(user, pwd) {
+            return user && pwd;
+        };
 
-                window.localStorage.userId = 1;
-                window.localStorage.login = $scope.user;
-                window.localStorage.username = "UserName";
-                window.localStorage.isAuthenticated = true;
-                window.location.assign("/eventos");
+        $scope.doLogin = function() {
+            if ($scope.validateLogin($scope.user, $scope.pwd)) {
+
+                $http({
+                    method: 'GET',
+                    url: '/eventos/api/user/' + $scope.user,
+                }).success(function(data, status, headers, config) {
+                    window.localStorage.userId = data.id;
+                    window.localStorage.login = data.login;
+                    window.localStorage.username = data.fullName;
+                    window.localStorage.isAuthenticated = true;
+                    window.location.assign("/eventos");
+                }).error(function(data, status, headers, config) {
+                    $scope.invalidLogin = true;
+                });
+
             } else {
                 $scope.invalidLogin = true;
             }
@@ -255,7 +273,7 @@ App.controller('MyEventsCtrl', ['$scope', '$http', '$sce', '$rootScope', '$q', f
                     Answer: 2,
                     Due: true,
                 }, ];
-            
+
             _.each($scope.UserEvents, function(item) {
                 item.stList = $rootScope.getEventStatus(item.Due)
                 item.Status = _.findWhere($rootScope.getEventStatus(item.Due), {id: item.Answer});
