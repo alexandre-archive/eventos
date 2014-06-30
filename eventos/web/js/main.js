@@ -13,6 +13,10 @@ function getTab() {
     }
 }
 
+function getQueryStringValue (key) {  
+  return unescape(window.location.href.replace(new RegExp("^(?:.*[&\\?]" + escape(key).replace(/[\.\+\*]/g, "\\$&") + "(?:\\=([^&]*))?)?.*$", "i"), "$1"));  
+}  
+
 /* Force to fetch an image on ng-src. */
 function fetchImage(src) {
     if (!src)
@@ -97,8 +101,8 @@ var App = angular.module('App', [])
             };
 
             $rootScope.goToProfile = function(p) {
-                console.log(p);
-                window.location.assign('/eventos/index.html#profile?id=' + p.Id);
+                window.location.hash = '#profile?id=' + p.Id;
+                window.location.reload();
             };
 
             $rootScope.showAlertBox = function(msg, type, dismiss) {
@@ -212,12 +216,26 @@ App.controller('JoinCtrl', ['$scope', '$http', '$sce', '$rootScope', '$q', funct
 
 App.controller('ProfileCtrl', ['$scope', '$http', '$sce', '$rootScope', '$q', function($scope, $http, $sce, $rootScope, $q) {
 
-        $scope.Dto = {
-            Name: "Alexandre",
-            SurName: "Vicenzi",
-            Email: "foo@bar.com",
-            PhotoUrl: "https://lh5.googleusercontent.com/--fK08SiAPcA/AAAAAAAAAAI/AAAAAAAAABU/7GiuAp4r3RA/s120-c/photo.jpg",
-        };
+        var id = parseInt(getQueryStringValue("id"));
+
+        if (id && !isNaN(id))
+        {
+            $scope.Dto = {
+                Name: "Dick",
+                SurName: "Piroquinha",
+                Email: "teste@teste.com",
+                PhotoUrl: "https://lh5.googleusercontent.com/--fK08SiAPcA/AAAAAAAAAAI/AAAAAAAAABU/7GiuAp4r3RA/s120-c/photo.jpg",
+            };  
+        }
+        else
+        {
+            $scope.Dto = {
+                Name: "Alexandre",
+                SurName: "Vicenzi",
+                Email: "foo@bar.com",
+                PhotoUrl: "https://lh5.googleusercontent.com/--fK08SiAPcA/AAAAAAAAAAI/AAAAAAAAABU/7GiuAp4r3RA/s120-c/photo.jpg",
+            };            
+        }
 
         $scope.Dto.FullName = $scope.Dto.Name + ' ' + $scope.Dto.SurName;
 
