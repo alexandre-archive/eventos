@@ -132,22 +132,64 @@
                                          title="{{Event.Title}}"
                                          ng-click="goToEvent(Event)"
                                          ng-src="{{fetchImage(Event.CoverUrl)}}"/>
-                                    <img class="profile-photo-cover border-fade" 
+                                    <img class="profile-photo-cover border-fade clickable" 
                                          alt="owner" 
                                          src=""
                                          title="{{Event.Owner.FullName}}"
                                          ng-click="goToProfile(Event.Owner)"
                                          ng-src="{{fetchImage(Event.Owner.PhotoUrl)}}"/>
-                                    <h3 class="event-single-title">{{Event.Title}}</h3>
+                                    <div class="form-group">
+                                        <div class="col-md-12">
+                                            <h3 class="event-single-title">{{Event.Title}}</h3>
+                                        </div>
+                                    </div>  
+                                    <div class="form-group">
+                                        <div class="col-md-5">
+                                            <span class="btn btn-default" ng-show="!Event.Like">
+                                                <i class="glyphicon glyphicon glyphicon-thumbs-up"></i> {{Event.Likes}}
+                                            </span>
+                                            <span class="btn btn-default" ng-show="Event.Like">
+                                                <i class="glyphicon glyphicon glyphicon-thumbs-down"></i> {{Event.Likes}}
+                                            </span>
+                                        </div>
+                                        <div class="col-md-2 pull-right">
+                                            <span class="btn btn-default" ng-disabled="Event.Shared">
+                                                <i class="glyphicon glyphicon glyphicon-share"></i> {{Event.Shared ? 'Compartilhado' : 'Compartilhar'}}
+                                            </span>
+                                        </div>
+                                    </div>
                                 </div>
-
                                 <div class="w100">
                                     <div class="w50 w50-rigth">
-                                        <div class="mini-box">
+                                        <div class="mini-box" style="padding-bottom: 15px">
                                             <div class="input-group">
                                                 <input class="form-control" placeholder="Compartilhe algo"/>
                                                 <div class="input-group-btn">
                                                     <button type="button" class="btn btn-default">OK</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="mini-box" ng-repeat="c in Event.Comments">
+                                            <div class="form-group">
+                                                <div class="col-md-1">
+                                                    <img class="profile-photo-comment border-fade clickable" 
+                                                         alt="owner" 
+                                                         src=""
+                                                         title="{{c.User.FullName}}"
+                                                         ng-click="goToProfile(c.User)"
+                                                         ng-src="{{fetchImage(c.User.PhotoUrl)}}"/>
+                                                </div>
+                                                <div class="col-md-10">
+                                                    <label>{{c.User.FullName}}</label><br />
+                                                    <span>{{c.Comment}}</span>
+                                                </div>
+                                                <div>
+                                                    <span class="btn btn-default btn-sm" ng-show="!c.Like">
+                                                        <i class="glyphicon glyphicon glyphicon-thumbs-up"></i>
+                                                    </span>
+                                                    <span class="btn btn-default btn-sm" ng-show="c.Like">
+                                                        <i class="glyphicon glyphicon glyphicon-thumbs-down"></i>
+                                                    </span>
                                                 </div>
                                             </div>
                                         </div>
@@ -157,6 +199,11 @@
                                             <div class="form-group">
                                                 <div class="col-md-12">
                                                     <strong>Detalhes</strong>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="col-md-12">
+                                                    <span>{{Event.Description}}</span>
                                                 </div>
                                             </div>
                                             <div class="form-group">
@@ -199,12 +246,22 @@
                                         <div class="mini-box">
                                             <div class="form-group">
                                                 <div class="col-md-12">
-                                                    <span><i class="glyphicon glyphicon-user"></i> {{Event.Guests}}</span>
+                                                    <span><i class="glyphicon glyphicon-user"></i> {{Event.TotalGuests}}</span>
                                                 </div>
                                             </div>
-                                            <div class="form-group">
-                                                <div class="col-md-12">
-                                                    <span>{{Event.TotalGuests}}</span>
+                                            <div class="form-group" ng-repeat="g in Event.Guests">
+                                                <div class="form-group">
+                                                    <div class="col-md-1">
+                                                        <img class="profile-photo-comment border-fade clickable" 
+                                                             alt="owner" 
+                                                             src=""
+                                                             title="{{g.User.FullName}}"
+                                                             ng-click="goToProfile(g.User)"
+                                                             ng-src="{{fetchImage(g.User.PhotoUrl)}}"/>
+                                                    </div>
+                                                    <div class="col-md-10">
+                                                        <label>{{g.User.FullName}}</label><span> {{g.Status| Status}}</span>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>

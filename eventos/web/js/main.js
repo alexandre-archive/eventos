@@ -118,6 +118,27 @@ var App = angular.module('App', [])
                 }
             };
         })
+        .filter('Status', function() {
+            return function(input) {
+                switch (input) {
+                    case 1:
+                        return "Vai";
+                        break;
+                    case 2:
+                        return "Não vai";
+                        break;
+                    case 3:
+                        return "Talvez irá";
+                        break;
+                    case 4:
+                        return "Não Sabe";
+                        break;
+                    default:
+                        return "";
+                        break;
+                }
+            };
+        })
         .run(function($rootScope, $http) {
             $http.defaults.headers.common['x-ng-request'] = true;
 
@@ -356,23 +377,58 @@ App.controller('FindEventsCtrl', ['$scope', '$http', '$sce', '$rootScope', '$q',
 
             if ($scope.SingleEvent) {
                 $scope.Event = {
-                        Owner: {
-                            FullName: "Dick Piroquinha",
-                            PhotoUrl: "img/covers/jpg/1.jpg",
-                            Login: "",
-                            Id: 1,
-                        },
+                    Owner: {
+                        FullName: "Dick Piroquinha",
+                        PhotoUrl: "img/covers/jpg/1.jpg",
+                        Login: "",
                         Id: 1,
-                        CoverUrl: "img/covers/jpg/5.jpg",
-                        Title: "Evento 1",
-                        Date: "seg, 14 de julho, 19:00",
-                        Location: "Blumenau",
-                        Detail: "",
-                        Guests: "João Silva, Marcelo Pinto, Kid Bengala e mais",
-                        TotalGuests: "151 pessoas vão",
-                        Answer: 0,
-                        Due: false,
-                    };
+                    },
+                    Id: 1,
+                    CoverUrl: "img/covers/jpg/5.jpg",
+                    Description: "Um texto bem grande para ocupar mais de uma linha no exmplo a ser motrado como foi feito.",
+                    Title: "Evento 1",
+                    Date: "seg, 14 de julho, 19:00",
+                    Location: "Blumenau",
+                    Detail: "",
+                    Guests: [
+                        {
+                            User: {FullName: "Dick Piroquinha",
+                                PhotoUrl: "img/covers/jpg/1.jpg",
+                                Login: "",
+                                Id: 1, },
+                            Status: 1,
+                        },
+                        {
+                            User: {FullName: "Dick Piroquinha",
+                                PhotoUrl: "img/covers/jpg/2.jpg",
+                                Login: "",
+                                Id: 1, },
+                            Status: 2,
+                        },
+                    ],
+                    TotalGuests: "151 pessoas vão",
+                    Answer: 0,
+                    Due: false,
+                    Like: false,
+                    Likes: 101,
+                    Shared: true,
+                    Comments: [{
+                            User: {FullName: "Dick Piroquinha",
+                                PhotoUrl: "img/covers/jpg/1.jpg",
+                                Login: "",
+                                Id: 1, },
+                            Comment: "Muito legal",
+                            Like: false,
+                        },
+                        {
+                            User: {FullName: "Dick Piroquinha",
+                                PhotoUrl: "img/covers/jpg/2.jpg",
+                                Login: "",
+                                Id: 1, },
+                            Comment: "Show!!",
+                            Like: true,
+                        }],
+                };
             } else {
 
                 $scope.AllEvents = [
