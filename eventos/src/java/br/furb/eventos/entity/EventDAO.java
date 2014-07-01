@@ -36,7 +36,9 @@ public class EventDAO {
         }
     }
     
-    public List<Event> getAllProfiles() {
+    
+    
+    public List<Event> getAllEvents() {
         EntityManager em = PersistenseUtil.getEntityManager();
         EntityTransaction et = em.getTransaction();
         List<Event> events = null;
