@@ -102,6 +102,16 @@ public class BaseWs {
     public Response modelError() {
         return Response.status(Response.Status.PRECONDITION_FAILED).entity(getModelErrors()).build();
     }
+    
+    public Response modelError(String error) {
+        return modelError(error, "");
+    }
+
+    public Response modelError(String error, String field) {
+        ArrayList<ModelError> errors = new ArrayList<ModelError>();
+        errors.add(new ModelError(error, "", null));
+        return Response.status(Response.Status.PRECONDITION_FAILED).entity(errors).build();
+    }
 
     public String slash(String s) {
         return s.endsWith("/") ? s : s + "/";
@@ -111,7 +121,7 @@ public class BaseWs {
         violations = validator.validate(o);
         return violations.isEmpty();
     }
-
+    
     public List<ModelError> getModelErrors() {
         ArrayList<ModelError> errors = new ArrayList<ModelError>();
         
