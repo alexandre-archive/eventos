@@ -42,12 +42,28 @@ public class UserDAO {
     }
 
     public User getById(long id) {
-        User u = null;
+        User u;
         
         EntityManager em = PersistenseUtil.getEntityManager();
         u = em.find(User.class, id);
         
         return u;
+    }
+    
+    public User getByLogin(String s) {
+        
+        EntityManager em = PersistenseUtil.getEntityManager();
+
+        List l = em.createNativeQuery("Select u.* from User u where u.login = '" + s + "';", User.class)
+                .setMaxResults(1)
+                .getResultList();
+        
+        if (l.isEmpty()) 
+        {
+            return null;
+        }
+        
+        return (User) l.get(0);
     }
     
     public void remove(User u) {

@@ -64,11 +64,11 @@ public class BaseWs {
         return Response.created(URI.create(url)).build();
     }
 
-    public Response notFound(Object o) {
+    public Response notFound() {
         return Response.status(Response.Status.NOT_FOUND).build();
     }
     
-    public Response badRequest(Object o) {
+    public Response badRequest() {
         return Response.status(Response.Status.BAD_REQUEST).build();
     }
 

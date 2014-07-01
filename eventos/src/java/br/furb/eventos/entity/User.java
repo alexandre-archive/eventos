@@ -19,6 +19,7 @@ public class User {
     private String lastname;
     private String login;
     private String pwd;
+    private String photoUrl;
     private Profile profile;
     
     //@OneToOne
@@ -34,89 +35,53 @@ public class User {
         this.login = login;
         this.pwd = pwd;
     }
-    
-    /**
-     * @return the name
-     */
+
     public String getName() {
         return name;
     }
 
-    /**
-     * @param name the name to set
-     */
     public void setName(String name) {
         this.name = name;
     }
 
-    /**
-     * @return the email
-     */
     public String getEmail() {
         return email;
     }
 
-    /**
-     * @param email the email to set
-     */
     public void setEmail(String email) {
         this.email = email;
     }
 
-    /**
-     * @return the lastname
-     */
     public String getLastname() {
         return lastname;
     }
 
-    /**
-     * @param lastname the lastname to set
-     */
     public void setLastname(String lastname) {
         this.lastname = lastname;
     }
 
-    /**
-     * @return the login
-     */
     public String getLogin() {
         return login;
     }
 
-    /**
-     * @param login the login to set
-     */
     public void setLogin(String login) {
         this.login = login;
     }
 
-    /**
-     * @return the pwd
-     */
     public String getPwd() {
         return pwd;
     }
 
-    /**
-     * @param pwd the pwd to set
-     */
     public void setPwd(String pwd) {
         this.pwd = pwd;
     }
 
-    /**
-     * @return the profile
-     */
     public Profile getProfile() {
         return null;
     }
 
-    /**
-     * @param profile the profile to set
-     */
     public void setProfile(Profile profile) {
-        //this.profile = profile;
+        this.profile = profile;
     }
 
     public long getId() {
@@ -125,5 +90,14 @@ public class User {
 
     public void setId(long id) {
         this.id = id;
+    }
+
+    public String getPhotoUrl() {
+        // Retorna uma imagem padrão caso não tenha.
+        return photoUrl != null ? photoUrl : "img/photo.jpg";
+    }
+
+    public void setPhotoUrl(String photoUrl) {
+        this.photoUrl = photoUrl;
     }
 }

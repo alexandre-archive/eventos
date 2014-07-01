@@ -276,11 +276,9 @@ App.controller('JoinCtrl', ['$scope', '$http', '$sce', '$rootScope', '$q', funct
                 surName: $scope.Dto.surName,
                 photoUrl: "",
                 login: $scope.Dto.login,
-                pwd: $scope.Dto.pwd,
+                pwd: $scope.Dto.pwd
             };
             
-            console.log(data);
-
             $http({
                 method: 'POST',
                 url: '/eventos/api/user',

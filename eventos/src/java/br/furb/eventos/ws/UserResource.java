@@ -21,6 +21,8 @@ import javax.ws.rs.core.Response;
 @Path("user")
 public class UserResource extends BaseWs {
 
+    private UserDAO dao = UserDAO.getInstance();
+    
     public UserResource() {
     }
 
@@ -29,10 +31,20 @@ public class UserResource extends BaseWs {
     @Path("{id:[0-9]+}")
     public Response getUser(@PathParam("id") long id) {
 
+        User usr = dao.getById(id);
+        
+        if (usr == null) 
+        {
+            return notFound();
+        }
+        
         UserDto u = new UserDto();
         u.setId(id);
-        u.setFullName("Dick Piroca1");
-        u.setLogin("go@foo.com");
+        u.setFullName(usr.getName() + " " + usr.getLastname());
+        u.setName(usr.getName());
+        u.setSurName(usr.getLastname());
+        u.setLogin(usr.getLogin());
+        u.setPhotoUrl(usr.getPhotoUrl());
 
         return ok(u);
     }
@@ -41,11 +53,21 @@ public class UserResource extends BaseWs {
     @Produces(JSON)
     @Path("{login}")
     public Response getUser(@PathParam("login") String login) throws IOException {
-        // VALIDAR USUARIO AQUI
+        
+        User usr = dao.getByLogin(login);
+        
+        if (usr == null) 
+        {
+            return notFound();
+        }
+        
         UserDto u = new UserDto();
-        u.setId(2);
-        u.setFullName("Dick Piroca2");
-        u.setLogin(login);
+        u.setId(usr.getId());
+        u.setFullName(usr.getName() + " " + usr.getLastname());
+        u.setName(usr.getName());
+        u.setSurName(usr.getLastname());
+        u.setLogin(usr.getLogin());
+        u.setPhotoUrl(usr.getPhotoUrl());
 
         return ok(u);
     }
@@ -64,7 +86,6 @@ public class UserResource extends BaseWs {
         u.setLastname(c.getSurName());
         u.setPwd(c.getPwd());
         
-        UserDAO dao = UserDAO.getInstance();
         dao.save(u);
         
         return created(u.getId());
