@@ -43,7 +43,7 @@ public class UserResource extends BaseWs {
 
         User u = new User();
         u.setId(id);
-        u.setFullName("Dick Piroca");
+        u.setFullName("Dick Piroca1");
         u.setLogin("go@foo.com");
 
         return ok(u);
@@ -53,10 +53,10 @@ public class UserResource extends BaseWs {
     @Produces(JSON)
     @Path("{login}")
     public Response getUser(@PathParam("login") String login) throws IOException {
-
+        // VALIDAR USUARIO AQUI
         User u = new User();
         u.setId(2);
-        u.setFullName("Dick Piroca");
+        u.setFullName("Dick Piroca2");
         u.setLogin(login);
 
         return ok(u);
