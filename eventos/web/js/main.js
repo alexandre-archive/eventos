@@ -232,6 +232,7 @@ App.controller('LoginCtrl', ['$scope', '$http', '$sce', '$rootScope', '$q', func
                     setLoginInfo(data.id, data.login, data.fullName, data.photoUrl, true);
                     window.location.assign("/eventos");
                 }).error(function(data, status, headers, config) {
+                    console.log(data);
                     setLoginInfo();
                     $scope.invalidLogin = true;
                 });
@@ -264,7 +265,7 @@ App.controller('JoinCtrl', ['$scope', '$http', '$sce', '$rootScope', '$q', funct
         $scope.joinSubmit = function() {
 
             if ($scope.Dto.pwd !== $scope.Dto.pwdConfirmation) {
-                alert('Senhas diferentes.');
+                $rootScope.showAlertBox("As senhas não conferem.", "e", false);
                 return;
             }
 
@@ -288,8 +289,7 @@ App.controller('JoinCtrl', ['$scope', '$http', '$sce', '$rootScope', '$q', funct
                 $scope.reset();
                 window.location.assign('/eventos/signin.html');
             }).error(function(data, status, headers, config) {
-                console.log(data);
-                alert("Erro ao processar request. Código: " + status);
+                $rootScope.showAlertBox(data[0].message, "e", false);
             });
         };
 

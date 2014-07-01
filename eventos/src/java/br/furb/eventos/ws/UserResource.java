@@ -78,7 +78,7 @@ public class UserResource extends BaseWs {
         if (!modelIsValid(c)) {
             return modelError();
         }
-
+        
         User u = new User();
 
         u.setName(c.getName());
@@ -88,6 +88,10 @@ public class UserResource extends BaseWs {
         u.setLastname(c.getSurName());
         u.setPwd(c.getPwd());
 
+        if (dao.verify(u, "login")) {
+            return modelError("Email já cadastrado.");
+        }
+        
         dao.save(u);
 
         return created(u.getId());
