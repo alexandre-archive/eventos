@@ -1,6 +1,6 @@
 package br.furb.eventos.ws;
 
-import br.furb.eventos.dto.User;
+import br.furb.eventos.dto.UserDto;
 import java.io.IOException;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Consumes;
@@ -26,9 +26,9 @@ public class UserResource extends BaseWs {
      @GET
      @Produces("application/json")
      @Path("{id:[0-9]+}")
-     public User getJson(@PathParam("id") long id) {
+     public UserDto getJson(@PathParam("id") long id) {
 
-     User u = new User();
+     UserDto u = new UserDto();
      u.setId(id);
      u.setFullName("Dick Piroca");
      u.setLogin("go@foo.com");
@@ -41,7 +41,7 @@ public class UserResource extends BaseWs {
     @Path("{id:[0-9]+}")
     public Response getUser(@PathParam("id") long id) {
 
-        User u = new User();
+        UserDto u = new UserDto();
         u.setId(id);
         u.setFullName("Dick Piroca1");
         u.setLogin("go@foo.com");
@@ -54,7 +54,7 @@ public class UserResource extends BaseWs {
     @Path("{login}")
     public Response getUser(@PathParam("login") String login) throws IOException {
         // VALIDAR USUARIO AQUI
-        User u = new User();
+        UserDto u = new UserDto();
         u.setId(2);
         u.setFullName("Dick Piroca2");
         u.setLogin(login);
@@ -67,13 +67,13 @@ public class UserResource extends BaseWs {
      @Produces(JSON)
      @Consumes(JSON)
      public Response addUser(String content) {
-     User u = (User) fromJson(content, User.class);
+     UserDto u = (UserDto) fromJson(content, UserDto.class);
      return created(u.getId());
      }*/
     @POST
     @Produces(JSON)
     @Consumes(JSON)
-    public Response addUser(User content) {
+    public Response addUser(UserDto content) {
         return created(content.getId());
     }
 
@@ -83,14 +83,14 @@ public class UserResource extends BaseWs {
      @Consumes(JSON)
      @Path("{id:[0-9]+}")
      public Response editUser(@PathParam("id") long id, String content) {
-     User u = (User) fromJson(content, User.class);
+     UserDto u = (UserDto) fromJson(content, UserDto.class);
      return noContent();
      }*/
     @PUT
     @Produces(JSON)
     @Consumes(JSON)
     @Path("{id:[0-9]+}")
-    public Response editUser(@PathParam("id") long id, User content) {
+    public Response editUser(@PathParam("id") long id, UserDto content) {
         return noContent();
     }
 }
