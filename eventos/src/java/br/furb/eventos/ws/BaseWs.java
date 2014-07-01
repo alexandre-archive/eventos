@@ -2,6 +2,7 @@ package br.furb.eventos.ws;
 
 import java.io.IOException;
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -29,7 +30,7 @@ public class BaseWs {
 
     protected Validator validator;
     protected List<ConstraintViolation> violations;
-    
+
     public BaseWs() {
         validator = new Validator();
         violations = null;
@@ -82,13 +83,25 @@ public class BaseWs {
     public Response notFound() {
         return Response.status(Response.Status.NOT_FOUND).build();
     }
+    
+    public Response notFound(String msg) {
+        return Response.status(Response.Status.NOT_FOUND).entity(msg).build();
+    }
 
     public Response badRequest() {
         return Response.status(Response.Status.BAD_REQUEST).build();
     }
+    
+    public Response badRequest(String msg) {
+        return Response.status(Response.Status.BAD_REQUEST).entity(msg).build();
+    }
 
     public Response noContent() {
         return Response.status(Response.Status.NO_CONTENT).build();
+    }
+
+    public Response modelError() {
+        return Response.status(Response.Status.PRECONDITION_FAILED).entity(getModelErrors()).build();
     }
 
     public String slash(String s) {
@@ -99,8 +112,14 @@ public class BaseWs {
         violations = validator.validate(o);
         return violations.size() > 0;
     }
-    
-    public List<ConstraintViolation> getModelErrors() {
-        return violations;
+
+    public List<ModelError> getModelErrors() {
+        ArrayList<ModelError> errors = new ArrayList<ModelError>();
+        
+        for (ConstraintViolation e : violations) {
+            errors.add(new ModelError(e.getMessage(), e.getCheckName(), e.getInvalidValue()));
+        }
+        
+        return errors;
     }
 }
