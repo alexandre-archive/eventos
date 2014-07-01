@@ -1,25 +1,38 @@
 package br.furb.eventos.dto;
 
+import net.sf.oval.constraint.Email;
+import net.sf.oval.constraint.MinLength;
+import net.sf.oval.constraint.NotEmpty;
+import net.sf.oval.constraint.NotNull;
+
 /**
  * @author Alexandre
  */
-public class UserDto {
+public class UserDto extends BaseDto {
     
-    private long id;
     private String fullName;
+    
+    @NotNull(message="Campo Nome não pode ser vazio.")
+    @NotEmpty(message="Campo Nome não pode ser vazio.")
+    @MinLength(3)
     private String name;
+    
+    @NotNull(message="Campo Sobrenome não pode ser vazio.")
+    @NotEmpty(message="Campo Sobrenome não pode ser vazio.")
+    @MinLength(3)
     private String surName;
+    
     private String photoUrl;
+
+    @NotNull(message="Campo Email não pode ser vazio.")
+    @NotEmpty(message="Campo Email não pode ser vazio.")
+    @Email(message="Campo Email inválido.")
     private String login;
+   
+    // TODO: fazer um regex pra validar força da senha.
+    @NotNull(message="Campo Senha não pode ser vazio.")
+    @NotEmpty(message="Campo Senha não pode ser vazio.")
     private String pwd;
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
 
     public String getFullName() {
         return fullName;

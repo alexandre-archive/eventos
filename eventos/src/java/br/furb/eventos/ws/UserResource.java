@@ -21,8 +21,8 @@ import javax.ws.rs.core.Response;
 @Path("user")
 public class UserResource extends BaseWs {
 
-    private UserDAO dao = UserDAO.getInstance();
-    
+    private final UserDAO dao = UserDAO.getInstance();
+
     public UserResource() {
     }
 
@@ -32,12 +32,11 @@ public class UserResource extends BaseWs {
     public Response getUser(@PathParam("id") long id) {
 
         User usr = dao.getById(id);
-        
-        if (usr == null) 
-        {
+
+        if (usr == null) {
             return notFound();
         }
-        
+
         UserDto u = new UserDto();
         u.setId(id);
         u.setFullName(usr.getName() + " " + usr.getLastname());
@@ -53,14 +52,13 @@ public class UserResource extends BaseWs {
     @Produces(JSON)
     @Path("{login}")
     public Response getUser(@PathParam("login") String login) throws IOException {
-        
+
         User usr = dao.getByLogin(login);
-        
-        if (usr == null) 
-        {
+
+        if (usr == null) {
             return notFound();
         }
-        
+
         UserDto u = new UserDto();
         u.setId(usr.getId());
         u.setFullName(usr.getName() + " " + usr.getLastname());
@@ -76,18 +74,22 @@ public class UserResource extends BaseWs {
     @Produces(JSON)
     @Consumes(JSON)
     public Response addUser(UserDto c) {
-        
+
+        if (!modelIsValid(c)) {
+            return modelError();
+        }
+
         User u = new User();
-        
+
         u.setName(c.getName());
         u.setLogin(c.getLogin());
         u.setEmail(c.getLogin());
         u.setName(c.getName());
         u.setLastname(c.getSurName());
         u.setPwd(c.getPwd());
-        
+
         dao.save(u);
-        
+
         return created(u.getId());
     }
 
@@ -95,7 +97,12 @@ public class UserResource extends BaseWs {
     @Produces(JSON)
     @Consumes(JSON)
     @Path("{id:[0-9]+}")
-    public Response editUser(@PathParam("id") long id, UserDto content) {
+    public Response editUser(@PathParam("id") long id, UserDto c) {
+        
+        if (!modelIsValid(c)) {
+            return modelError();
+        }
+        
         return noContent();
     }
 }

@@ -1,4 +1,3 @@
-
 package br.furb.eventos.entity;
 
 import java.util.List;
@@ -7,11 +6,10 @@ import javax.persistence.EntityTransaction;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
-import javax.persistence.criteria.CriteriaBuilder;
 
 public class UserDAO {
     
-    private static UserDAO instance = new UserDAO();
+    private static final UserDAO instance = new UserDAO();
     
     public static UserDAO getInstance() {
         return instance;

@@ -23,11 +23,10 @@ import org.codehaus.jackson.map.ObjectWriter;
  */
 public class BaseWs {
 
-    @Context
-    private UriInfo context;
-
     public static final String JSON = MediaType.APPLICATION_JSON;
-
+    
+    @Context
+    protected UriInfo context;
     protected Validator validator;
     protected List<ConstraintViolation> violations;
 
@@ -108,16 +107,16 @@ public class BaseWs {
         return s.endsWith("/") ? s : s + "/";
     }
 
-    public boolean isValid(Object o) {
+    public boolean modelIsValid(Object o) {
         violations = validator.validate(o);
-        return violations.size() > 0;
+        return violations.isEmpty();
     }
 
     public List<ModelError> getModelErrors() {
         ArrayList<ModelError> errors = new ArrayList<ModelError>();
         
         for (ConstraintViolation e : violations) {
-            errors.add(new ModelError(e.getMessage(), e.getCheckName(), e.getInvalidValue()));
+            errors.add(new ModelError(e.getMessage(), e.getCheckDeclaringContext().toString(), e.getInvalidValue()));
         }
         
         return errors;
