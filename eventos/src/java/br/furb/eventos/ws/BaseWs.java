@@ -67,6 +67,10 @@ public class BaseWs {
     public Response notFound(Object o) {
         return Response.status(Response.Status.NOT_FOUND).build();
     }
+    
+    public Response badRequest(Object o) {
+        return Response.status(Response.Status.BAD_REQUEST).build();
+    }
 
     public Response noContent() {
         return Response.status(Response.Status.NO_CONTENT).build();
