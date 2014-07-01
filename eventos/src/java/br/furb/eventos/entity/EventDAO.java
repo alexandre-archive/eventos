@@ -36,7 +36,15 @@ public class EventDAO {
         }
     }
     
-    
+    public Event getById(long id) {
+        Event e = null;
+        
+        EntityManager em = PersistenseUtil.getEntityManager();
+        e = em.find(Event.class, id);
+        PersistenseUtil.close(em);
+        
+        return e;
+    }
     
     public List<Event> getAllEvents() {
         EntityManager em = PersistenseUtil.getEntityManager();

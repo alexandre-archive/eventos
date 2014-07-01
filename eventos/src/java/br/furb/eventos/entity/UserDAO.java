@@ -46,6 +46,7 @@ public class UserDAO {
         
         EntityManager em = PersistenseUtil.getEntityManager();
         u = em.find(User.class, id);
+        PersistenseUtil.close(em);
         
         return u;
     }
@@ -78,19 +79,23 @@ public class UserDAO {
         PersistenseUtil.close(em);
     }
     
-    public boolean verify (User u) {
+    public boolean verify (User u, String toVerify) {
         
         if (u == null)
             return false;
         
         EntityManager em = PersistenseUtil.getEntityManager();
         
-        //Query q = em.createQuery("select u from User u where u.name = :name AND u.email = :email AND u.lastname = :lastname");
-        Query q = em.createQuery("select u from User u where u.name = :name AND u.email = :email");
-        q.setParameter("name", u.getName());
-        q.setParameter("email", u.getEmail());
-        //q.setParameter("lastname", u.getLastname());
+        Query q = null;
         
+        if (toVerify == "login") {
+            q = em.createQuery("select u from User u where u.login = :login");
+            q.setParameter("login", u.getLogin());
+        } else if (toVerify == "email") {
+            q = em.createQuery("select u from User u where u.email = :email");
+            q.setParameter("email", u.getEmail());
+        }
+                
         try {
             User user = (User) q.getSingleResult();
         } catch (NoResultException e) {
