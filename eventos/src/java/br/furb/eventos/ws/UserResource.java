@@ -27,7 +27,7 @@ public class UserResource extends BaseWs {
     }
 
     @GET
-    @Produces("application/json")
+    @Produces(JSON)
     @Path("{id:[0-9]+}")
     public Response getUser(@PathParam("id") long id) {
 
@@ -93,6 +93,24 @@ public class UserResource extends BaseWs {
         return created(u.getId());
     }
 
+    @PUT
+    @Produces(JSON)
+    @Consumes(JSON)
+    @Path("{id:[0-9]+}/photo")
+    public Response updatePhoto(@PathParam("id") long id, String url) {
+        
+        User usr = dao.getById(id);
+
+        if (usr == null) {
+            return notFound();
+        }
+        
+        usr.setPhotoUrl(url);
+        dao.save(usr);
+        
+        return noContent();
+    }
+    
     @PUT
     @Produces(JSON)
     @Consumes(JSON)

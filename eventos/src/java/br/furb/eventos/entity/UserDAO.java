@@ -24,7 +24,7 @@ public class UserDAO {
         EntityTransaction et = em.getTransaction();
         try {
             et.begin();
-            if (user.getId() != 0)
+            if (user.getId() == 0)
                 em.persist(user);
             else
                 em.merge(user);
