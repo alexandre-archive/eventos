@@ -198,11 +198,11 @@ var App = angular.module('App', [])
             };
 
             $rootScope.goToProfile = function(p) {
-                window.location.hash = '#profile?id=' + p.Id;
+                window.location.hash = '#user?id=' + p.Id;
             };
 
             $rootScope.goToEvent = function(e) {
-                window.location.hash = '#find?id=' + e.Id;
+                window.location.hash = '#event?id=' + e.Id;
             };
 
             $rootScope.showAlert = false;
@@ -266,29 +266,32 @@ App.controller('JoinCtrl', ['$scope', '$http', '$sce', '$rootScope', '$q', funct
 
 App.controller('ProfileCtrl', ['$scope', '$http', '$sce', '$rootScope', '$q', function($scope, $http, $sce, $rootScope, $q) {
 
-        var id = parseInt(getQueryStringValue("id"));
+        $scope.reload = function() {
 
-        if (id && !isNaN(id))
-        {
-            $scope.Dto = {
-                Name: "Dick",
-                SurName: "Piroquinha",
-                Email: "teste@teste.com",
-                PhotoUrl: "https://lh5.googleusercontent.com/--fK08SiAPcA/AAAAAAAAAAI/AAAAAAAAABU/7GiuAp4r3RA/s120-c/photo.jpg",
-            };
-        }
-        else
-        {
-            $scope.Dto = {
-                Name: "Alexandre",
-                SurName: "Vicenzi",
-                Email: "foo@bar.com",
-                PhotoUrl: "https://lh5.googleusercontent.com/--fK08SiAPcA/AAAAAAAAAAI/AAAAAAAAABU/7GiuAp4r3RA/s120-c/photo.jpg",
-            };
-        }
+            var id = parseInt(getQueryStringValue("id"));
 
-        $scope.Dto.FullName = $scope.Dto.Name + ' ' + $scope.Dto.SurName;
+            if (id && !isNaN(id))
+            {
+                $scope.Dto = {
+                    Name: "Dick",
+                    SurName: "Piroquinha",
+                    Email: "teste@teste.com",
+                    PhotoUrl: "https://lh5.googleusercontent.com/--fK08SiAPcA/AAAAAAAAAAI/AAAAAAAAABU/7GiuAp4r3RA/s120-c/photo.jpg",
+                };
+            }
+            else
+            {
+                $scope.Dto = {
+                    Name: "Alexandre",
+                    SurName: "Vicenzi",
+                    Email: "foo@bar.com",
+                    PhotoUrl: "https://lh5.googleusercontent.com/--fK08SiAPcA/AAAAAAAAAAI/AAAAAAAAABU/7GiuAp4r3RA/s120-c/photo.jpg",
+                };
+            }
 
+            $scope.Dto.FullName = $scope.Dto.Name + ' ' + $scope.Dto.SurName;
+        };
+        
         $scope.joinSubmit = function() {
             window.location.assign('/eventos');
         };
@@ -298,6 +301,11 @@ App.controller('ProfileCtrl', ['$scope', '$http', '$sce', '$rootScope', '$q', fu
             fetchImage(src);
             return src;
         };
+
+        $('a[href="#profile"]').on('show.bs.tab', function(e) {
+            $scope.reload();
+            $scope.$digest();
+        });
     }]);
 
 App.controller('MyEventsCtrl', ['$scope', '$http', '$sce', '$rootScope', '$q', function($scope, $http, $sce, $rootScope, $q) {
@@ -390,22 +398,6 @@ App.controller('FindEventsCtrl', ['$scope', '$http', '$sce', '$rootScope', '$q',
                     Date: "seg, 14 de julho, 19:00",
                     Location: "Blumenau",
                     Detail: "",
-                    Guests: [
-                        {
-                            User: {FullName: "Dick Piroquinha",
-                                PhotoUrl: "img/covers/jpg/1.jpg",
-                                Login: "",
-                                Id: 1, },
-                            Status: 1,
-                        },
-                        {
-                            User: {FullName: "Dick Piroquinha",
-                                PhotoUrl: "img/covers/jpg/2.jpg",
-                                Login: "",
-                                Id: 1, },
-                            Status: 2,
-                        },
-                    ],
                     TotalGuests: "151 pessoas vão",
                     Answer: 0,
                     Due: false,
@@ -419,6 +411,7 @@ App.controller('FindEventsCtrl', ['$scope', '$http', '$sce', '$rootScope', '$q',
                                 Id: 1, },
                             Comment: "Muito legal",
                             Like: false,
+                            Likes: "1 curtida",
                         },
                         {
                             User: {FullName: "Dick Piroquinha",
@@ -427,6 +420,7 @@ App.controller('FindEventsCtrl', ['$scope', '$http', '$sce', '$rootScope', '$q',
                                 Id: 1, },
                             Comment: "Show!!",
                             Like: true,
+                            Likes: "10 curtidas",
                         }],
                 };
             } else {
@@ -507,7 +501,7 @@ App.controller('FindEventsCtrl', ['$scope', '$http', '$sce', '$rootScope', '$q',
             console.log(data);
         };
 
-        $('a[href="#find"]').on('show.bs.tab', function(e) {
+        $('a[href="#find"], a[href="#event"]').on('show.bs.tab', function(e) {
             $scope.reload();
             $scope.$digest(); // ou $scope.$apply(function() { $()... });
         });

@@ -40,16 +40,18 @@
                 </div>
                 <div class="navbar-collapse collapse" id="tabMenu">
                     <ul class="nav navbar-nav" role="tablist">
-                        <li><a href="#home" role="tab" data-toggle="tab_">Home</a></li>
-                        <li><a href="#myevents" role="tab" data-toggle="tab_">Seus eventos</a></li>
-                        <li><a href="#find" role="tab" data-toggle="tab_">Encontre mais eventos</a></li>
-                        <li><a href="#new" role="tab" data-toggle="tab_">Criar evento</a></li>
-                        <li><a href="#profile" role="tab" data-toggle="tab_">Perfil</a></li>
+                        <li><a href="#home" role="tab" data-toggle="tab">Home</a></li>
+                        <li><a href="#myevents" role="tab" data-toggle="tab">Seus eventos</a></li>
+                        <li><a href="#find" role="tab" data-toggle="tab">Encontre mais eventos</a></li>
+                        <li ng-show="false"><a href="#event" role="tab" data-toggle="tab">Evento</a></li>
+                        <li><a href="#new" role="tab" data-toggle="tab">Criar evento</a></li>
+                        <li><a href="#profile" role="tab" data-toggle="tab">Perfil</a></li>
+                        <li ng-show="false"><a href="#user" role="tab" data-toggle="tab">Usuário</a></li>
                         <li class="divider-vertical"></li>
-                        <li><a href="javascript:void(0);" ng-click="doLogout();" role="tab" data-toggle="tab_">Sair</a></li>
+                        <li><a href="javascript:void(0);" ng-click="doLogout();" role="tab" data-toggle="tab">Sair</a></li>
                         <li class="divider-vertical"></li>
-                        <li><a href="#about" role="tab" data-toggle="tab_">Sobre</a></li>
-                        <li><a href="#contact" role="tab" data-toggle="tab_">Contato</a></li>
+                        <li><a href="#about" role="tab" data-toggle="tab">Sobre</a></li>
+                        <li><a href="#contact" role="tab" data-toggle="tab">Contato</a></li>
                     </ul>
                 </div><!--/.nav-collapse -->
             </div>
@@ -73,13 +75,13 @@
                         <div ng-show="UserEvents.length > 0">
                             <div class="form-horizontal">
                                 <div class="event-box border-fade" ng-repeat="e in UserEvents">
-                                    <img class="cover-event" 
+                                    <img class="cover-event clickable" 
                                          alt="cover" 
                                          src="" 
                                          title="{{e.Title}}"
                                          ng-click="goToEvent(e)"
                                          ng-src="{{fetchImage(e.CoverUrl)}}"/>
-                                    <img class="profile-photo-cover border-fade" 
+                                    <img class="profile-photo-cover border-fade clickable" 
                                          alt="owner" 
                                          src=""
                                          title="{{e.Owner.FullName}}"
@@ -122,215 +124,204 @@
                             <div class="alert alert-info" role="alert">Você ainda não possui eventos.</div>
                         </div>
                     </div>
-                    <div class="tab-pane" id="find" ng-controller="FindEventsCtrl">
-                        <div ng-show="SingleEvent">
-                            <div class="form-horizontal">
-                                <div class="event-box-single">
-                                    <img class="cover-event" 
-                                         alt="cover" 
-                                         src="" 
-                                         title="{{Event.Title}}"
-                                         ng-click="goToEvent(Event)"
-                                         ng-src="{{fetchImage(Event.CoverUrl)}}"/>
-                                    <img class="profile-photo-cover border-fade clickable" 
-                                         alt="owner" 
-                                         src=""
-                                         title="{{Event.Owner.FullName}}"
-                                         ng-click="goToProfile(Event.Owner)"
-                                         ng-src="{{fetchImage(Event.Owner.PhotoUrl)}}"/>
-                                    <div class="form-group">
-                                        <div class="col-md-12">
-                                            <h3 class="event-single-title">{{Event.Title}}</h3>
+                    <div class="tab-pane" id="event" ng-controller="FindEventsCtrl">
+                        <div class="form-horizontal">
+                            <div class="event-box-single">
+                                <img class="cover-event" 
+                                     alt="cover" 
+                                     src="" 
+                                     title="{{Event.Title}}"
+                                     ng-click="goToEvent(Event)"
+                                     ng-src="{{fetchImage(Event.CoverUrl)}}"/>
+                                <img class="profile-photo-cover border-fade clickable" 
+                                     alt="owner" 
+                                     src=""
+                                     title="{{Event.Owner.FullName}}"
+                                     ng-click="goToProfile(Event.Owner)"
+                                     ng-src="{{fetchImage(Event.Owner.PhotoUrl)}}"/>
+                                <div class="form-group">
+                                    <div class="col-md-12">
+                                        <h3 class="event-single-title">{{Event.Title}}</h3>
+                                    </div>
+                                </div>  
+                                <div class="form-group">
+                                    <div class="col-md-2">
+                                        <span class="btn btn-default" ng-disabled="Event.Shared">
+                                            <i class="glyphicon glyphicon glyphicon-share"></i> {{Event.Shared ? 'Compartilhado' : 'Compartilhar'}}
+                                        </span>
+                                    </div>
+                                    <div class="col-md-5">
+                                        <span class="btn btn-default" ng-show="!Event.Like">
+                                            <i class="glyphicon glyphicon glyphicon-thumbs-up"></i> {{Event.Likes}}
+                                        </span>
+                                        <span class="btn btn-default" ng-show="Event.Like">
+                                            <i class="glyphicon glyphicon glyphicon-thumbs-down"></i> {{Event.Likes}}
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="w100">
+                                <div class="w50 w50-rigth">
+                                    <div class="mini-box" style="padding-bottom: 15px">
+                                        <div class="input-group">
+                                            <input class="form-control" placeholder="Compartilhe algo"/>
+                                            <div class="input-group-btn">
+                                                <button type="button" class="btn btn-default">OK</button>
+                                            </div>
                                         </div>
-                                    </div>  
-                                    <div class="form-group">
-                                        <div class="col-md-5">
-                                            <span class="btn btn-default" ng-show="!Event.Like">
-                                                <i class="glyphicon glyphicon glyphicon-thumbs-up"></i> {{Event.Likes}}
-                                            </span>
-                                            <span class="btn btn-default" ng-show="Event.Like">
-                                                <i class="glyphicon glyphicon glyphicon-thumbs-down"></i> {{Event.Likes}}
-                                            </span>
+                                    </div>
+                                    <div class="mini-box" ng-repeat="c in Event.Comments">
+                                        <div class="form-group">
+                                            <div class="col-md-1">
+                                                <img class="profile-photo-comment border-fade clickable" 
+                                                     alt="owner" 
+                                                     src=""
+                                                     title="{{c.User.FullName}}"
+                                                     ng-click="goToProfile(c.User)"
+                                                     ng-src="{{fetchImage(c.User.PhotoUrl)}}"/>
+                                            </div>
+                                            <div class="col-md-10">
+                                                <label>{{c.User.FullName}}</label><br />
+                                                <span>{{c.Comment}}</span>
+                                            </div>
                                         </div>
-                                        <div class="col-md-2 pull-right">
-                                            <span class="btn btn-default" ng-disabled="Event.Shared">
-                                                <i class="glyphicon glyphicon glyphicon-share"></i> {{Event.Shared ? 'Compartilhado' : 'Compartilhar'}}
-                                            </span>
+                                        <div class="form-group">
+                                            <div class="col-md-1">
+                                                <span class="btn btn-default btn-xs" title="Curtir" ng-show="!c.Like">
+                                                    <i class="glyphicon glyphicon glyphicon-thumbs-up"></i>
+                                                </span>
+                                                <span class="btn btn-default btn-xs" title="Descurtir" ng-show="c.Like">
+                                                    <i class="glyphicon glyphicon glyphicon-thumbs-down"></i>
+                                                </span>
+                                            </div>
+                                            <div class="col-md-10">
+                                                <small>{{c.Likes}}</small>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="w100">
-                                    <div class="w50 w50-rigth">
-                                        <div class="mini-box" style="padding-bottom: 15px">
-                                            <div class="input-group">
-                                                <input class="form-control" placeholder="Compartilhe algo"/>
-                                                <div class="input-group-btn">
-                                                    <button type="button" class="btn btn-default">OK</button>
-                                                </div>
+                                <div class="w50 w50-left">
+                                    <div class="mini-box">
+                                        <div class="form-group">
+                                            <div class="col-md-12">
+                                                <strong>Detalhes</strong>
                                             </div>
                                         </div>
-                                        <div class="mini-box" ng-repeat="c in Event.Comments">
-                                            <div class="form-group">
-                                                <div class="col-md-1">
-                                                    <img class="profile-photo-comment border-fade clickable" 
-                                                         alt="owner" 
-                                                         src=""
-                                                         title="{{c.User.FullName}}"
-                                                         ng-click="goToProfile(c.User)"
-                                                         ng-src="{{fetchImage(c.User.PhotoUrl)}}"/>
+                                        <div class="form-group">
+                                            <div class="col-md-12">
+                                                <span>{{Event.Description}}</span>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="col-md-12">
+                                                <span><i class="glyphicon glyphicon-map-marker"></i> {{Event.Location}}</span>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="col-md-12">
+                                                <span><i class="glyphicon glyphicon-time"></i> {{Event.Date}}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="mini-box">
+                                        <div class="form-group">
+                                            <div class="col-md-12">
+                                                <label>{{Event.Due ? 'Você foi?' : 'Você vai?'}}</label>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="col-md-12">
+                                                <div class="col-md-3">
+                                                    <button type="button" 
+                                                            class="btn btn-primary btn2" 
+                                                            ng-click="updateEventStatus(Event, 1)">Sim</button>
                                                 </div>
-                                                <div class="col-md-10">
-                                                    <label>{{c.User.FullName}}</label><br />
-                                                    <span>{{c.Comment}}</span>
+                                                <div class="col-md-3" ng-show="!e.Due">
+                                                    <button type="button" 
+                                                            class="btn btn-primary btn2" 
+                                                            ng-click="updateEventStatus(Event, 3)">Talvez</button>
                                                 </div>
-                                                <div>
-                                                    <span class="btn btn-default btn-sm" ng-show="!c.Like">
-                                                        <i class="glyphicon glyphicon glyphicon-thumbs-up"></i>
-                                                    </span>
-                                                    <span class="btn btn-default btn-sm" ng-show="c.Like">
-                                                        <i class="glyphicon glyphicon glyphicon-thumbs-down"></i>
-                                                    </span>
+                                                <div class="col-md-3">
+                                                    <button type="button" 
+                                                            class="btn btn-primary btn2" 
+                                                            ng-click="updateEventStatus(Event, 2)">Não</button>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="w50 w50-left">
-                                        <div class="mini-box">
-                                            <div class="form-group">
-                                                <div class="col-md-12">
-                                                    <strong>Detalhes</strong>
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <div class="col-md-12">
-                                                    <span>{{Event.Description}}</span>
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <div class="col-md-12">
-                                                    <span><i class="glyphicon glyphicon-map-marker"></i> {{Event.Location}}</span>
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <div class="col-md-12">
-                                                    <span><i class="glyphicon glyphicon-time"></i> {{Event.Date}}</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="mini-box">
-                                            <div class="form-group">
-                                                <div class="col-md-12">
-                                                    <label>{{Event.Due ? 'Você foi?' : 'Você vai?'}}</label>
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <div class="col-md-12">
-                                                    <div class="col-md-3">
-                                                        <button type="button" 
-                                                                class="btn btn-primary btn2" 
-                                                                ng-click="updateEventStatus(Event, 1)">Sim</button>
-                                                    </div>
-                                                    <div class="col-md-3" ng-show="!e.Due">
-                                                        <button type="button" 
-                                                                class="btn btn-primary btn2" 
-                                                                ng-click="updateEventStatus(Event, 3)">Talvez</button>
-                                                    </div>
-                                                    <div class="col-md-3">
-                                                        <button type="button" 
-                                                                class="btn btn-primary btn2" 
-                                                                ng-click="updateEventStatus(Event, 2)">Não</button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="mini-box">
-                                            <div class="form-group">
-                                                <div class="col-md-12">
-                                                    <span><i class="glyphicon glyphicon-user"></i> {{Event.TotalGuests}}</span>
-                                                </div>
-                                            </div>
-                                            <div class="form-group" ng-repeat="g in Event.Guests">
-                                                <div class="form-group">
-                                                    <div class="col-md-1">
-                                                        <img class="profile-photo-comment border-fade clickable" 
-                                                             alt="owner" 
-                                                             src=""
-                                                             title="{{g.User.FullName}}"
-                                                             ng-click="goToProfile(g.User)"
-                                                             ng-src="{{fetchImage(g.User.PhotoUrl)}}"/>
-                                                    </div>
-                                                    <div class="col-md-10">
-                                                        <label>{{g.User.FullName}}</label><span> {{g.Status| Status}}</span>
-                                                    </div>
-                                                </div>
+                                    <div class="mini-box">
+                                        <div class="form-group">
+                                            <div class="col-md-12">
+                                                <span><i class="glyphicon glyphicon-user"></i> {{Event.TotalGuests}}</span>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div ng-show="!SingleEvent">
-                            <div ng-show="AllEvents.length > 0">
-                                <div class="form-horizontal">
-                                    <div class="event-box border-fade" ng-repeat="e in AllEvents| filter:{Answer:0}">
-                                        <img class="cover-event" 
-                                             alt="cover" 
-                                             src="" 
-                                             title="{{e.Title}}"
-                                             ng-click="goToEvent(e)"
-                                             ng-src="{{fetchImage(e.CoverUrl)}}"/>
-                                        <img class="profile-photo-cover border-fade" 
-                                             alt="owner" 
-                                             src=""
-                                             title="{{e.Owner.FullName}}"
-                                             ng-click="goToProfile(e.Owner)"
-                                             ng-src="{{fetchImage(e.Owner.PhotoUrl)}}"/>
-                                        <div class="form-group line">
-                                            <div class="col-md-12">
-                                                <label>{{e.Title}}</label>
+                    </div>
+                    <div class="tab-pane" id="find" ng-controller="FindEventsCtrl">
+
+                        <div ng-show="AllEvents.length > 0">
+                            <div class="form-horizontal">
+                                <div class="event-box border-fade" ng-repeat="e in AllEvents| filter:{Answer:0}">
+                                    <img class="cover-event clickable" 
+                                         alt="cover" 
+                                         src="" 
+                                         title="{{e.Title}}"
+                                         ng-click="goToEvent(e)"
+                                         ng-src="{{fetchImage(e.CoverUrl)}}"/>
+                                    <img class="profile-photo-cover border-fade clickable" 
+                                         alt="owner" 
+                                         src=""
+                                         title="{{e.Owner.FullName}}"
+                                         ng-click="goToProfile(e.Owner)"
+                                         ng-src="{{fetchImage(e.Owner.PhotoUrl)}}"/>
+                                    <div class="form-group line">
+                                        <div class="col-md-12">
+                                            <label>{{e.Title}}</label>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <span><i class="glyphicon glyphicon-map-marker"></i> {{e.Location}}</span>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <span><i class="glyphicon glyphicon-time"></i> {{e.Date}}</span>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <span><i class="glyphicon glyphicon-user"></i> {{e.Guests}}</span>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <span>{{e.TotalGuests}}</span>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <hr class="divider-horizontal"/>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <label>{{e.Due ? 'Você foi?' : 'Você vai?'}}</label>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="col-md-3">
+                                                <button type="button" 
+                                                        class="btn btn-primary btn2" 
+                                                        ng-click="updateEventStatus(e, 1)">Sim</button>
                                             </div>
-                                            <div class="col-md-12">
-                                                <span><i class="glyphicon glyphicon-map-marker"></i> {{e.Location}}</span>
+                                            <div class="col-md-3" ng-show="!e.Due">
+                                                <button type="button" 
+                                                        class="btn btn-primary btn2" 
+                                                        ng-click="updateEventStatus(e, 3)">Talvez</button>
                                             </div>
-                                            <div class="col-md-12">
-                                                <span><i class="glyphicon glyphicon-time"></i> {{e.Date}}</span>
-                                            </div>
-                                            <div class="col-md-12">
-                                                <span><i class="glyphicon glyphicon-user"></i> {{e.Guests}}</span>
-                                            </div>
-                                            <div class="col-md-12">
-                                                <span>{{e.TotalGuests}}</span>
-                                            </div>
-                                            <div class="col-md-12">
-                                                <hr class="divider-horizontal"/>
-                                            </div>
-                                            <div class="col-md-12">
-                                                <label>{{e.Due ? 'Você foi?' : 'Você vai?'}}</label>
-                                            </div>
-                                            <div class="col-md-12">
-                                                <div class="col-md-3">
-                                                    <button type="button" 
-                                                            class="btn btn-primary btn2" 
-                                                            ng-click="updateEventStatus(e, 1)">Sim</button>
-                                                </div>
-                                                <div class="col-md-3" ng-show="!e.Due">
-                                                    <button type="button" 
-                                                            class="btn btn-primary btn2" 
-                                                            ng-click="updateEventStatus(e, 3)">Talvez</button>
-                                                </div>
-                                                <div class="col-md-3">
-                                                    <button type="button" 
-                                                            class="btn btn-primary btn2" 
-                                                            ng-click="updateEventStatus(e, 2)">Não</button>
-                                                </div>
+                                            <div class="col-md-3">
+                                                <button type="button" 
+                                                        class="btn btn-primary btn2" 
+                                                        ng-click="updateEventStatus(e, 2)">Não</button>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <div ng-show="AllEvents.length === 0 || (AllEvents | filter:{Answer:0}).length === 0">
-                                <div class="alert alert-info" role="alert">Nenhum evento novo encontrado.</div>
-                            </div>
+                        </div>
+                        <div ng-show="AllEvents.length === 0 || (AllEvents | filter:{Answer:0}).length === 0">
+                            <div class="alert alert-info" role="alert">Nenhum evento novo encontrado.</div>
                         </div>
                     </div>
                     <div class="tab-pane" id="new" ng-controller="NewEventCtrl">

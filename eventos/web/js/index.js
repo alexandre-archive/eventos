@@ -24,7 +24,17 @@ $(document).ready(function() {
 
     /* Para que ao apertar F5 não perder a tab atual. */
     $('#tabMenu a').on('click', function(e) {
+        /*var reload = false;
+
+        if (window.location.hash.indexOf("?") > -1) {
+            reload = true;
+        }
+        */
         window.location.hash = e.target.hash;
+
+        /*if (reload) {
+            window.location.reload();
+        }*/
     });
 
     $("#initTime, #endTime").datetimepicker({
