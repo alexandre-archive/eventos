@@ -199,7 +199,7 @@ var App = angular.module('App', [])
             };
 
             $rootScope.goToProfile = function(p) {
-                window.location.hash = '#user?id=' + p.Id;
+                window.location.hash = '#profile?id=' + p.Id;
             };
 
             $rootScope.goToEvent = function(e) {
@@ -306,12 +306,21 @@ App.controller('ProfileCtrl', ['$scope', '$http', '$sce', '$rootScope', '$q', fu
 
             if (id && !isNaN(id))
             {
-                $scope.Dto = {
-                    Name: "Dick",
-                    SurName: "Piroquinha",
-                    Email: "teste@teste.com",
-                    PhotoUrl: "https://lh5.googleusercontent.com/--fK08SiAPcA/AAAAAAAAAAI/AAAAAAAAABU/7GiuAp4r3RA/s120-c/photo.jpg",
-                };
+                $http({
+                    method: 'GET',
+                    url: '/eventos/api/user/' + id,
+                }).success(function(data, status, headers, config) {
+
+                    $scope.Dto = {
+                        FullName: data.fullName,
+                        Email: data.login,
+                        PhotoUrl: data.photoUrl
+                    };
+
+                }).error(function(data, status, headers, config) {
+                    console.log(data);
+                    $rootScope.showAlertBox("Usuário não encontrado.", "e", false);
+                });
             }
             else
             {

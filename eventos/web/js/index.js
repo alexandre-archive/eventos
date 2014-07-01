@@ -24,17 +24,19 @@ $(document).ready(function() {
 
     /* Para que ao apertar F5 não perder a tab atual. */
     $('#tabMenu a').on('click', function(e) {
-        /*var reload = false;
+        var reload = false;
 
+        // Se tem query string, força reload da pagina,
+        // senão não atualiza os dados.
         if (window.location.hash.indexOf("?") > -1) {
             reload = true;
         }
-        */
+        
         window.location.hash = e.target.hash;
 
-        /*if (reload) {
+        if (reload) {
             window.location.reload();
-        }*/
+        }
     });
 
     $(".datetime").datetimepicker({

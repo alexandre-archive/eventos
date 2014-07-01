@@ -110,6 +110,17 @@ code {
     overflow: hidden;
 }
 
+.white-box {
+    border: 1px #C9C9C9 solid;
+    background-color: #FFFFFF;
+    outline-style: none;
+    border-radius: 4px;
+}
+
+.p15 {
+    padding: 15px;
+}
+
 .event-box {
     border: 1px #C9C9C9 solid;
     background-color: #FFFFFF;
