@@ -94,7 +94,7 @@ public class User {
 
     public String getPhotoUrl() {
         // Retorna uma imagem padrão caso não tenha.
-        return photoUrl != null ? photoUrl : "img/photo.jpg";
+        return (photoUrl != null && photoUrl.length() > 0) ? photoUrl : "img/photo.jpg";
     }
 
     public void setPhotoUrl(String photoUrl) {

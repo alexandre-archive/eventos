@@ -38,10 +38,11 @@ function getRandomInt(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-function setLoginInfo(id, login, fullName, isAuthenticated) {
+function setLoginInfo(id, login, fullName, photoUrl, isAuthenticated) {
     window.localStorage.userId = id || -1;
     window.localStorage.login = login || "";
     window.localStorage.username = fullName || "";
+    window.localStorage.photoUrl = photoUrl || "";
     window.localStorage.isAuthenticated = isAuthenticated || false;
 }
 
@@ -228,7 +229,7 @@ App.controller('LoginCtrl', ['$scope', '$http', '$sce', '$rootScope', '$q', func
                     method: 'GET',
                     url: '/eventos/api/user/' + $scope.user,
                 }).success(function(data, status, headers, config) {
-                    setLoginInfo(data.id, data.login, data.fullName, true);
+                    setLoginInfo(data.id, data.login, data.fullName, data.photoUrl, true);
                     window.location.assign("/eventos");
                 }).error(function(data, status, headers, config) {
                     setLoginInfo();
@@ -315,24 +316,15 @@ App.controller('ProfileCtrl', ['$scope', '$http', '$sce', '$rootScope', '$q', fu
             else
             {
                 $scope.Dto = {
-                    Name: "Alexandre",
-                    SurName: "Vicenzi",
-                    Email: "foo@bar.com",
-                    PhotoUrl: "https://lh5.googleusercontent.com/--fK08SiAPcA/AAAAAAAAAAI/AAAAAAAAABU/7GiuAp4r3RA/s120-c/photo.jpg",
+                    FullName: window.localStorage.username,
+                    Email: window.localStorage.login,
+                    PhotoUrl: window.localStorage.photoUrl
                 };
             }
-
-            $scope.Dto.FullName = $scope.Dto.Name + ' ' + $scope.Dto.SurName;
         };
 
         $scope.joinSubmit = function() {
             window.location.assign('/eventos');
-        };
-
-        $scope.getPhoto = function() {
-            var src = $scope.Dto.PhotoUrl;
-            fetchImage(src);
-            return src;
         };
 
         $('a[href="#profile"]').on('show.bs.tab', function(e) {

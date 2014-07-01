@@ -55,7 +55,8 @@ public class UserDAO {
         
         EntityManager em = PersistenseUtil.getEntityManager();
 
-        List l = em.createNativeQuery("Select u.* from User u where u.login = '" + s + "';", User.class)
+        List l = em.createNativeQuery("Select u.* from User u where u.login = ?1", User.class)
+                .setParameter(1, s)
                 .setMaxResults(1)
                 .getResultList();
         
