@@ -17,7 +17,7 @@ public class EventDAO {
         return instance;
     }
     
-    public void salvar (Event evt) {
+    public void save (Event evt) {
         EntityManager em = PersistenseUtil.getEntityManager();
         EntityTransaction et = em.getTransaction();
         try {

@@ -9,11 +9,14 @@ package br.furb.eventos.entity;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import static javax.persistence.TemporalType.DATE;
+import javax.validation.constraints.NotNull;
 
 
 @Entity
@@ -121,9 +124,13 @@ public class Event {
     private String description;
     
     private String address;
-    @Temporal(DATE)
+    
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(nullable = true)
     private Date initialdate;
-    @Temporal(DATE)
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(nullable = true)
     private Date finaldate;
 
     private User owner;

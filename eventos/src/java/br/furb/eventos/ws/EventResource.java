@@ -95,13 +95,13 @@ public class EventResource extends BaseWs {
         
         e.setName(content.getTitle());
         e.setDescription(content.getDetail());
-        e.setInitialdate(new SimpleDateFormat("dd/MM/yyyy").parse(content.getInitialdate()));
-        e.setFinaldate(new SimpleDateFormat("dd/MM/yyyy").parse(content.getFinaldate()));
+        //e.setInitialdate(new SimpleDateFormat("dd/MM/yyyy").parse(content.getInitialdate()));
+        //e.setFinaldate(new SimpleDateFormat("dd/MM/yyyy").parse(content.getFinaldate()));
         e.setAddress(content.getLocation());
         
         EventDAO dao = EventDAO.getInstance();
-        dao.salvar(e);
-        
+        dao.save(e);
+       
         return created(e.getId());
     }
 }
