@@ -22,7 +22,7 @@ public class EventDAO {
         EntityTransaction et = em.getTransaction();
         try {
             et.begin();
-            if (evt.getId() != 0)
+            if (evt.getId() == 0)
                 em.persist(evt);
             else
                 em.merge(evt);    

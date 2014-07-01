@@ -11,6 +11,7 @@ import java.text.ParseException;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -24,7 +25,7 @@ import javax.ws.rs.core.Response;
 @Path("event")
 public class EventResource extends BaseWs {
 
-    EventDAO dao = EventDAO.getInstance();
+    private final EventDAO dao = EventDAO.getInstance();
     
     public EventResource() {
     }
@@ -129,5 +130,23 @@ public class EventResource extends BaseWs {
         dao.save(e);
        
         return created(e.getId());
+    }
+    
+    @PUT
+    @Produces(JSON)
+    @Consumes(JSON)
+    @Path("{id:[0-9]+}")
+    public Response editEvent(@PathParam("id") long id, EventDto c) {        
+        Event e = dao.getById(id);
+
+        e.setName(c.getTitle());
+        e.setDescription(c.getDetail());
+        //e.setInitialdate(new SimpleDateFormat("dd/MM/yyyy").parse(c.getInitialdate()));
+        //e.setFinaldate(new SimpleDateFormat("dd/MM/yyyy").parse(c.getFinaldate()));
+        e.setAddress(c.getLocation());
+        
+        dao.save(e);
+        
+        return noContent();
     }
 }
