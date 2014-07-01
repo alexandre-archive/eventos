@@ -1,29 +1,20 @@
 package br.furb.eventos.ws;
 
+import br.furb.eventos.dto.EventDto;
 import br.furb.eventos.dto.NewEventDto;
-import br.furb.eventos.entity.Comment;
-import br.furb.eventos.entity.CommentDAO;
+import br.furb.eventos.dto.UserDto;
 import br.furb.eventos.entity.Event;
 import br.furb.eventos.entity.EventDAO;
-import br.furb.eventos.entity.Permission;
-import br.furb.eventos.entity.PermissionDAO;
-import br.furb.eventos.entity.Profile;
-import br.furb.eventos.entity.ProfileDAO;
 import br.furb.eventos.entity.User;
 import br.furb.eventos.entity.UserDAO;
-import java.text.DateFormat;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
-import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
-import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
-import javax.ws.rs.core.UriInfo;
 
 /**
  * REST Web Service
@@ -33,10 +24,45 @@ import javax.ws.rs.core.UriInfo;
 @Path("event")
 public class EventResource extends BaseWs {
 
+    EventDAO dao = EventDAO.getInstance();
+    
     public EventResource() {
     }
 
     @GET
+    @Produces("application/json")
+    @Path("{id:[0-9]+}")
+    public Response getEvent(@PathParam("id") long id) {
+        
+        Event ev = dao.getById(id);
+        
+        if (ev == null)
+        {
+            return notFound();
+        }
+        
+        User owner = ev.getOwner();
+        
+        EventDto e = new EventDto();
+        UserDto u = new UserDto();
+        u.setId(owner.getId());
+        u.setFullName(owner.getName() + " " + owner.getLastname());
+        
+        e.setId(id);
+        e.setOwner(u);
+        e.setCoverUrl(ev.getCoverImage());
+        e.setTitle(ev.getName());
+        e.setDate(ev.getInitialdate() + " - " + ev.getFinaldate());
+        e.setLocation(ev.getAddress());
+        e.setDetail(ev.getDescription());
+        //e.setGuests(ev.getGuests());
+        //e.setTotalGuests();
+        e.setLike(true);
+        //e.setLikes(id);
+        
+        return ok(e);
+    }
+    /*@GET
     @Produces("application/json")
     public String getJson() {
         //TODO return proper representation object
@@ -84,22 +110,22 @@ public class EventResource extends BaseWs {
         //CommentDAO dao = CommentDAO.getInstance();
         //dao.salvar(c);
         //return "Comment salvo...";
-        
-    }
+    }*/
 
     @POST
     @Produces(JSON)
     @Consumes(JSON)
-    public Response addEvent(NewEventDto content) throws ParseException {
+    public Response addEvent(NewEventDto c) throws ParseException {
         Event e = new Event();
+        UserDAO userDAO = UserDAO.getInstance();
         
-        e.setName(content.getTitle());
-        e.setDescription(content.getDetail());
-        //e.setInitialdate(new SimpleDateFormat("dd/MM/yyyy").parse(content.getInitialdate()));
-        //e.setFinaldate(new SimpleDateFormat("dd/MM/yyyy").parse(content.getFinaldate()));
-        e.setAddress(content.getLocation());
+        e.setOwner(userDAO.getById(c.getOwner()));
+        e.setName(c.getTitle());
+        e.setDescription(c.getDetail());
+        //e.setInitialdate(new SimpleDateFormat("dd/MM/yyyy").parse(c.getInitialdate()));
+        //e.setFinaldate(new SimpleDateFormat("dd/MM/yyyy").parse(c.getFinaldate()));
+        e.setAddress(c.getLocation());
         
-        EventDAO dao = EventDAO.getInstance();
         dao.save(e);
        
         return created(e.getId());

@@ -37,7 +37,7 @@ public class EventDAO {
     }
     
     public Event getById(long id) {
-        Event e = null;
+        Event e;
         
         EntityManager em = PersistenseUtil.getEntityManager();
         e = em.find(Event.class, id);
