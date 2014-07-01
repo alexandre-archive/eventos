@@ -17,6 +17,9 @@ import br.furb.eventos.entity.Profile;
 import br.furb.eventos.entity.ProfileDAO;
 import br.furb.eventos.entity.User;
 import br.furb.eventos.entity.UserDAO;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -25,6 +28,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
+import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
 /**
@@ -33,7 +37,7 @@ import javax.ws.rs.core.UriInfo;
  * @author Alexandre
  */
 @Path("events")
-public class EventsResource {
+public class EventsResource extends BaseWs {
 
     @Context
     private UriInfo context;
@@ -95,8 +99,20 @@ public class EventsResource {
      * @return an HTTP response with content of the updated or created resource.
      */
     @POST
-    @Consumes("application/json")
-    public void addEvent(String content) {
-        System.out.print(content);
+    //@Consumes("application/json")
+    @Produces(JSON)
+    @Consumes(JSON)
+    public Response addEvent(NewEventDto content) throws ParseException {
+        Event e = new Event();
+        e.setName(content.getTitle());
+        e.setDescription(content.getDetail());
+        e.setInitialdate(new SimpleDateFormat("dd/MM/yyyy").parse(content.getInitialdate()));
+        e.setFinaldate(new SimpleDateFormat("dd/MM/yyyy").parse(content.getFinaldate()));
+        e.setAddress(content.getLocation());
+        
+        EventDAO dao = EventDAO.getInstance();
+        dao.salvar(e);
+        return created(e.getId());
+        //System.out.print(content);'
     }
 }

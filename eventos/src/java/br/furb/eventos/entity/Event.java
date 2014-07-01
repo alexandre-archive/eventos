@@ -19,100 +19,74 @@ import static javax.persistence.TemporalType.DATE;
 @Entity
 public class Event {
 
-    /**
-     * @return the id
-     */
     public long getId() {
         return id;
     }
 
-    /**
-     * @param id the id to set
-     */
     public void setId(long id) {
         this.id = id;
     }
 
-    /**
-     * @return the name
-     */
     public String getName() {
         return name;
     }
 
-    /**
-     * @param name the name to set
-     */
     public void setName(String name) {
         this.name = name;
     }
+    
+    public String getDescription() {
+        return description;
+    }
 
-    /**
-     * @return the address
-     */
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
     public String getAddress() {
         return address;
     }
 
-    /**
-     * @param address the address to set
-     */
     public void setAddress(String address) {
         this.address = address;
     }
 
-    /**
-     * @return the date
-     */
-    public Date getDate() {
-        return date;
+    public Date getInitialdate() {
+        return initialdate;
     }
 
-    /**
-     * @param date the date to set
-     */
-    public void setDate(Date date) {
-        this.date = date;
+    public void setInitialdate(Date initialdate) {
+        this.initialdate = initialdate;
     }
 
-    /**
-     * @return the owner
-     */
+    public Date getFinaldate() {
+        return finaldate;
+    }
+
+    public void setFinaldate(Date finaldate) {
+        this.finaldate = finaldate;
+    }
+
     public User getOwner() {
         return owner;
     }
 
-    /**
-     * @param owner the owner to set
-     */
     public void setOwner(User owner) {
         this.owner = owner;
     }
 
-    /**
-     * @return the guests
-     */
     public HashMap<User, UserStatus> getGuests() {
         return guests;
     }
 
-    /**
-     * @param guests the guests to set
-     */
     public void setGuests(HashMap<User, UserStatus> guests) {
         this.guests = guests;
     }
 
-    /**
-     * @return the coverImage
-     */
     public String getCoverImage() {
         return coverImage;
     }
 
-    /**
-     * @return the images
-     */
     public ArrayList<String> getImages() {
         return images;
     }
@@ -148,7 +122,10 @@ public class Event {
     
     private String address;
     @Temporal(DATE)
-    private Date date;
+    private Date initialdate;
+    @Temporal(DATE)
+    private Date finaldate;
+
     private User owner;
     private HashMap<User, UserStatus> guests;
     
