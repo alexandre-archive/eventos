@@ -20,7 +20,6 @@ public class UserDAO {
     private UserDAO(){
     }
     
-    @SuppressWarnings("null")
     public void save (User user) {
         EntityManager em;
         em = PersistenseUtil.getEntityManager();
@@ -40,6 +39,15 @@ public class UserDAO {
         } finally {
             PersistenseUtil.close(em);
         }
+    }
+
+    public User getById(long id) {
+        User u = null;
+        
+        EntityManager em = PersistenseUtil.getEntityManager();
+        u = em.find(User.class, id);
+        
+        return u;
     }
     
     public void remove(User u) {

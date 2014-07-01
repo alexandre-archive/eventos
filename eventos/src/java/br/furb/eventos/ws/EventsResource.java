@@ -56,24 +56,33 @@ public class EventsResource extends BaseWs {
     @Produces("application/json")
     public String getJson() {
         //TODO return proper representation object
-        //User u = new User();
-        //u.setName("Teste");
-        //u.setEmail("teste@hehe.com");
-        //u.setId(1l);
-        //UserDAO dao = UserDAO.getInstance();
+        User u = new User();
+        u.setName("Teste");
+        u.setEmail("teste@hehe.com");
+        u.setId(1l);
+        UserDAO dao = UserDAO.getInstance();
         
-        Profile p = new Profile();
-        p.setName("nome do profile");
-        p.setId(51l);
-        ProfileDAO dao = ProfileDAO.getInstance();
+        dao.save(u);
+        
+        u = dao.getById(1);
+        
+        if (u == null) {
+            return "nao existe";
+        } else {
+            return "user existe";
+        }
+        //Profile p = new Profile();
+        //p.setName("nome do profile");
+        //p.setId(51l);
+        //ProfileDAO dao = ProfileDAO.getInstance();
         
         //if (dao.verify(p))
         //    return "existe...";
         //else
         //    return "nao existe...";
         
-        dao.remove(p);
-        return "Removed";
+        //dao.remove(p);
+        //return "Removed";
         
         //Profile p = new Profile("nome do profile");
         //ProfileDAO dao = ProfileDAO.getInstance();
@@ -91,6 +100,7 @@ public class EventsResource extends BaseWs {
         //CommentDAO dao = CommentDAO.getInstance();
         //dao.salvar(c);
         //return "Comment salvo...";
+        
     }
 
     /**
