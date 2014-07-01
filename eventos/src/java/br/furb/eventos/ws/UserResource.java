@@ -1,6 +1,8 @@
 package br.furb.eventos.ws;
 
 import br.furb.eventos.dto.UserDto;
+import br.furb.eventos.entity.User;
+import br.furb.eventos.entity.UserDAO;
 import java.io.IOException;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Consumes;
@@ -22,20 +24,6 @@ public class UserResource extends BaseWs {
     public UserResource() {
     }
 
-    /* O exemplo abaixo sempre retorna 200. Nos metodos abaixo pode-se definir o status.
-     @GET
-     @Produces("application/json")
-     @Path("{id:[0-9]+}")
-     public UserDto getJson(@PathParam("id") long id) {
-
-     UserDto u = new UserDto();
-     u.setId(id);
-     u.setFullName("Dick Piroca");
-     u.setLogin("go@foo.com");
-
-     return u;
-     }
-     */
     @GET
     @Produces("application/json")
     @Path("{id:[0-9]+}")
@@ -62,30 +50,26 @@ public class UserResource extends BaseWs {
         return ok(u);
     }
 
-    /*
-     @POST
-     @Produces(JSON)
-     @Consumes(JSON)
-     public Response addUser(String content) {
-     UserDto u = (UserDto) fromJson(content, UserDto.class);
-     return created(u.getId());
-     }*/
     @POST
     @Produces(JSON)
     @Consumes(JSON)
-    public Response addUser(UserDto content) {
-        return created(content.getId());
+    public Response addUser(UserDto c) {
+        
+        User u = new User();
+        
+        u.setName(c.getName());
+        u.setLogin(c.getLogin());
+        u.setEmail(c.getLogin());
+        u.setName(c.getName());
+        u.setLastname(c.getSurName());
+        u.setPwd(c.getPwd());
+        
+        UserDAO dao = UserDAO.getInstance();
+        dao.save(u);
+        
+        return created(u.getId());
     }
 
-    /*
-     @PUT
-     @Produces(JSON)
-     @Consumes(JSON)
-     @Path("{id:[0-9]+}")
-     public Response editUser(@PathParam("id") long id, String content) {
-     UserDto u = (UserDto) fromJson(content, UserDto.class);
-     return noContent();
-     }*/
     @PUT
     @Produces(JSON)
     @Consumes(JSON)

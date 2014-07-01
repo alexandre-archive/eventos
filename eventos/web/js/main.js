@@ -247,16 +247,51 @@ App.controller('LoginCtrl', ['$scope', '$http', '$sce', '$rootScope', '$q', func
 
 App.controller('JoinCtrl', ['$scope', '$http', '$sce', '$rootScope', '$q', function($scope, $http, $sce, $rootScope, $q) {
 
-        $scope.Dto = {
-            Name: "",
-            SurName: "",
-            Email: "",
-            Pwd: "",
-            PwdConfirmation: "",
+        $scope.reset = function() {
+            $scope.Dto = {
+                name: "",
+                surName: "",
+                email: "",
+                login: "",
+                pwd: "",
+                pwdConfirmation: "",
+            };
         };
-
+        
+        $scope.reset();
+        
         $scope.joinSubmit = function() {
-            window.location.assign('/eventos');
+
+            if ($scope.Dto.pwd !== $scope.Dto.pwdConfirmation) {
+                alert('Senhas diferentes.');
+                return;
+            }
+
+            $scope.Dto.login = $scope.Dto.email;
+
+            var data = {
+                id: 0,
+                fullName: "",
+                name: $scope.Dto.name,
+                surName: $scope.Dto.surName,
+                photoUrl: "",
+                login: $scope.Dto.login,
+                pwd: $scope.Dto.pwd,
+            };
+            
+            console.log(data);
+
+            $http({
+                method: 'POST',
+                url: '/eventos/api/user',
+                data: data
+            }).success(function(data, status, headers, config) {
+                $scope.reset();
+                window.location.assign('/eventos/signin.html');
+            }).error(function(data, status, headers, config) {
+                console.log(data);
+                alert("Erro ao processar request. Código: " + status);
+            });
         };
 
         $scope.gotoLogin = function() {
@@ -291,7 +326,7 @@ App.controller('ProfileCtrl', ['$scope', '$http', '$sce', '$rootScope', '$q', fu
 
             $scope.Dto.FullName = $scope.Dto.Name + ' ' + $scope.Dto.SurName;
         };
-        
+
         $scope.joinSubmit = function() {
             window.location.assign('/eventos');
         };

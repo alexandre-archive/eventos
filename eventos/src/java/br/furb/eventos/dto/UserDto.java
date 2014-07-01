@@ -11,6 +11,7 @@ public class UserDto {
     private String surName;
     private String photoUrl;
     private String login;
+    private String pwd;
 
     public long getId() {
         return id;
@@ -58,6 +59,14 @@ public class UserDto {
 
     public void setPhotoUrl(String photoUrl) {
         this.photoUrl = photoUrl;
+    }
+
+    public String getPwd() {
+        return pwd;
+    }
+
+    public void setPwd(String pwd) {
+        this.pwd = pwd;
     }
     
 }
