@@ -3,6 +3,8 @@ package br.furb.eventos.dto;
 public class NewEventDto {
 
     private long id;
+    private long owner;
+    private String coverUrl;
     private String title;
     private String initialdate;
     private String finaldate;
@@ -10,87 +12,75 @@ public class NewEventDto {
     private String detail;
     private String guests;
 
-    /**
-     * @return the title
-     */
     public String getTitle() {
         return title;
     }
 
-    /**
-     * @param title the title to set
-     */
     public void setTitle(String title) {
         this.title = title;
     }
 
-    /**
-     * @return the initialdate
-     */
     public String getInitialdate() {
         return initialdate;
     }
 
-    /**
-     * @param initialdate the initialdate to set
-     */
     public void setInitialdate(String initialdate) {
         this.initialdate = initialdate;
     }
 
-    /**
-     * @return the finaldate
-     */
     public String getFinaldate() {
         return finaldate;
     }
 
-    /**
-     * @param finaldate the finaldate to set
-     */
     public void setFinaldate(String finaldate) {
         this.finaldate = finaldate;
     }
 
-    /**
-     * @return the location
-     */
     public String getLocation() {
         return location;
     }
 
-    /**
-     * @param location the location to set
-     */
     public void setLocation(String location) {
         this.location = location;
     }
 
-    /**
-     * @return the detail
-     */
     public String getDetail() {
         return detail;
     }
 
-    /**
-     * @param detail the detail to set
-     */
     public void setDetail(String detail) {
         this.detail = detail;
     }
 
-    /**
-     * @return the guests
-     */
     public String getGuests() {
         return guests;
     }
 
-    /**
-     * @param guests the guests to set
-     */
     public void setGuests(String guests) {
         this.guests = guests;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public long getOwner() {
+        return owner;
+    }
+
+    public void setOwner(long owner) {
+        this.owner = owner;
+    }
+
+    public String getCoverUrl() {
+        return coverUrl;
+    }
+
+    public void setCoverUrl(String coverUrl) {
+        this.coverUrl = coverUrl;
     }
 }

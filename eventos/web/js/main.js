@@ -258,9 +258,9 @@ App.controller('JoinCtrl', ['$scope', '$http', '$sce', '$rootScope', '$q', funct
                 pwdConfirmation: "",
             };
         };
-        
+
         $scope.reset();
-        
+
         $scope.joinSubmit = function() {
 
             if ($scope.Dto.pwd !== $scope.Dto.pwdConfirmation) {
@@ -279,7 +279,7 @@ App.controller('JoinCtrl', ['$scope', '$http', '$sce', '$rootScope', '$q', funct
                 login: $scope.Dto.login,
                 pwd: $scope.Dto.pwd
             };
-            
+
             $http({
                 method: 'POST',
                 url: '/eventos/api/user',
@@ -555,12 +555,22 @@ App.controller('NewEventCtrl', ['$scope', '$http', '$sce', '$rootScope', '$q', f
 
         $scope.submit = function() {
 
-            console.log($scope.Dto);
+            var data = {
+                id: 0,
+                owner: window.localStorage.userId,
+                coverUrl: $scope.Dto.CoverUrl,
+                title: $scope.Dto.Title,
+                initialdate: $scope.Dto.InitialDate,
+                finaldate: $scope.Dto.FinalDate,
+                location: $scope.Dto.Location,
+                detail: $scope.Dto.Detail,
+                guests: $scope.Dto.Guest
+            };
 
             $http({
                 method: 'POST',
-                url: '/eventos/api/events',
-                data: $scope.Dto,
+                url: '/eventos/api/event',
+                data: data
             }).success(function(data, status, headers, config) {
                 $rootScope.showAlertBox("Evento cadastrado com sucesso.", "i", true);
                 $scope.reset();

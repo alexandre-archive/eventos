@@ -1,9 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package br.furb.eventos.ws;
 
 import br.furb.eventos.dto.NewEventDto;
@@ -36,22 +30,12 @@ import javax.ws.rs.core.UriInfo;
  *
  * @author Alexandre
  */
-@Path("events")
-public class EventsResource extends BaseWs {
+@Path("event")
+public class EventResource extends BaseWs {
 
-    @Context
-    private UriInfo context;
-
-    /**
-     * Creates a new instance of EventsResource
-     */
-    public EventsResource() {
+    public EventResource() {
     }
 
-    /**
-     * Retrieves representation of an instance of br.furb.eventos.ws.EventsResource
-     * @return an instance of java.lang.String
-     */
     @GET
     @Produces("application/json")
     public String getJson() {
@@ -103,17 +87,12 @@ public class EventsResource extends BaseWs {
         
     }
 
-    /**
-     * PUT method for updating or creating an instance of EventsResource
-     * @param content representation for the resource
-     * @return an HTTP response with content of the updated or created resource.
-     */
     @POST
-    //@Consumes("application/json")
     @Produces(JSON)
     @Consumes(JSON)
     public Response addEvent(NewEventDto content) throws ParseException {
         Event e = new Event();
+        
         e.setName(content.getTitle());
         e.setDescription(content.getDetail());
         e.setInitialdate(new SimpleDateFormat("dd/MM/yyyy").parse(content.getInitialdate()));
@@ -122,7 +101,7 @@ public class EventsResource extends BaseWs {
         
         EventDAO dao = EventDAO.getInstance();
         dao.salvar(e);
+        
         return created(e.getId());
-        //System.out.print(content);'
     }
 }

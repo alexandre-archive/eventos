@@ -37,7 +37,7 @@ $(document).ready(function() {
         }*/
     });
 
-    $("#initTime, #endTime").datetimepicker({
-        language: 'pt-BR'
+    $(".datetime").datetimepicker({
+        //language: 'pt-BR' // esta exibindo errada a mascara.
     });
 });
