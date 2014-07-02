@@ -138,7 +138,7 @@ public class Event {
     
     private List<User> shares;
     
-    private HashMap<User, String> comments;
+    private List<Comment> comments;
     
     private String coverImage;
     
