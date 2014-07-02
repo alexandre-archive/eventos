@@ -6,7 +6,6 @@ import br.furb.eventos.dto.NewCommentDto;
 import br.furb.eventos.dto.NewEventDto;
 import br.furb.eventos.dto.UserDto;
 import br.furb.eventos.entity.Comment;
-import br.furb.eventos.entity.CommentDAO;
 import br.furb.eventos.entity.Event;
 import br.furb.eventos.entity.EventDAO;
 import br.furb.eventos.entity.User;
@@ -83,6 +82,7 @@ public class EventResource extends BaseWs {
             u.setLogin(userComment.getLogin());
             u.setPhotoUrl(userComment.getPhotoUrl());
 
+            c.setId(comment.getId());
             c.setUser(u);
             c.setComment(comment.getComment());
 
@@ -291,6 +291,30 @@ public class EventResource extends BaseWs {
         
         dao.save(e);
 
-        return created(comment.getId());
+        return noContent();
+    }
+    
+    @PUT
+    @Produces(JSON)
+    @Consumes(JSON)
+    @Path("{id:[0-9]+}/like")
+    public Response likeEvent(@PathParam("id") long id, long idUser) {
+        
+        Event e = dao.getById(id);
+
+        if (e == null) {
+            return notFound();
+        }
+        
+        UserDAO userDAO = UserDAO.getInstance();        
+        List<User> l = e.getLikes();
+        
+        l.add(userDAO.getById(idUser));
+        
+        e.setLikes(l);              
+        
+        dao.save(e);
+
+        return noContent();
     }
 }
