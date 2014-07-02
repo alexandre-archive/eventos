@@ -1,5 +1,7 @@
 package br.furb.eventos.ws;
 
+import br.furb.eventos.dao.EventDAO;
+import br.furb.eventos.dao.UserDAO;
 import br.furb.eventos.dto.CommentDto;
 import br.furb.eventos.dto.EventDto;
 import br.furb.eventos.dto.NewCommentDto;
@@ -7,12 +9,12 @@ import br.furb.eventos.dto.NewEventDto;
 import br.furb.eventos.dto.UserDto;
 import br.furb.eventos.entity.Comment;
 import br.furb.eventos.entity.Event;
-import br.furb.eventos.dao.EventDAO;
+import br.furb.eventos.entity.Event.UserStatus;
 import br.furb.eventos.entity.User;
-import br.furb.eventos.dao.UserDAO;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -68,9 +70,9 @@ public class EventResource extends BaseWs {
         e.setFinalDate(ev.getFinaldate().toString());
         e.setLocation(ev.getAddress());
         e.setDetail(ev.getDescription());
-        
+
         for (Comment comment : ev.getComments()) {
-            
+
             CommentDto c = new CommentDto();
             u = new UserDto();
             User userComment = comment.getUser();
@@ -90,9 +92,9 @@ public class EventResource extends BaseWs {
         }
 
         e.setComments(cmDto);
-        
+
         e.setGuests("João");
-        
+
         int total = 0;
         e.setTotalGuests(total);
         e.setLike(true);
@@ -100,7 +102,7 @@ public class EventResource extends BaseWs {
 
         return ok(e);
     }
-    
+
     @GET
     @Produces(JSON)
     @Path("user/{idUser:[0-9]+}")
@@ -139,7 +141,7 @@ public class EventResource extends BaseWs {
 
         return ok(ev);
     }
-    
+
     @GET
     @Produces(JSON)
     @Path("user/{idUser:[0-9]+}/othersEvents")
@@ -221,7 +223,7 @@ public class EventResource extends BaseWs {
     @Produces(JSON)
     @Consumes(JSON)
     public Response addEvent(NewEventDto c) throws ParseException {
-        
+
         Event e = new Event();
         UserDAO userDAO = UserDAO.getInstance();
 
@@ -242,13 +244,13 @@ public class EventResource extends BaseWs {
     @Consumes(JSON)
     @Path("{id:[0-9]+}")
     public Response editEvent(@PathParam("id") long id, NewEventDto c) throws ParseException {
-        
+
         Event e = dao.getById(id);
 
         if (e == null) {
             return notFound();
         }
-        
+
         UserDAO userDAO = UserDAO.getInstance();
 
         e.setOwner(userDAO.getById(c.getOwner()));
@@ -262,109 +264,136 @@ public class EventResource extends BaseWs {
 
         return noContent();
     }
-    
+
     @PUT
     @Produces(JSON)
     @Consumes(JSON)
     @Path("{id:[0-9]+}/comment")
     public Response addComment(@PathParam("id") long id, NewCommentDto c) {
-        
+
         Event e = dao.getById(id);
 
         if (e == null) {
             return notFound();
         }
-        
+
         Comment comment = new Comment();
-        UserDAO userDAO = UserDAO.getInstance();        
-        
+        UserDAO userDAO = UserDAO.getInstance();
+
         comment.setUser(userDAO.getById(c.getUser()));
         comment.setComment(c.getComment());
-        
+
         List<Comment> cm = e.getComments();
         cm.add(comment);
-        
-        e.setComments(cm);              
-        
+
+        e.setComments(cm);
+
         dao.save(e);
 
         return noContent();
     }
-    
+
     /*@PUT
-    @Produces(JSON)
-    @Consumes(JSON)
-    @Path("{id:[0-9]+}/comment/{idComment:[0-9]+}/like")
-    public Response likeComment(@PathParam("id") long id, @PathParam("idComment") long idComment, long idUser) {
+     @Produces(JSON)
+     @Consumes(JSON)
+     @Path("{id:[0-9]+}/comment/{idComment:[0-9]+}/like")
+     public Response likeComment(@PathParam("id") long id, @PathParam("idComment") long idComment, long idUser) {
         
-        Event e = dao.getById(id);
+     Event e = dao.getById(id);
 
-        if (e == null) {
-            return notFound();
-        }
+     if (e == null) {
+     return notFound();
+     }
         
-        CommentDAO commentDAO = CommentDAO.getInstance();        
-        Comment c = commentDAO.getById(idComment);
+     CommentDAO commentDAO = CommentDAO.getInstance();        
+     Comment c = commentDAO.getById(idComment);
         
-        if (c == null) {
-            return notFound();
-        }
+     if (c == null) {
+     return notFound();
+     }
         
-        UserDAO userDAO = UserDAO.getInstance();        
-        List<User> l = e.getLikes();
+     UserDAO userDAO = UserDAO.getInstance();        
+     List<User> l = e.getLikes();
         
-        l.add(userDAO.getById(idUser));
+     l.add(userDAO.getById(idUser));
         
-        e.setLikes(l);              
+     e.setLikes(l);              
         
-        dao.save(e);
+     dao.save(e);
 
-        return noContent();
-    }*/
-    
+     return noContent();
+     }*/
     @PUT
     @Produces(JSON)
     @Consumes(JSON)
     @Path("{id:[0-9]+}/like")
     public Response likeEvent(@PathParam("id") long id, long idUser) {
-        
+
         Event e = dao.getById(id);
 
         if (e == null) {
             return notFound();
         }
-        
-        UserDAO userDAO = UserDAO.getInstance();        
+
+        UserDAO userDAO = UserDAO.getInstance();
         List<User> l = e.getLikes();
-        
+
         l.add(userDAO.getById(idUser));
-        
-        e.setLikes(l);              
-        
+
+        e.setLikes(l);
+
         dao.save(e);
 
         return noContent();
     }
-    
+
     @PUT
     @Produces(JSON)
     @Consumes(JSON)
     @Path("{id:[0-9]+}/share")
     public Response shareEvent(@PathParam("id") long id, long idUser) {
-        
+
         Event e = dao.getById(id);
 
         if (e == null) {
             return notFound();
         }
-        
-        UserDAO userDAO = UserDAO.getInstance();        
+
+        UserDAO userDAO = UserDAO.getInstance();
         List<User> s = e.getShares();
-        
+
         s.add(userDAO.getById(idUser));
+
+        e.setShares(s);
+
+        dao.save(e);
+
+        return noContent();
+    }
+
+    @PUT
+    @Produces(JSON)
+    @Consumes(JSON)
+    @Path("{id:[0-9]+}/guest/{idUser:[0-9]+}/answer/{status}")
+    public Response addGuest(@PathParam("id") long id, @PathParam("idUser") long idUser, @PathParam("status") UserStatus status) {
+
+        Event e = dao.getById(id);
+
+        if (e == null) {
+            return notFound();
+        }
+
+        UserDAO userDAO = UserDAO.getInstance();
+        HashMap<User, UserStatus> a = e.getGuests();
         
-        e.setShares(s);              
+        if (a == null) {
+            a = new HashMap<>();
+        }
         
+        a.put(userDAO.getById(idUser), status);
+
+        e.setGuests(a);
+
         dao.save(e);
 
         return noContent();
