@@ -104,7 +104,7 @@
                                         <div class="col-md-12">
                                             <span><i class="glyphicon glyphicon-time"></i> {{e.date}}</span>
                                         </div>
-                                        <div class="col-md-12">
+                                        <div class="col-md-12" ng-show="e.guests">
                                             <span><i class="glyphicon glyphicon-user"></i> {{e.guests}}</span>
                                         </div>
                                         <div class="col-md-12">
@@ -259,7 +259,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="mini-box">
+                                    <div class="mini-box" ng-show="Event.totalGuests">
                                         <div class="form-group">
                                             <div class="col-md-12">
                                                 <span><i class="glyphicon glyphicon-user"></i>&nbsp;
@@ -300,11 +300,14 @@
                                         <div class="col-md-12">
                                             <span><i class="glyphicon glyphicon-time"></i> {{e.date}}</span>
                                         </div>
-                                        <div class="col-md-12">
+                                        <div class="col-md-12" ng-show="e.guests">
                                             <span><i class="glyphicon glyphicon-user"></i> {{e.guests}}</span>
                                         </div>
                                         <div class="col-md-12">
-                                            <span>{{e.totalGuests}}</span>
+                                            <span>
+                                                <ng-pluralize ng-show="e.due" count="e.totalGuests" when="peopleDueC"></ng-pluralize>
+                                                <ng-pluralize ng-show="!e.due" count="e.totalGuests" when="peopleNotDueC"></ng-pluralize>
+                                            </span>
                                         </div>
                                         <div class="col-md-12">
                                             <hr class="divider-horizontal"/>
