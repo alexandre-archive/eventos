@@ -17,7 +17,7 @@ public class EventDto {
     private String location;
     private String detail;
     private String guests;
-    private String totalGuests;
+    private long totalGuests;
     // TODO: usar enum.
     private int answer;
     private boolean due;
@@ -29,11 +29,11 @@ public class EventDto {
     private boolean shared;
     private ArrayList<CommentDto> comments;
 
-    public String getTotalGuests() {
+    public long getTotalGuests() {
         return totalGuests;
     }
 
-    public void setTotalGuests(String totalGuests) {
+    public void setTotalGuests(long totalGuests) {
         this.totalGuests = totalGuests;
     }
 

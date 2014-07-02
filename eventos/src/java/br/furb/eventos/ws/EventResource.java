@@ -94,11 +94,8 @@ public class EventResource extends BaseWs {
         
         e.setGuests("João");
         
-        boolean due = false;
         int total = 0;
-        String tempo = (total == 1) ? (due ? "foi" : "vai") : (due ? "foram" : "vão") ; // ou "foi", "vão", "foram";
-        
-        e.setTotalGuests(total == 1 ? String.format("Uma pessoa %s", tempo) : String.format("%d pessoas %s", total, tempo));
+        e.setTotalGuests(total);
         e.setLike(true);
         e.setLikes(10);
 

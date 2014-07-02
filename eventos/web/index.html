@@ -187,15 +187,15 @@
                                         </div>
                                         <div class="form-group">
                                             <div class="col-md-1">
-                                                <span class="btn btn-default btn-xs" title="Curtir" ng-show="!c.Like" ng-click="likeComment(Event, c)">
+                                                <span class="btn btn-default btn-xs" title="Curtir" ng-show="!c.like" ng-click="likeComment(Event, c)">
                                                     <i class="glyphicon glyphicon glyphicon-thumbs-up"></i>
                                                 </span>
-                                                <span class="btn btn-default btn-xs" title="Descurtir" ng-show="c.Like" ng-click="unlikeComment(Event, c)">
+                                                <span class="btn btn-default btn-xs" title="Descurtir" ng-show="c.like" ng-click="unlikeComment(Event, c)">
                                                     <i class="glyphicon glyphicon glyphicon-thumbs-down"></i>
                                                 </span>
                                             </div>
                                             <div class="col-md-10">
-                                                <small>{{c.likes}}</small>
+                                                <small><ng-pluralize count="c.likes" when="likesC"></ng-pluralize></small>
                                             </div>
                                         </div>
                                     </div>
@@ -252,7 +252,10 @@
                                     <div class="mini-box">
                                         <div class="form-group">
                                             <div class="col-md-12">
-                                                <span><i class="glyphicon glyphicon-user"></i> {{Event.totalGuests}}</span>
+                                                <span><i class="glyphicon glyphicon-user"></i>&nbsp;
+                                                    <ng-pluralize ng-show="Event.due" count="Event.totalGuests" when="peopleDueC"></ng-pluralize>
+                                                    <ng-pluralize ng-show="!Event.due" count="Event.totalGuests" when="peopleNotDueC"></ng-pluralize>
+                                                </span>
                                             </div>
                                         </div>
                                     </div>
@@ -381,15 +384,6 @@
                                 <div class="form-group">
                                     <div class="col-md-12">
                                         <textarea class="form-control" rows="3" placeholder="Detalhes" ng-model="Dto.Detail"></textarea>
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    <div class="col-md-12">
-                                        <div class="input-group">
-                                            <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                                            <input class="form-control" placeholder="Convidar por nome ou email" ng-model="Dto.Guests"/>
-                                        </div>
                                     </div>
                                 </div>
 

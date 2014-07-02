@@ -443,6 +443,7 @@ App.controller('FindEventsCtrl', ['$scope', '$http', '$sce', '$rootScope', '$q',
         $scope.updateEventStatus = function(e, status) {
 
             e.Answer = status;
+
             var data = {
                 UseId: parseInt(window.localStorage.userId),
                 EventId: e.Id,
@@ -479,24 +480,46 @@ App.controller('FindEventsCtrl', ['$scope', '$http', '$sce', '$rootScope', '$q',
 
         };
 
-        $scope.like = function(event) {
+        $scope.likesC = {
+            0: 'ninguém curtiu',
+            one: '{} curtiu',
+            other: '{} curtiram'
+        };
+        
+        $scope.peopleDueC = {
+            0: 'ninguém foi',
+            one: '{} pessoa foi',
+            other: '{} pessoas foram'
+        };
+        
+        $scope.peopleNotDueC = {
+            0: 'ninguém vai',
+            one: '{} pessoa vai',
+            other: '{} pessoas irão'
+        };
 
+        $scope.like = function(event) {
+            event.like = true;
+            event.likes++;
         };
 
         $scope.unlike = function(event) {
-
+            event.like = false;
+            event.likes--;
         };
 
         $scope.share = function(event) {
-
+            event.shared = true;
         };
 
         $scope.likeComment = function(event, comm) {
-
+            comm.like = true;
+            comm.likes++;
         };
 
         $scope.unlikeComment = function(event, comm) {
-
+            comm.like = false;
+            comm.likes--;
         };
 
         $('a[href="#find"], a[href="#event"]').on('show.bs.tab', function(e) {
