@@ -52,14 +52,14 @@ public class EventDAO {
         List<Event> events = null;
         try {
             et.begin();
-            TypedQuery<Event> query = (TypedQuery<Event>) em.createQuery("select p from Profile p");
+            TypedQuery<Event> query = (TypedQuery<Event>) em.createQuery("select e from Event e");
 
             events = query.getResultList();
             
             for (Event e : events) {
                 System.out.println("Nome: " + e.getName());
             }
-            
+
             et.commit();
         } catch (Exception e) {
             if (et != null && et.isActive())
