@@ -363,7 +363,7 @@ App.controller('MyEventsCtrl', ['$scope', '$http', '$sce', '$rootScope', '$q', f
 
             $http({
                 method: 'GET',
-                url: '/eventos/api/event',
+                url: '/eventos/api/event/user/' + getUser().id,
             }).success(function(data, status, headers, config) {
                 console.log(data);
                 $scope.UserEvents = data;
@@ -423,7 +423,7 @@ App.controller('FindEventsCtrl', ['$scope', '$http', '$sce', '$rootScope', '$q',
 
                 $http({
                     method: 'GET',
-                    url: '/eventos/api/event',
+                    url: '/eventos/api/event/user/' + getUser().id + '/othersEvents',
                 }).success(function(data, status, headers, config) {
                     console.log(data);
                     $scope.AllEvents = data;
