@@ -1,8 +1,12 @@
 package br.furb.eventos.ws;
 
+import br.furb.eventos.dto.CommentDto;
 import br.furb.eventos.dto.EventDto;
+import br.furb.eventos.dto.NewCommentDto;
 import br.furb.eventos.dto.NewEventDto;
 import br.furb.eventos.dto.UserDto;
+import br.furb.eventos.entity.Comment;
+import br.furb.eventos.entity.CommentDAO;
 import br.furb.eventos.entity.Event;
 import br.furb.eventos.entity.EventDAO;
 import br.furb.eventos.entity.User;
@@ -44,6 +48,7 @@ public class EventResource extends BaseWs {
             return notFound();
         }
 
+        ArrayList<CommentDto> cmDto = new ArrayList<>();
         User owner = ev.getOwner();
 
         EventDto e = new EventDto();
@@ -64,6 +69,27 @@ public class EventResource extends BaseWs {
         e.setFinalDate(ev.getFinaldate().toString());
         e.setLocation(ev.getAddress());
         e.setDetail(ev.getDescription());
+        
+        for (Comment comment : ev.getComments()) {
+            
+            CommentDto c = new CommentDto();
+            u = new UserDto();
+            User userComment = comment.getUser();
+
+            u.setId(userComment.getId());
+            u.setFullName(userComment.getName() + " " + userComment.getLastname());
+            u.setName(userComment.getName());
+            u.setSurName(userComment.getLastname());
+            u.setLogin(userComment.getLogin());
+            u.setPhotoUrl(userComment.getPhotoUrl());
+
+            c.setUser(u);
+            c.setComment(comment.getComment());
+
+            cmDto.add(c);
+        }
+
+        e.setComments(cmDto);
         
         e.setGuests("João");
         
@@ -198,6 +224,7 @@ public class EventResource extends BaseWs {
     @Produces(JSON)
     @Consumes(JSON)
     public Response addEvent(NewEventDto c) throws ParseException {
+        
         Event e = new Event();
         UserDAO userDAO = UserDAO.getInstance();
 
@@ -218,7 +245,13 @@ public class EventResource extends BaseWs {
     @Consumes(JSON)
     @Path("{id:[0-9]+}")
     public Response editEvent(@PathParam("id") long id, NewEventDto c) throws ParseException {
+        
         Event e = dao.getById(id);
+
+        if (e == null) {
+            return notFound();
+        }
+        
         UserDAO userDAO = UserDAO.getInstance();
 
         e.setOwner(userDAO.getById(c.getOwner()));
@@ -231,5 +264,33 @@ public class EventResource extends BaseWs {
         dao.save(e);
 
         return noContent();
+    }
+    
+    @PUT
+    @Produces(JSON)
+    @Consumes(JSON)
+    @Path("{id:[0-9]+}/comment")
+    public Response addComment(@PathParam("id") long id, NewCommentDto c) {
+        
+        Event e = dao.getById(id);
+
+        if (e == null) {
+            return notFound();
+        }
+        
+        Comment comment = new Comment();
+        UserDAO userDAO = UserDAO.getInstance();        
+        
+        comment.setUser(userDAO.getById(c.getUser()));
+        comment.setComment(c.getComment());
+        
+        List<Comment> cm = e.getComments();
+        cm.add(comment);
+        
+        e.setComments(cm);              
+        
+        dao.save(e);
+
+        return created(comment.getId());
     }
 }

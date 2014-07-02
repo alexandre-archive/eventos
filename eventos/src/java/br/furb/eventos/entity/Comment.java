@@ -2,6 +2,7 @@ package br.furb.eventos.entity;
 
 import java.util.Date;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Temporal;
 import static javax.persistence.TemporalType.DATE;
@@ -10,6 +11,7 @@ import static javax.persistence.TemporalType.DATE;
 public class Comment {
     
     @Id
+    @GeneratedValue
     private long id;
     
     private User user;

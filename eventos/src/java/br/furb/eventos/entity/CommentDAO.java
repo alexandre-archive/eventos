@@ -31,7 +31,7 @@ public class CommentDAO {
         EntityTransaction et = em.getTransaction();
         try {
             et.begin();
-            if (comm.getId() != 0)
+            if (comm.getId() == 0)
                 em.persist(comm);
             else
                 em.merge(comm);    
