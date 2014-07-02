@@ -9,6 +9,7 @@ package br.furb.eventos.entity;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -132,6 +133,12 @@ public class Event {
 
     private User owner;
     private HashMap<User, UserStatus> guests;
+    
+    private List<User> likes;
+    
+    private List<User> shares;
+    
+    private HashMap<User, String> comments;
     
     private String coverImage;
     
