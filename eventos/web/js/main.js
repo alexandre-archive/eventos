@@ -587,7 +587,7 @@ App.controller('NewEventCtrl', ['$scope', '$http', '$sce', '$rootScope', '$q', f
                 $rootScope.showAlertBox("Evento cadastrado com sucesso.", "i", true);
                 $scope.reset();
             }).error(function(data, status, headers, config) {
-                console.log(data)
+                console.log(data);
                 $rootScope.showAlertBox("Erro ao processar request. Código: " + status, "e", true);
             });
         };
