@@ -366,7 +366,6 @@ App.controller('MyEventsCtrl', ['$scope', '$http', '$sce', '$rootScope', '$q', f
 
             }).error(function(data, status, headers, config) {
                 console.log(data);
-                $rootScope.showAlertBox("Usuário não encontrado.", "e", false);
             });
         };
 
@@ -408,7 +407,6 @@ App.controller('FindEventsCtrl', ['$scope', '$http', '$sce', '$rootScope', '$q',
 
                 }).error(function(data, status, headers, config) {
                     console.log(data);
-                    $rootScope.showAlertBox("Usuário não encontrado.", "e", false);
                 });
 
             } else {
@@ -428,7 +426,6 @@ App.controller('FindEventsCtrl', ['$scope', '$http', '$sce', '$rootScope', '$q',
 
                 }).error(function(data, status, headers, config) {
                     console.log(data);
-                    $rootScope.showAlertBox("Usuário não encontrado.", "e", false);
                 });
             }
         };
