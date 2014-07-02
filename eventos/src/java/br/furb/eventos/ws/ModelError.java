@@ -1,7 +1,7 @@
 package br.furb.eventos.ws;
 
 /**
- *
+ * Classe para retornar erro de validação de model.
  * @author alexandre.vicenzi
  */
 public class ModelError {

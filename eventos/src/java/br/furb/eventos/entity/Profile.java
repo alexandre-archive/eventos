@@ -21,31 +21,19 @@ public class Profile {
     public Profile(String name) {
         this.name = name;
     }
-    
-    /**
-     * @return the name
-     */
+
     public String getName() {
         return name;
     }
 
-    /**
-     * @param name the name to set
-     */
     public void setName(String name) {
         this.name = name;
     }
 
-    /**
-     * @return the permissions
-     */
     public ArrayList<Permission> getPermissions() {
         return null;
     }
 
-    /**
-     * @param permissions the permissions to set
-     */
     public void setPermissions(ArrayList<Permission> permissions) {
         
     }

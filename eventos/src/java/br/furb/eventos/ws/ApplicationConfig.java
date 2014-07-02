@@ -1,7 +1,6 @@
 package br.furb.eventos.ws;
 
 import java.util.Set;
-import java.util.logging.Logger;
 import javax.ws.rs.core.Application;
 import org.codehaus.jackson.jaxrs.JacksonJsonProvider;
 
@@ -19,17 +18,6 @@ public class ApplicationConfig extends Application {
     public Set<Class<?>> getClasses() {
         Set<Class<?>> resources = new java.util.HashSet<>();
         addRestResourceClasses(resources);
-
-        /* TODO: Remover depois
-         try {
-         // Habilita suporte a JSON no Jersey.
-         Class jacksonProvider = Class.forName("org.codehaus.jackson.jaxrs.JacksonJsonProvider");
-         resources.add(jacksonProvider);
-         } catch (ClassNotFoundException ex) {
-         Logger.getLogger(getClass().getName()).log(java.util.logging.Level.SEVERE, null, ex);
-         }
-         */
-        
         // Habilita suporte a JSON no Jersey.
         resources.add(JacksonJsonProvider.class);
 

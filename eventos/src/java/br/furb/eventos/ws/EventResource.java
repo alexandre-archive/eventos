@@ -15,9 +15,7 @@ import br.furb.eventos.entity.User;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -73,35 +71,6 @@ public class EventResource extends BaseWs {
         e.setLocation(ev.getAddress());
         e.setDetail(ev.getDescription());
 
-        String s = "";
-
-        List<Guest> g = ev.getGuests();
-
-        if (g != null) {
-
-            int count = 0;
-
-            for (Guest entry : g) {
-                User user = entry.getGuest();
-                UserStatus userStatus = entry.getStatus();
-
-                if (userStatus == UserStatus.YES) {
-                    s += user.getName() + " " + user.getLastname();
-                }
-
-                count++;
-
-                if (count < 5) {
-                    s += ", ";
-                } else {
-                    s += " e mais";
-                    break;
-                }
-            }
-        }
-
-        e.setGuests(s);
-
         for (Comment comment : ev.getComments()) {
 
             CommentDto c = new CommentDto();
@@ -123,8 +92,6 @@ public class EventResource extends BaseWs {
         }
 
         e.setComments(cmDto);
-
-        e.setGuests("João");
 
         int total = 0;
         e.setTotalGuests(total);
@@ -167,35 +134,6 @@ public class EventResource extends BaseWs {
             e.setLocation(event.getAddress());
             e.setDetail(event.getDescription());
 
-            String s = "";
-
-            List<Guest> g = event.getGuests();
-
-            if (g != null) {
-
-                int count = 0;
-
-                for (Guest entry : g) {
-                    User user = entry.getGuest();
-                    UserStatus userStatus = entry.getStatus();
-
-                    if (userStatus == UserStatus.YES) {
-                        s += user.getName() + " " + user.getLastname();
-                    }
-
-                    count++;
-
-                    if (count < 5) {
-                        s += ", ";
-                    } else {
-                        s += " e mais";
-                        break;
-                    }
-                }
-            }
-
-            e.setGuests(s);
-
             ev.add(e);
         }
 
@@ -235,35 +173,6 @@ public class EventResource extends BaseWs {
             e.setLocation(event.getAddress());
             e.setDetail(event.getDescription());
 
-            String s = "";
-
-            List<Guest> g = event.getGuests();
-
-            if (g != null) {
-
-                int count = 0;
-
-                for (Guest entry : g) {
-                    User user = entry.getGuest();
-                    UserStatus userStatus = entry.getStatus();
-
-                    if (userStatus == UserStatus.YES) {
-                        s += user.getName() + " " + user.getLastname();
-                    }
-
-                    count++;
-
-                    if (count < 5) {
-                        s += ", ";
-                    } else {
-                        s += " e mais";
-                        break;
-                    }
-                }
-            }
-
-            e.setGuests(s);
-
             ev.add(e);
         }
 
@@ -302,35 +211,6 @@ public class EventResource extends BaseWs {
             e.setLocation(event.getAddress());
             e.setDetail(event.getDescription());
 
-            String s = "";
-
-            List<Guest> g = event.getGuests();
-
-            if (g != null) {
-
-                int count = 0;
-
-                for (Guest entry : g) {
-                    User user = entry.getGuest();
-                    UserStatus userStatus = entry.getStatus();
-
-                    if (userStatus == UserStatus.YES) {
-                        s += user.getName() + " " + user.getLastname();
-                    }
-
-                    count++;
-
-                    if (count < 5) {
-                        s += ", ";
-                    } else {
-                        s += " e mais";
-                        break;
-                    }
-                }
-            }
-
-            e.setGuests(s);
-            
             ev.add(e);
         }
 
@@ -412,36 +292,6 @@ public class EventResource extends BaseWs {
         return noContent();
     }
 
-    /*@PUT
-     @Produces(JSON)
-     @Consumes(JSON)
-     @Path("{id:[0-9]+}/comment/{idComment:[0-9]+}/like")
-     public Response likeComment(@PathParam("id") long id, @PathParam("idComment") long idComment, long idUser) {
-        
-     Event e = dao.getById(id);
-
-     if (e == null) {
-     return notFound();
-     }
-        
-     CommentDAO commentDAO = CommentDAO.getInstance();        
-     Comment c = commentDAO.getById(idComment);
-        
-     if (c == null) {
-     return notFound();
-     }
-        
-     UserDAO userDAO = UserDAO.getInstance();        
-     List<User> l = e.getLikes();
-        
-     l.add(userDAO.getById(idUser));
-        
-     e.setLikes(l);              
-        
-     dao.save(e);
-
-     return noContent();
-     }*/
     @PUT
     @Produces(JSON)
     @Consumes(JSON)

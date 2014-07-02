@@ -22,45 +22,27 @@ public class Permission {
         this.id = 0l;
         this.name = name;
     }
-    
-    /**
-     * @return the name
-     */
+
     public String getName() {
         return name;
     }
 
-    /**
-     * @param name the name to set
-     */
     public void setName(String name) {
         this.name = name;
     }
 
-    /**
-     * @return the route
-     */
     public String getRoute() {
         return route;
     }
 
-    /**
-     * @param route the route to set
-     */
     public void setRoute(String route) {
         this.route = route;
     }
 
-    /**
-     * @return the function
-     */
     public String getFunction() {
         return function;
     }
 
-    /**
-     * @param function the function to set
-     */
     public void setFunction(String function) {
         this.function = function;
     }

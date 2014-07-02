@@ -1,19 +1,16 @@
-
 package br.furb.eventos.entity;
 
-import java.io.Serializable;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.OneToOne;
 
 @Entity
 public class User {
-    
+
     @Id
     @GeneratedValue
     private long id;
-    
+
     private String name;
     private String email;
     private String lastname;
@@ -21,15 +18,12 @@ public class User {
     private String pwd;
     private String photoUrl;
     private Profile profile;
-    
-    //@OneToOne
-    //private Profile profile;
 
     public User() {
     }
-    
+
     public User(String name, String email, String lastname, String login, String pwd) {
-        this.name  = name;
+        this.name = name;
         this.email = email;
         this.lastname = lastname;
         this.login = login;
