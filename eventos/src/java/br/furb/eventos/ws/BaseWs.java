@@ -2,8 +2,10 @@ package br.furb.eventos.ws;
 
 import java.io.IOException;
 import java.net.URI;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ws.rs.core.Context;
@@ -29,6 +31,8 @@ public class BaseWs {
     protected UriInfo context;
     protected Validator validator;
     protected List<ConstraintViolation> violations;
+    protected final Locale localeBR = new Locale("pt", "BR");          
+    protected final SimpleDateFormat fmt = new SimpleDateFormat("dd 'de' MMMM 'de' yyyy hh:mm", localeBR);  
 
     public BaseWs() {
         validator = new Validator();

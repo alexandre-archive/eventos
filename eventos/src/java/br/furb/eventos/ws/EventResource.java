@@ -6,7 +6,6 @@ import br.furb.eventos.dto.NewCommentDto;
 import br.furb.eventos.dto.NewEventDto;
 import br.furb.eventos.dto.UserDto;
 import br.furb.eventos.entity.Comment;
-import br.furb.eventos.entity.CommentDAO;
 import br.furb.eventos.entity.Event;
 import br.furb.eventos.entity.EventDAO;
 import br.furb.eventos.entity.User;
@@ -15,7 +14,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -34,14 +32,12 @@ import javax.ws.rs.core.Response;
 public class EventResource extends BaseWs {
 
     private final EventDAO dao = EventDAO.getInstance();
-    private Locale localeBR = new Locale("pt", "BR");          
-    private SimpleDateFormat fmt = new SimpleDateFormat("dd 'de' MMMM 'de' yyyy hh:mm", localeBR);  
 
     public EventResource() {
     }
 
     @GET
-    @Produces("application/json")
+    @Produces(JSON)
     @Path("{id:[0-9]+}")
     public Response getEvent(@PathParam("id") long id) {
 
@@ -106,7 +102,7 @@ public class EventResource extends BaseWs {
     }
     
     @GET
-    @Produces("application/json")
+    @Produces(JSON)
     @Path("user/{idUser:[0-9]+}")
     public Response getEventsUser(@PathParam("idUser") long id) {
 
@@ -145,7 +141,7 @@ public class EventResource extends BaseWs {
     }
     
     @GET
-    @Produces("application/json")
+    @Produces(JSON)
     @Path("user/{idUser:[0-9]+}/othersEvents")
     public Response getOthersEvents(@PathParam("idUser") long id) {
 
