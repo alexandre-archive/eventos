@@ -16,6 +16,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -70,6 +71,35 @@ public class EventResource extends BaseWs {
         e.setFinalDate(ev.getFinaldate().toString());
         e.setLocation(ev.getAddress());
         e.setDetail(ev.getDescription());
+
+        String s = "";
+
+        HashMap<User, Event.UserStatus> g = ev.getGuests();
+        
+        if (g != null) {
+
+            int count = 0;
+
+            for (Map.Entry<User, Event.UserStatus> entry : g.entrySet()) {
+                User user = entry.getKey();
+                Event.UserStatus userStatus = entry.getValue();
+
+                if (userStatus == Event.UserStatus.YES) {
+                    s += user.getName() + " " + user.getLastname();
+                }
+
+                count++;
+
+                if (count < 5) {
+                    s += ", ";
+                } else {
+                    s += " e mais";
+                    break;
+                }
+            }
+        }
+        
+        e.setGuests(s);
 
         for (Comment comment : ev.getComments()) {
 
@@ -136,6 +166,34 @@ public class EventResource extends BaseWs {
             e.setLocation(event.getAddress());
             e.setDetail(event.getDescription());
 
+            String s = "";
+
+            HashMap<User, Event.UserStatus> g = event.getGuests();
+
+            if (g != null) {
+                int count = 0;
+
+                for (Map.Entry<User, Event.UserStatus> entry : g.entrySet()) {
+                    User user = entry.getKey();
+                    Event.UserStatus userStatus = entry.getValue();
+
+                    if (userStatus == Event.UserStatus.YES) {
+                        s += user.getName() + " " + user.getLastname();
+                    }
+
+                    count++;
+
+                    if (count < 5) {
+                        s += ", ";
+                    } else {
+                        s += " e mais";
+                        break;
+                    }
+                }
+            }
+
+            e.setGuests(s);
+
             ev.add(e);
         }
 
@@ -175,6 +233,34 @@ public class EventResource extends BaseWs {
             e.setLocation(event.getAddress());
             e.setDetail(event.getDescription());
 
+            String s = "";
+
+            HashMap<User, Event.UserStatus> g = event.getGuests();
+
+            if (g != null) {
+                int count = 0;
+
+                for (Map.Entry<User, Event.UserStatus> entry : g.entrySet()) {
+                    User user = entry.getKey();
+                    Event.UserStatus userStatus = entry.getValue();
+
+                    if (userStatus == Event.UserStatus.YES) {
+                        s += user.getName() + " " + user.getLastname();
+                    }
+
+                    count++;
+
+                    if (count < 5) {
+                        s += ", ";
+                    } else {
+                        s += " e mais";
+                        break;
+                    }
+                }
+            }
+
+            e.setGuests(s);
+
             ev.add(e);
         }
 
@@ -213,6 +299,33 @@ public class EventResource extends BaseWs {
             e.setLocation(event.getAddress());
             e.setDetail(event.getDescription());
 
+            String s = "";
+
+            HashMap<User, Event.UserStatus> g = event.getGuests();
+
+            if (g != null) {
+                int count = 0;
+
+                for (Map.Entry<User, Event.UserStatus> entry : g.entrySet()) {
+                    User user = entry.getKey();
+                    Event.UserStatus userStatus = entry.getValue();
+
+                    if (userStatus == Event.UserStatus.YES) {
+                        s += user.getName() + " " + user.getLastname();
+                    }
+
+                    count++;
+
+                    if (count < 5) {
+                        s += ", ";
+                    } else {
+                        s += " e mais";
+                        break;
+                    }
+                }
+            }
+
+            e.setGuests(s);
             ev.add(e);
         }
 

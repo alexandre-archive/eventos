@@ -3,6 +3,7 @@ package br.furb.eventos.ws;
 import br.furb.eventos.dto.UserDto;
 import br.furb.eventos.entity.User;
 import br.furb.eventos.dao.UserDAO;
+import br.furb.eventos.dto.LoginDto;
 import java.io.IOException;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Consumes;
@@ -95,6 +96,28 @@ public class UserResource extends BaseWs {
         dao.save(u);
 
         return created(u.getId());
+    }
+    
+    @POST
+    @Produces(JSON)
+    @Consumes(JSON)
+    @Path("auth")
+    public Response validateUser(LoginDto c) {
+
+        if (!modelIsValid(c)) {
+            return badRequest();
+        }
+        
+        User u = new User();
+
+        u.setLogin(c.getLogin());
+        u.setPwd(c.getPwd());
+
+        if (dao.verify(u, "login") && dao.verify(u, "pwd")) {
+            return noContent();
+        }
+
+        return badRequest();
     }
 
     @PUT

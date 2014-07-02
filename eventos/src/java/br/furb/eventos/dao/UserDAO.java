@@ -100,6 +100,10 @@ public class UserDAO {
                     q = em.createQuery("select u from User u where u.email = :email");
                     q.setParameter("email", u.getEmail());
                     break;
+                case "pwd":
+                    q = em.createQuery("select u from User u where u.pwd = :pwd");
+                    q.setParameter("pwd", u.getPwd());
+                    break;
             }
         }
 
