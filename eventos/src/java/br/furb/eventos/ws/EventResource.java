@@ -345,6 +345,7 @@ public class EventResource extends BaseWs {
         Event e = new Event();
         UserDAO userDAO = UserDAO.getInstance();
 
+        e.setCoverImage(c.getCoverUrl());
         e.setOwner(userDAO.getById(c.getOwner()));
         e.setName(c.getTitle());
         e.setDescription(c.getDetail());
