@@ -46,6 +46,38 @@ public class EventDAO {
         return e;
     }
     
+    public List<Event> getEventsUser(long idUser)
+    {
+        EntityManager em = PersistenseUtil.getEntityManager();
+        
+        List l = em.createNativeQuery("Select e.* from Event e where e.owner_id = ?1", Event.class)
+                .setParameter(1, idUser)
+                .getResultList();
+        
+        if (l.isEmpty())
+        {
+            return null;
+        }
+        
+        return l;
+    }
+    
+    public List<Event> getOthersEvents(long idUser)
+    {
+        EntityManager em = PersistenseUtil.getEntityManager();
+        
+        List l = em.createNativeQuery("Select e.* from Event e where e.owner_id <> ?1", Event.class)
+                .setParameter(1, idUser)
+                .getResultList();
+        
+        if (l.isEmpty())
+        {
+            return null;
+        }
+        
+        return l;
+    }
+    
     public List<Event> getAllEvents() {
         EntityManager em = PersistenseUtil.getEntityManager();
         EntityTransaction et = em.getTransaction();

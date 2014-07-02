@@ -50,70 +50,105 @@ public class EventResource extends BaseWs {
         UserDto u = new UserDto();
         u.setId(owner.getId());
         u.setFullName(owner.getName() + " " + owner.getLastname());
+        u.setName(owner.getName());
+        u.setSurName(owner.getLastname());
+        u.setLogin(owner.getLogin());
+        u.setPhotoUrl(owner.getPhotoUrl());
 
         e.setId(id);
         e.setOwner(u);
         e.setCoverUrl(ev.getCoverImage());
         e.setTitle(ev.getName());
         e.setDate(ev.getInitialdate() + " - " + ev.getFinaldate());
+        e.setInitialDate(ev.getInitialdate().toString());
+        e.setFinalDate(ev.getFinaldate().toString());
         e.setLocation(ev.getAddress());
         e.setDetail(ev.getDescription());
-        //e.setGuests(ev.getGuests());
+        //e.setGuests();
         //e.setTotalGuests();
         e.setLike(true);
         //e.setLikes(id);
 
         return ok(e);
     }
-    /*@GET
-     @Produces("application/json")
-     public String getJson() {
-     //TODO return proper representation object
-     User u = new User();
-     u.setName("Teste");
-     u.setEmail("teste@hehe.com");
-     u.setId(1l);
-     UserDAO dao = UserDAO.getInstance();
-        
-     dao.save(u);
-        
-     u = dao.getById(1);
-        
-     if (u == null) {
-     return "nao existe";
-     } else {
-     return "user existe";
-     }
-     //Profile p = new Profile();
-     //p.setName("nome do profile");
-     //p.setId(51l);
-     //ProfileDAO dao = ProfileDAO.getInstance();
-        
-     //if (dao.verify(p))
-     //    return "existe...";
-     //else
-     //    return "nao existe...";
-        
-     //dao.remove(p);
-     //return "Removed";
-        
-     //Profile p = new Profile("nome do profile");
-     //ProfileDAO dao = ProfileDAO.getInstance();
-     //dao.salvar(p);
-     //return "Profile salvo...";
-     //Permission p = new Permission("nome do permission");
-     //PermissionDAO dao = PermissionDAO.getInstance();
-     //dao.salvar(p);
-     //return "Permission salvo...";
-     //Event e = new Event("Game", "Metal Gear Solid Version");
-     //EventDAO dao = EventDAO.getInstance();
-     //dao.salvar(e);
-     //return "Event salvo...";
-     //Comment c = new Comment("HAUahuAhuaHU");
-     //CommentDAO dao = CommentDAO.getInstance();
-     //dao.salvar(c);
-     //return "Comment salvo...";
-     }*/
+    
+    @GET
+    @Produces("application/json")
+    @Path("user/{idUser:[0-9]+}")
+    public Response getEventsUser(@PathParam("idUser") long id) {
+
+        ArrayList<EventDto> ev = new ArrayList<>();
+
+        List<Event> evs = dao.getEventsUser(id);
+
+        for (Event event : evs) {
+
+            EventDto e = new EventDto();
+            UserDto u = new UserDto();
+
+            User usr = event.getOwner();
+
+            u.setId(usr.getId());
+            u.setFullName(usr.getName() + " " + usr.getLastname());
+            u.setName(usr.getName());
+            u.setSurName(usr.getLastname());
+            u.setLogin(usr.getLogin());
+            u.setPhotoUrl(usr.getPhotoUrl());
+
+            e.setId(event.getId());
+            e.setOwner(u);
+            e.setCoverUrl(event.getCoverImage());
+            e.setTitle(event.getName());
+            e.setDate(event.getInitialdate() + " - " + event.getFinaldate());
+            e.setInitialDate(event.getInitialdate().toString());
+            e.setFinalDate(event.getFinaldate().toString());
+            e.setLocation(event.getAddress());
+            e.setDetail(event.getDescription());
+
+            ev.add(e);
+        }
+
+        return ok(ev);
+    }
+    
+    @GET
+    @Produces("application/json")
+    @Path("user/{idUser:[0-9]+}/othersEvents")
+    public Response getOthersEvents(@PathParam("idUser") long id) {
+
+        ArrayList<EventDto> ev = new ArrayList<>();
+
+        List<Event> evs = dao.getOthersEvents(id);
+
+        for (Event event : evs) {
+
+            EventDto e = new EventDto();
+            UserDto u = new UserDto();
+
+            User usr = event.getOwner();
+
+            u.setId(usr.getId());
+            u.setFullName(usr.getName() + " " + usr.getLastname());
+            u.setName(usr.getName());
+            u.setSurName(usr.getLastname());
+            u.setLogin(usr.getLogin());
+            u.setPhotoUrl(usr.getPhotoUrl());
+
+            e.setId(event.getId());
+            e.setOwner(u);
+            e.setCoverUrl(event.getCoverImage());
+            e.setTitle(event.getName());
+            e.setDate(event.getInitialdate() + " - " + event.getFinaldate());
+            e.setInitialDate(event.getInitialdate().toString());
+            e.setFinalDate(event.getFinaldate().toString());
+            e.setLocation(event.getAddress());
+            e.setDetail(event.getDescription());
+
+            ev.add(e);
+        }
+
+        return ok(ev);
+    }
 
     @GET
     @Produces(JSON)
@@ -142,6 +177,8 @@ public class EventResource extends BaseWs {
             e.setCoverUrl(event.getCoverImage());
             e.setTitle(event.getName());
             e.setDate(event.getInitialdate() + " - " + event.getFinaldate());
+            e.setInitialDate(event.getInitialdate().toString());
+            e.setFinalDate(event.getFinaldate().toString());
             e.setLocation(event.getAddress());
             e.setDetail(event.getDescription());
 
