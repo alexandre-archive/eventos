@@ -15,6 +15,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -33,6 +34,8 @@ import javax.ws.rs.core.Response;
 public class EventResource extends BaseWs {
 
     private final EventDAO dao = EventDAO.getInstance();
+    private Locale localeBR = new Locale("pt", "BR");          
+    private SimpleDateFormat fmt = new SimpleDateFormat("dd 'de' MMMM 'de' yyyy hh:mm", localeBR);  
 
     public EventResource() {
     }
@@ -64,7 +67,7 @@ public class EventResource extends BaseWs {
         e.setOwner(u);
         e.setCoverUrl(ev.getCoverImage());
         e.setTitle(ev.getName());
-        e.setDate(ev.getInitialdate() + " - " + ev.getFinaldate());
+        e.setDate(fmt.format(ev.getInitialdate()) + " - " + fmt.format(ev.getFinaldate()));
         e.setInitialDate(ev.getInitialdate().toString());
         e.setFinalDate(ev.getFinaldate().toString());
         e.setLocation(ev.getAddress());
@@ -132,7 +135,7 @@ public class EventResource extends BaseWs {
             e.setOwner(u);
             e.setCoverUrl(event.getCoverImage());
             e.setTitle(event.getName());
-            e.setDate(event.getInitialdate() + " - " + event.getFinaldate());
+            e.setDate(fmt.format(event.getInitialdate()) + " - " + fmt.format(event.getFinaldate()));
             e.setInitialDate(event.getInitialdate().toString());
             e.setFinalDate(event.getFinaldate().toString());
             e.setLocation(event.getAddress());
@@ -171,7 +174,7 @@ public class EventResource extends BaseWs {
             e.setOwner(u);
             e.setCoverUrl(event.getCoverImage());
             e.setTitle(event.getName());
-            e.setDate(event.getInitialdate() + " - " + event.getFinaldate());
+            e.setDate(fmt.format(event.getInitialdate()) + " - " + fmt.format(event.getFinaldate()));
             e.setInitialDate(event.getInitialdate().toString());
             e.setFinalDate(event.getFinaldate().toString());
             e.setLocation(event.getAddress());
@@ -209,7 +212,7 @@ public class EventResource extends BaseWs {
             e.setOwner(u);
             e.setCoverUrl(event.getCoverImage());
             e.setTitle(event.getName());
-            e.setDate(event.getInitialdate() + " - " + event.getFinaldate());
+            e.setDate(fmt.format(event.getInitialdate()) + " - " + fmt.format(event.getFinaldate()));
             e.setInitialDate(event.getInitialdate().toString());
             e.setFinalDate(event.getFinaldate().toString());
             e.setLocation(event.getAddress());
