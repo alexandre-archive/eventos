@@ -391,14 +391,18 @@ App.controller('MyEventsCtrl', ['$scope', '$http', '$sce', '$rootScope', '$q', f
 
         $scope.updateEventStatus = function(e) {
 
-            var data = {
-                UseId: parseInt(window.localStorage.userId),
-                EventId: e.Id,
-                Answer: e.Status.id,
-            };
-            console.log(data);
+            console.log(e);
+
+            $http({
+                method: 'PUT',
+                url: '/eventos/api/event/' + e.id + '/guest/' + getUser().id + '/answer/' + e.status.id,
+            }).success(function(data, status, headers, config) {
+                
+            }).error(function(data, status, headers, config) {
+                console.log(data);
+            });
         };
-        
+
         $scope.peopleDueC = {
             0: 'ninguém foi',
             one: '{} pessoa foi',
@@ -588,7 +592,7 @@ App.controller('NewEventCtrl', ['$scope', '$http', '$sce', '$rootScope', '$q', f
                 detail: $scope.Dto.Detail,
                 guests: $scope.Dto.Guest
             };
-            
+
             $http({
                 method: 'POST',
                 url: '/eventos/api/event',

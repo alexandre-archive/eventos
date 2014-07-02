@@ -14,12 +14,11 @@ public class Guest {
     @Id
     @GeneratedValue
     private long id;
-    
+
     private User guest;
     private UserStatus status;
-    
-    public Guest()
-    {
+
+    public Guest() {
     }
 
     public UserStatus getStatus() {
@@ -46,12 +45,21 @@ public class Guest {
         this.id = id;
     }
 
-    public enum UserStatus 
-    {
-        YES,
-        MAYBE,
-        NO,
-        INVITED,
-    }
+    public enum UserStatus {
 
+        YES(1),
+        NO(2),
+        MAYBE(3),
+        DONTKNOW(4);
+
+        private int value;
+
+        private UserStatus(int value) {
+            this.value = value;
+        }
+        
+        public static UserStatus get(int value) {
+            return UserStatus.values()[value];
+        }
+    }
 }

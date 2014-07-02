@@ -493,8 +493,8 @@ public class EventResource extends BaseWs {
     @PUT
     @Produces(JSON)
     @Consumes(JSON)
-    @Path("{id:[0-9]+}/guest/{idUser:[0-9]+}/answer/{status}")
-    public Response addGuest(@PathParam("id") long id, @PathParam("idUser") long idUser, @PathParam("status") UserStatus status) {
+    @Path("{id:[0-9]+}/guest/{idUser:[0-9]+}/answer/{status:[0-9]+}")
+    public Response addGuest(@PathParam("id") long id, @PathParam("idUser") long idUser, @PathParam("status") int status) {
 
         Event e = dao.getById(id);
 
@@ -507,7 +507,8 @@ public class EventResource extends BaseWs {
         Guest g = new Guest();
         
         g.setGuest(userDAO.getById(idUser));
-        g.setStatus(status);
+        
+        g.setStatus(UserStatus.get(status));
         gs.add(g);
         
         e.setGuests(gs);

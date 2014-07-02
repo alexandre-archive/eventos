@@ -2,7 +2,6 @@ package br.furb.eventos.entity;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -14,6 +13,47 @@ import javax.persistence.TemporalType;
 @Entity
 public class Event {
 
+    @Id
+    @GeneratedValue
+    private long id;
+    
+    private String name;
+    
+    private String description;
+    
+    private String address;
+    
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(nullable = true)
+    private Date initialdate;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(nullable = true)
+    private Date finaldate;
+
+    private User owner;
+    
+    private List<Guest> guests;
+    
+    private List<User> likes;
+    
+    private List<User> shares;
+    
+    private List<Comment> comments;
+    
+    private String coverImage;
+    
+    private ArrayList<String> images;
+
+    public Event(String name, String description) {
+        this.name = name;
+        this.description = description;
+    }
+    
+    public Event () {
+        this.id = 0;
+    }
+    
     public long getId() {
         return id;
     }
@@ -117,83 +157,4 @@ public class Event {
     public void setImages(ArrayList<String> images) {
         this.images = images;
     }
-
-    public EventStatus getStatus() {
-        return status;
-    }
-
-    public void setStatus(EventStatus status) {
-        this.status = status;
-    }
-
-    public EventType getType() {
-        return type;
-    }
-
-    public void setType(EventType type) {
-        this.type = type;
-    }
-    
-    public enum EventStatus
-    {
-        Open,
-        Done,
-        Canceled,
-        Undefined,
-    }
-    
-    public enum EventType
-    {
-        Private,
-        Public
-    }
-    
-    @Id
-    @GeneratedValue
-    private long id;
-    
-    private String name;
-    private String description;
-    
-    private String address;
-    
-    @Temporal(TemporalType.TIMESTAMP)
-    @Column(nullable = true)
-    private Date initialdate;
-
-    @Temporal(TemporalType.TIMESTAMP)
-    @Column(nullable = true)
-    private Date finaldate;
-
-    private User owner;
-    private List<Guest> guests;
-    
-    private List<User> likes;
-    
-    private List<User> shares;
-    
-    private List<Comment> comments;
-    
-    private String coverImage;
-    
-    private ArrayList<String> images;
- 
-    private EventStatus status;
-    
-    private EventType type;
-    
-    public Event(String name, String description) {
-        this.name = name;
-        this.description = description;
-    }
-    
-    public Event () {
-        this.id = 0;
-    }
-    
-    /*
-    
-    Só o owner pode excluir o evento.
-    
-    */
 }
