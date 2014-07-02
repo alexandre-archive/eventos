@@ -9,6 +9,8 @@ import br.furb.eventos.entity.User;
 import br.furb.eventos.entity.UserDAO;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -27,7 +29,7 @@ import javax.ws.rs.core.Response;
 public class EventResource extends BaseWs {
 
     private final EventDAO dao = EventDAO.getInstance();
-    
+
     public EventResource() {
     }
 
@@ -35,21 +37,20 @@ public class EventResource extends BaseWs {
     @Produces("application/json")
     @Path("{id:[0-9]+}")
     public Response getEvent(@PathParam("id") long id) {
-        
+
         Event ev = dao.getById(id);
-        
-        if (ev == null)
-        {
+
+        if (ev == null) {
             return notFound();
         }
-        
+
         User owner = ev.getOwner();
-        
+
         EventDto e = new EventDto();
         UserDto u = new UserDto();
         u.setId(owner.getId());
         u.setFullName(owner.getName() + " " + owner.getLastname());
-        
+
         e.setId(id);
         e.setOwner(u);
         e.setCoverUrl(ev.getCoverImage());
@@ -61,58 +62,94 @@ public class EventResource extends BaseWs {
         //e.setTotalGuests();
         e.setLike(true);
         //e.setLikes(id);
-        
+
         return ok(e);
     }
     /*@GET
-    @Produces("application/json")
-    public String getJson() {
-        //TODO return proper representation object
-        User u = new User();
-        u.setName("Teste");
-        u.setEmail("teste@hehe.com");
-        u.setId(1l);
-        UserDAO dao = UserDAO.getInstance();
+     @Produces("application/json")
+     public String getJson() {
+     //TODO return proper representation object
+     User u = new User();
+     u.setName("Teste");
+     u.setEmail("teste@hehe.com");
+     u.setId(1l);
+     UserDAO dao = UserDAO.getInstance();
         
-        dao.save(u);
+     dao.save(u);
         
-        u = dao.getById(1);
+     u = dao.getById(1);
         
-        if (u == null) {
-            return "nao existe";
-        } else {
-            return "user existe";
+     if (u == null) {
+     return "nao existe";
+     } else {
+     return "user existe";
+     }
+     //Profile p = new Profile();
+     //p.setName("nome do profile");
+     //p.setId(51l);
+     //ProfileDAO dao = ProfileDAO.getInstance();
+        
+     //if (dao.verify(p))
+     //    return "existe...";
+     //else
+     //    return "nao existe...";
+        
+     //dao.remove(p);
+     //return "Removed";
+        
+     //Profile p = new Profile("nome do profile");
+     //ProfileDAO dao = ProfileDAO.getInstance();
+     //dao.salvar(p);
+     //return "Profile salvo...";
+     //Permission p = new Permission("nome do permission");
+     //PermissionDAO dao = PermissionDAO.getInstance();
+     //dao.salvar(p);
+     //return "Permission salvo...";
+     //Event e = new Event("Game", "Metal Gear Solid Version");
+     //EventDAO dao = EventDAO.getInstance();
+     //dao.salvar(e);
+     //return "Event salvo...";
+     //Comment c = new Comment("HAUahuAhuaHU");
+     //CommentDAO dao = CommentDAO.getInstance();
+     //dao.salvar(c);
+     //return "Comment salvo...";
+     }*/
+
+    @GET
+    @Produces(JSON)
+    public Response getAll() {
+
+        ArrayList<EventDto> ev = new ArrayList<>();
+
+        List<Event> evs = dao.getAllEvents();
+
+        for (Event event : evs) {
+
+            EventDto e = new EventDto();
+            UserDto u = new UserDto();
+
+            User usr = event.getOwner();
+
+            u.setId(usr.getId());
+            u.setFullName(usr.getName() + " " + usr.getLastname());
+            u.setName(usr.getName());
+            u.setSurName(usr.getLastname());
+            u.setLogin(usr.getLogin());
+            u.setPhotoUrl(usr.getPhotoUrl());
+
+            e.setId(event.getId());
+            e.setOwner(u);
+            e.setCoverUrl(event.getCoverImage());
+            e.setTitle(event.getName());
+            e.setDate(event.getInitialdate() + " - " + event.getFinaldate());
+            e.setLocation(event.getAddress());
+            e.setDetail(event.getDescription());
+
+            ev.add(e);
         }
-        //Profile p = new Profile();
-        //p.setName("nome do profile");
-        //p.setId(51l);
-        //ProfileDAO dao = ProfileDAO.getInstance();
-        
-        //if (dao.verify(p))
-        //    return "existe...";
-        //else
-        //    return "nao existe...";
-        
-        //dao.remove(p);
-        //return "Removed";
-        
-        //Profile p = new Profile("nome do profile");
-        //ProfileDAO dao = ProfileDAO.getInstance();
-        //dao.salvar(p);
-        //return "Profile salvo...";
-        //Permission p = new Permission("nome do permission");
-        //PermissionDAO dao = PermissionDAO.getInstance();
-        //dao.salvar(p);
-        //return "Permission salvo...";
-        //Event e = new Event("Game", "Metal Gear Solid Version");
-        //EventDAO dao = EventDAO.getInstance();
-        //dao.salvar(e);
-        //return "Event salvo...";
-        //Comment c = new Comment("HAUahuAhuaHU");
-        //CommentDAO dao = CommentDAO.getInstance();
-        //dao.salvar(c);
-        //return "Comment salvo...";
-    }*/
+
+        return ok(ev);
+    }
 
     @POST
     @Produces(JSON)
@@ -120,24 +157,24 @@ public class EventResource extends BaseWs {
     public Response addEvent(NewEventDto c) throws ParseException {
         Event e = new Event();
         UserDAO userDAO = UserDAO.getInstance();
-        
+
         e.setOwner(userDAO.getById(c.getOwner()));
         e.setName(c.getTitle());
         e.setDescription(c.getDetail());
         e.setInitialdate(new SimpleDateFormat("dd/MM/yyyy hh:mm").parse(c.getInitialdate()));
         e.setFinaldate(new SimpleDateFormat("dd/MM/yyyy hh:mm").parse(c.getFinaldate()));
         e.setAddress(c.getLocation());
-        
+
         dao.save(e);
-       
+
         return created(e.getId());
     }
-    
+
     @PUT
     @Produces(JSON)
     @Consumes(JSON)
     @Path("{id:[0-9]+}")
-    public Response editEvent(@PathParam("id") long id, NewEventDto c) throws ParseException {        
+    public Response editEvent(@PathParam("id") long id, NewEventDto c) throws ParseException {
         Event e = dao.getById(id);
 
         e.setName(c.getTitle());
@@ -145,9 +182,9 @@ public class EventResource extends BaseWs {
         e.setInitialdate(new SimpleDateFormat("dd/MM/yyyy hh:mm").parse(c.getInitialdate()));
         e.setFinaldate(new SimpleDateFormat("dd/MM/yyyy hh:mm").parse(c.getFinaldate()));
         e.setAddress(c.getLocation());
-        
+
         dao.save(e);
-        
+
         return noContent();
     }
 }
