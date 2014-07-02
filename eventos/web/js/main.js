@@ -440,6 +440,26 @@ App.controller('FindEventsCtrl', ['$scope', '$http', '$sce', '$rootScope', '$q',
             };
             console.log(data);
         };
+        
+        $scope.like = function (event) {
+            
+        };
+        
+        $scope.unlike = function (event) {
+            
+        };
+        
+        $scope.share = function (event) {
+            
+        };
+        
+        $scope.likeComment = function (event, comm) {
+            
+        };
+        
+        $scope.unlikeComment = function (event, comm) {
+            
+        };
 
         $('a[href="#find"], a[href="#event"]').on('show.bs.tab', function(e) {
             $scope.reload();
