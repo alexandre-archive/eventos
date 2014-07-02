@@ -289,7 +289,12 @@ App.controller('JoinCtrl', ['$scope', '$http', '$sce', '$rootScope', '$q', funct
                 $scope.reset();
                 window.location.assign('/eventos/signin.html');
             }).error(function(data, status, headers, config) {
-                $rootScope.showAlertBox(data[0].message, "e", false);
+                console.log(data);
+                if (status === 412) {
+                    $rootScope.showAlertBox(data[0].message, "e", false);
+                } else {
+                    $rootScope.showAlertBox("Erro ao processar request. Status: " + status, "e", false);
+                }
             });
         };
 
