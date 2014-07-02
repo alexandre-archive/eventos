@@ -6,6 +6,7 @@ import br.furb.eventos.dto.NewCommentDto;
 import br.furb.eventos.dto.NewEventDto;
 import br.furb.eventos.dto.UserDto;
 import br.furb.eventos.entity.Comment;
+import br.furb.eventos.entity.CommentDAO;
 import br.furb.eventos.entity.Event;
 import br.furb.eventos.entity.EventDAO;
 import br.furb.eventos.entity.User;
@@ -294,6 +295,37 @@ public class EventResource extends BaseWs {
         return noContent();
     }
     
+    /*@PUT
+    @Produces(JSON)
+    @Consumes(JSON)
+    @Path("{id:[0-9]+}/comment/{idComment:[0-9]+}/like")
+    public Response likeComment(@PathParam("id") long id, @PathParam("idComment") long idComment, long idUser) {
+        
+        Event e = dao.getById(id);
+
+        if (e == null) {
+            return notFound();
+        }
+        
+        CommentDAO commentDAO = CommentDAO.getInstance();        
+        Comment c = commentDAO.getById(idComment);
+        
+        if (c == null) {
+            return notFound();
+        }
+        
+        UserDAO userDAO = UserDAO.getInstance();        
+        List<User> l = e.getLikes();
+        
+        l.add(userDAO.getById(idUser));
+        
+        e.setLikes(l);              
+        
+        dao.save(e);
+
+        return noContent();
+    }*/
+    
     @PUT
     @Produces(JSON)
     @Consumes(JSON)
@@ -312,6 +344,30 @@ public class EventResource extends BaseWs {
         l.add(userDAO.getById(idUser));
         
         e.setLikes(l);              
+        
+        dao.save(e);
+
+        return noContent();
+    }
+    
+    @PUT
+    @Produces(JSON)
+    @Consumes(JSON)
+    @Path("{id:[0-9]+}/share")
+    public Response shareEvent(@PathParam("id") long id, long idUser) {
+        
+        Event e = dao.getById(id);
+
+        if (e == null) {
+            return notFound();
+        }
+        
+        UserDAO userDAO = UserDAO.getInstance();        
+        List<User> s = e.getShares();
+        
+        s.add(userDAO.getById(idUser));
+        
+        e.setShares(s);              
         
         dao.save(e);
 

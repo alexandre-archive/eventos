@@ -44,6 +44,16 @@ public class CommentDAO {
             PersistenseUtil.close(em);
         }
     }
+   
+   public Comment getById(long id) {
+        Comment c;
+
+        EntityManager em = PersistenseUtil.getEntityManager();
+        c = em.find(Comment.class, id);
+        PersistenseUtil.close(em);
+
+        return c;
+    }
     
     public List<Comment> getAllProfiles() {
         EntityManager em = PersistenseUtil.getEntityManager();
