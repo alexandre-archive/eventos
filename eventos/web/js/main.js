@@ -423,45 +423,19 @@ App.controller('FindEventsCtrl', ['$scope', '$http', '$sce', '$rootScope', '$q',
             $scope.SingleEvent = id && !isNaN(id);
 
             if ($scope.SingleEvent) {
-                $scope.Event = {
-                    Owner: {
-                        FullName: "Dick Piroquinha",
-                        PhotoUrl: "img/covers/jpg/1.jpg",
-                        Login: "",
-                        Id: 1,
-                    },
-                    Id: 1,
-                    CoverUrl: "img/covers/jpg/5.jpg",
-                    Description: "Um texto bem grande para ocupar mais de uma linha no exmplo a ser motrado como foi feito.",
-                    Title: "Evento 1",
-                    Date: "seg, 14 de julho, 19:00",
-                    Location: "Blumenau",
-                    Detail: "",
-                    TotalGuests: "151 pessoas vão",
-                    Answer: 0,
-                    Due: false,
-                    Like: false,
-                    Likes: 101,
-                    Shared: true,
-                    Comments: [{
-                            User: {FullName: "Dick Piroquinha",
-                                PhotoUrl: "img/covers/jpg/1.jpg",
-                                Login: "",
-                                Id: 1, },
-                            Comment: "Muito legal",
-                            Like: false,
-                            Likes: "1 curtida",
-                        },
-                        {
-                            User: {FullName: "Dick Piroquinha",
-                                PhotoUrl: "img/covers/jpg/2.jpg",
-                                Login: "",
-                                Id: 1, },
-                            Comment: "Show!!",
-                            Like: true,
-                            Likes: "10 curtidas",
-                        }],
-                };
+                
+                $http({
+                    method: 'GET',
+                    url: '/eventos/api/event/' + id,
+                }).success(function(data, status, headers, config) {
+                    console.log(data);
+                    $scope.Event = data;
+
+                }).error(function(data, status, headers, config) {
+                    console.log(data);
+                    $rootScope.showAlertBox("Usuário não encontrado.", "e", false);
+                });
+                
             } else {
 
                 $scope.AllEvents = [

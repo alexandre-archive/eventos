@@ -84,7 +84,7 @@ public class Event {
     }
 
     public String getCoverImage() {
-        return (coverImage != null && !coverImage.isEmpty()) ? coverImage : "img/cover.jpg";
+        return (coverImage != null && !coverImage.isEmpty()) ? coverImage : "img/event.jpg";
     }
 
     public ArrayList<String> getImages() {
