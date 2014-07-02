@@ -1,15 +1,36 @@
 package br.furb.eventos.dto;
 
+import net.sf.oval.constraint.MinLength;
+import net.sf.oval.constraint.NotEmpty;
+import net.sf.oval.constraint.NotNull;
+
 public class NewEventDto {
 
     private long id;
+    
     private long owner;
+    
     private String coverUrl;
+    
+    @NotNull(message="Campo Título não pode ser vazio.")
+    @NotEmpty(message="Campo Título não pode ser vazio.")
+    @MinLength(value=3, message="Campo Título deve possuir no mínimo 3 caracteres.")
     private String title;
+    
     private String initialdate;
+    
     private String finaldate;
+    
+    @NotNull(message="Campo Localização não pode ser vazio.")
+    @NotEmpty(message="Campo Localização não pode ser vazio.")
+    @MinLength(value=3, message="Campo Localização deve possuir no mínimo 3 caracteres.")
     private String location;
+    
+    @NotNull(message="Campo Detalhes não pode ser vazio.")
+    @NotEmpty(message="Campo Detalhes não pode ser vazio.")
+    @MinLength(value=3, message="Campo Detalhes deve possuir no mínimo 3 caracteres.")
     private String detail;
+    
     private String guests;
 
     public String getTitle() {

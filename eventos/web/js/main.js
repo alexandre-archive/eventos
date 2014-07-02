@@ -588,7 +588,7 @@ App.controller('NewEventCtrl', ['$scope', '$http', '$sce', '$rootScope', '$q', f
                 detail: $scope.Dto.Detail,
                 guests: $scope.Dto.Guest
             };
-
+            
             $http({
                 method: 'POST',
                 url: '/eventos/api/event',
