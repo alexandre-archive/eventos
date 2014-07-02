@@ -184,6 +184,7 @@ var App = angular.module('App', [])
                 $rootScope.showAlert = true;
                 $rootScope.alertMessage = msg;
                 $rootScope.alertClass = "";
+                $rootScope.many = msg instanceof Array;
 
                 switch (type)
                 {
@@ -215,6 +216,7 @@ var App = angular.module('App', [])
                 window.location.hash = '#event?id=' + e.id;
             };
 
+            $rootScope.many = false;
             $rootScope.showAlert = false;
             $rootScope.message = "";
             $rootScope.alertClass = "";
@@ -227,12 +229,18 @@ App.controller('LoginCtrl', ['$scope', '$http', '$sce', '$rootScope', '$q', func
         $scope.user = null;
         $scope.pwd = null;
 
-        $scope.validateLogin = function(user, pwd) {
-            return user && pwd;
-        };
-
         $scope.doLogin = function() {
-            if ($scope.validateLogin($scope.user, $scope.pwd)) {
+
+            var data = {
+                login: $scope.user,
+                pwd: $scope.pwd,
+            };
+
+            $http({
+                method: 'POST',
+                url: '/eventos/api/user/auth',
+                data: data,
+            }).success(function(data, status, headers, config) {
 
                 $http({
                     method: 'GET',
@@ -246,9 +254,12 @@ App.controller('LoginCtrl', ['$scope', '$http', '$sce', '$rootScope', '$q', func
                     $scope.invalidLogin = true;
                 });
 
-            } else {
+            }).error(function(data, status, headers, config) {
+                console.log(data);
+                setLoginInfo();
                 $scope.invalidLogin = true;
-            }
+            });
+
         };
 
         $scope.createAccount = function() {
@@ -300,7 +311,7 @@ App.controller('JoinCtrl', ['$scope', '$http', '$sce', '$rootScope', '$q', funct
             }).error(function(data, status, headers, config) {
                 console.log(data);
                 if (status === 412) {
-                    $rootScope.showAlertBox(data[0].message, "e", false);
+                    $rootScope.showAlertBox(data, "e", false);
                 } else {
                     $rootScope.showAlertBox("Erro ao processar request. Status: " + status, "e", false);
                 }
@@ -485,13 +496,13 @@ App.controller('FindEventsCtrl', ['$scope', '$http', '$sce', '$rootScope', '$q',
             one: '{} curtiu',
             other: '{} curtiram'
         };
-        
+
         $scope.peopleDueC = {
             0: 'ninguém foi',
             one: '{} pessoa foi',
             other: '{} pessoas foram'
         };
-        
+
         $scope.peopleNotDueC = {
             0: 'ninguém vai',
             one: '{} pessoa vai',

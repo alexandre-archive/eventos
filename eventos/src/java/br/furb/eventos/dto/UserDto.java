@@ -14,12 +14,12 @@ public class UserDto extends BaseDto {
     
     @NotNull(message="Campo Nome não pode ser vazio.")
     @NotEmpty(message="Campo Nome não pode ser vazio.")
-    @MinLength(3)
+    @MinLength(value=3, message="Campo Nome deve possuir no mínimo 3 caracteres.")
     private String name;
     
     @NotNull(message="Campo Sobrenome não pode ser vazio.")
     @NotEmpty(message="Campo Sobrenome não pode ser vazio.")
-    @MinLength(3)
+    @MinLength(value=3, message="Campo Sobrenome deve possuir no mínimo 3 caracteres.")
     private String surName;
     
     private String photoUrl;
@@ -32,6 +32,7 @@ public class UserDto extends BaseDto {
     // TODO: fazer um regex pra validar força da senha.
     @NotNull(message="Campo Senha não pode ser vazio.")
     @NotEmpty(message="Campo Senha não pode ser vazio.")
+    @MinLength(value=6, message="Campo Senha deve possuir no mínimo 6 caracteres.")
     private String pwd;
 
     public String getFullName() {

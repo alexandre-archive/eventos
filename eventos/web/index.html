@@ -64,7 +64,14 @@
                         <span aria-hidden="true">&times;</span>
                         <span class="sr-only">Close</span>
                     </button>
-                    {{alertMessage}}
+                    <div ng-hide="many">
+                        {{alertMessage}}
+                    </div>
+                    <div ng-show="many">
+                        <ul>
+                            <li ng-repeat="erro in alertMessage track by $index" ng-bind="erro.message"></li>
+                        </ul>
+                    </div>
                 </div>
 
                 <div class="ng-cloak tab-content">
