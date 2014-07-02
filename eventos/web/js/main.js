@@ -351,22 +351,22 @@ App.controller('MyEventsCtrl', ['$scope', '$http', '$sce', '$rootScope', '$q', f
         $scope.UserEvents = [];
 
         $scope.reload = function() {
-            
-            $http({
-                    method: 'GET',
-                    url: '/eventos/api/event',
-                }).success(function(data, status, headers, config) {
-                    console.log(data);
-                    $scope.UserEvents = data;
 
-                }).error(function(data, status, headers, config) {
-                    console.log(data);
-                    $rootScope.showAlertBox("Usuário não encontrado.", "e", false);
+            $http({
+                method: 'GET',
+                url: '/eventos/api/event',
+            }).success(function(data, status, headers, config) {
+                console.log(data);
+                $scope.UserEvents = data;
+
+                _.each($scope.UserEvents, function(item) {
+                    item.stList = $rootScope.getEventStatus(item.due);
+                    item.status = _.findWhere($rootScope.getEventStatus(item.due), {id: item.answer});
                 });
-            
-            _.each($scope.UserEvents, function(item) {
-                item.stList = $rootScope.getEventStatus(item.due);
-                item.status = _.findWhere($rootScope.getEventStatus(item.due), {id: item.answer});
+
+            }).error(function(data, status, headers, config) {
+                console.log(data);
+                $rootScope.showAlertBox("Usuário não encontrado.", "e", false);
             });
         };
 
@@ -398,7 +398,7 @@ App.controller('FindEventsCtrl', ['$scope', '$http', '$sce', '$rootScope', '$q',
             $scope.SingleEvent = id && !isNaN(id);
 
             if ($scope.SingleEvent) {
-                
+
                 $http({
                     method: 'GET',
                     url: '/eventos/api/event/' + id,
@@ -410,7 +410,7 @@ App.controller('FindEventsCtrl', ['$scope', '$http', '$sce', '$rootScope', '$q',
                     console.log(data);
                     $rootScope.showAlertBox("Usuário não encontrado.", "e", false);
                 });
-                
+
             } else {
 
                 $http({
@@ -420,15 +420,15 @@ App.controller('FindEventsCtrl', ['$scope', '$http', '$sce', '$rootScope', '$q',
                     console.log(data);
                     $scope.AllEvents = data;
 
+                    _.each($scope.AllEvents, function(item) {
+                        //fetchImage(item.Owner.PhotoUrl);
+                        item.stList = $rootScope.getEventStatus(item.due);
+                        item.status = _.findWhere($rootScope.getEventStatus(item.due), {id: item.answer});
+                    });
+
                 }).error(function(data, status, headers, config) {
                     console.log(data);
                     $rootScope.showAlertBox("Usuário não encontrado.", "e", false);
-                });
-
-                _.each($scope.AllEvents, function(item) {
-                    //fetchImage(item.Owner.PhotoUrl);
-                    item.stList = $rootScope.getEventStatus(item.due);
-                    item.status = _.findWhere($rootScope.getEventStatus(item.due), {id: item.answer});
                 });
             }
         };
@@ -462,7 +462,7 @@ App.controller('NewEventCtrl', ['$scope', '$http', '$sce', '$rootScope', '$q', f
                 Detail: "",
                 Guests: "",
             };
-            
+
             $('#initTime').val(""); // Não ta atualizando o model do angular.
             $('#endTime').val("");
         };
@@ -487,7 +487,7 @@ App.controller('NewEventCtrl', ['$scope', '$http', '$sce', '$rootScope', '$q', f
                 detail: $scope.Dto.Detail,
                 guests: $scope.Dto.Guest
             };
-            
+
             $http({
                 method: 'POST',
                 url: '/eventos/api/event',
