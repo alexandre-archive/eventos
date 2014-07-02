@@ -100,6 +100,22 @@ public class Event {
         this.comments = comments;
     }
     
+    public List<User> getLikes() {
+        return likes;
+    }
+
+    public void setLikes(List<User> likes) {
+        this.likes = likes;
+    }
+
+    public List<User> getShares() {
+        return shares;
+    }
+
+    public void setShares(List<User> shares) {
+        this.shares = shares;
+    }
+    
     public enum UserStatus
     {
         YES,
