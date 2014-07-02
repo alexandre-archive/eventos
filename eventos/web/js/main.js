@@ -398,6 +398,18 @@ App.controller('MyEventsCtrl', ['$scope', '$http', '$sce', '$rootScope', '$q', f
             };
             console.log(data);
         };
+        
+        $scope.peopleDueC = {
+            0: 'ninguém foi',
+            one: '{} pessoa foi',
+            other: '{} pessoas foram'
+        };
+
+        $scope.peopleNotDueC = {
+            0: 'ninguém vai',
+            one: '{} pessoa vai',
+            other: '{} pessoas irão'
+        };
 
         $('a[href="#myevents"]').on('show.bs.tab', function(e) {
             $scope.reload();

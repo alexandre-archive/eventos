@@ -16,7 +16,7 @@
 
         <script type="text/javascript">
             if (window.localStorage.isAuthenticated !== "true") {
-                window.location.assign('/eventos/signin.html');
+            window.location.assign('/eventos/signin.html');
             }
         </script>
 
@@ -108,7 +108,10 @@
                                             <span><i class="glyphicon glyphicon-user"></i> {{e.guests}}</span>
                                         </div>
                                         <div class="col-md-12">
-                                            <span>{{e.totalGuests}}</span>
+                                            <span>
+                                                <ng-pluralize ng-show="e.due" count="e.totalGuests" when="peopleDueC"></ng-pluralize>
+                                                <ng-pluralize ng-show="!e.due" count="e.totalGuests" when="peopleNotDueC"></ng-pluralize>
+                                            </span>
                                         </div>
                                         <div class="col-md-12">
                                             <hr class="divider-horizontal"/>
