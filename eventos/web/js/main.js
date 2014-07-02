@@ -199,11 +199,11 @@ var App = angular.module('App', [])
             };
 
             $rootScope.goToProfile = function(p) {
-                window.location.hash = '#profile?id=' + p.Id;
+                window.location.hash = '#profile?id=' + p.id;
             };
 
             $rootScope.goToEvent = function(e) {
-                window.location.hash = '#event?id=' + e.Id;
+                window.location.hash = '#event?id=' + e.id;
             };
 
             $rootScope.showAlert = false;
@@ -351,47 +351,21 @@ App.controller('MyEventsCtrl', ['$scope', '$http', '$sce', '$rootScope', '$q', f
         $scope.UserEvents = [];
 
         $scope.reload = function() {
-            $scope.UserEvents = [
-                {
-                    Owner: {
-                        FullName: "Dick Pirocona Dura",
-                        PhotoUrl: "img/covers/jpg/5.jpg",
-                        Login: "",
-                        Id: 2,
-                    },
-                    Id: 1,
-                    CoverUrl: "img/covers/jpg/1.jpg",
-                    Title: "Evento 1",
-                    Date: "seg, 14 de julho, 19:00",
-                    Location: "Blumenau",
-                    Detail: "",
-                    Guests: "João Silva, Marcelo Pinto, Kid Bengala e mais",
-                    TotalGuests: "151 pessoas vão",
-                    Answer: 1,
-                    Due: false,
-                },
-                {
-                    Owner: {
-                        FullName: "Dick Pirocona Dura",
-                        PhotoUrl: "img/covers/jpg/5.jpg",
-                        Login: "",
-                        Id: 2,
-                    },
-                    Id: 2,
-                    CoverUrl: "img/covers/jpg/2.jpg",
-                    Title: "Evento 2",
-                    Date: "sex, 27 de junho, 12:00",
-                    Location: "Rio do Sul",
-                    Detail: "",
-                    Guests: "Sasha Gray, Rocco, Kid Bengala e mais",
-                    TotalGuests: "300 pessoas foram",
-                    Answer: 2,
-                    Due: true,
-                }, ];
 
-            _.each($scope.UserEvents, function(item) {
-                item.stList = $rootScope.getEventStatus(item.Due)
-                item.Status = _.findWhere($rootScope.getEventStatus(item.Due), {id: item.Answer});
+            $http({
+                method: 'GET',
+                url: '/eventos/api/event',
+            }).success(function(data, status, headers, config) {
+                console.log(data);
+                $scope.UserEvents = data;
+
+                _.each($scope.UserEvents, function(item) {
+                    item.stList = $rootScope.getEventStatus(item.due);
+                    item.status = _.findWhere($rootScope.getEventStatus(item.due), {id: item.answer});
+                });
+
+            }).error(function(data, status, headers, config) {
+                console.log(data);
             });
         };
 
@@ -423,7 +397,7 @@ App.controller('FindEventsCtrl', ['$scope', '$http', '$sce', '$rootScope', '$q',
             $scope.SingleEvent = id && !isNaN(id);
 
             if ($scope.SingleEvent) {
-                
+
                 $http({
                     method: 'GET',
                     url: '/eventos/api/event/' + id,
@@ -433,72 +407,25 @@ App.controller('FindEventsCtrl', ['$scope', '$http', '$sce', '$rootScope', '$q',
 
                 }).error(function(data, status, headers, config) {
                     console.log(data);
-                    $rootScope.showAlertBox("Usuário não encontrado.", "e", false);
                 });
-                
+
             } else {
 
-                $scope.AllEvents = [
-                    {
-                        Owner: {
-                            FullName: "Dick Piroquinha",
-                            PhotoUrl: "img/covers/jpg/1.jpg",
-                            Login: "",
-                            Id: 1,
-                        },
-                        Id: 1,
-                        CoverUrl: "img/covers/jpg/5.jpg",
-                        Title: "Evento 1",
-                        Date: "seg, 14 de julho, 19:00",
-                        Location: "Blumenau",
-                        Detail: "",
-                        Guests: "João Silva, Marcelo Pinto, Kid Bengala e mais",
-                        TotalGuests: "151 pessoas vão",
-                        Answer: 0,
-                        Due: false,
-                    },
-                    {
-                        Owner: {
-                            FullName: "Dick Pirocona",
-                            PhotoUrl: "img/covers/jpg/2.jpg",
-                            Login: "",
-                            Id: 2,
-                        },
-                        Id: 2,
-                        CoverUrl: "img/covers/jpg/12.jpg",
-                        Title: "Evento 2",
-                        Date: "sex, 27 de junho, 12:00",
-                        Location: "Rio do Sul",
-                        Detail: "",
-                        Guests: "Sasha Gray, Rocco, Kid Bengala e mais",
-                        TotalGuests: "300 pessoas foram",
-                        Answer: 0,
-                        Due: true,
-                    },
-                    {
-                        Owner: {
-                            FullName: "Dick Pirocona Dura",
-                            PhotoUrl: "img/covers/jpg/5.jpg",
-                            Login: "",
-                            Id: 2,
-                        },
-                        Id: 2,
-                        CoverUrl: "img/covers/jpg/15.jpg",
-                        Title: "Evento 2",
-                        Date: "sex, 27 de junho, 12:00",
-                        Location: "Rio do Sul",
-                        Detail: "",
-                        Guests: "Sasha Gray, Rocco, Kid Bengala e mais",
-                        TotalGuests: "300 pessoas foram",
-                        Answer: 0,
-                        Due: true,
-                    }
-                ];
+                $http({
+                    method: 'GET',
+                    url: '/eventos/api/event',
+                }).success(function(data, status, headers, config) {
+                    console.log(data);
+                    $scope.AllEvents = data;
 
-                _.each($scope.AllEvents, function(item) {
-                    //fetchImage(item.Owner.PhotoUrl);
-                    item.stList = $rootScope.getEventStatus(item.Due)
-                    item.Status = _.findWhere($rootScope.getEventStatus(item.Due), {id: item.Answer});
+                    _.each($scope.AllEvents, function(item) {
+                        //fetchImage(item.Owner.PhotoUrl);
+                        item.stList = $rootScope.getEventStatus(item.due);
+                        item.status = _.findWhere($rootScope.getEventStatus(item.due), {id: item.answer});
+                    });
+
+                }).error(function(data, status, headers, config) {
+                    console.log(data);
                 });
             }
         };
@@ -532,7 +459,7 @@ App.controller('NewEventCtrl', ['$scope', '$http', '$sce', '$rootScope', '$q', f
                 Detail: "",
                 Guests: "",
             };
-            
+
             $('#initTime').val(""); // Não ta atualizando o model do angular.
             $('#endTime').val("");
         };
@@ -557,7 +484,7 @@ App.controller('NewEventCtrl', ['$scope', '$http', '$sce', '$rootScope', '$q', f
                 detail: $scope.Dto.Detail,
                 guests: $scope.Dto.Guest
             };
-            
+
             $http({
                 method: 'POST',
                 url: '/eventos/api/event',

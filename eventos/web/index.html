@@ -78,40 +78,40 @@
                                     <img class="cover-event clickable" 
                                          alt="cover" 
                                          src="" 
-                                         title="{{e.Title}}"
+                                         title="{{e.title}}"
                                          ng-click="goToEvent(e)"
-                                         ng-src="{{fetchImage(e.CoverUrl)}}"/>
+                                         ng-src="{{fetchImage(e.coverUrl)}}"/>
                                     <img class="profile-photo-cover border-fade clickable" 
                                          alt="owner" 
                                          src=""
-                                         title="{{e.Owner.FullName}}"
-                                         ng-click="goToProfile(e.Owner)"
-                                         ng-src="{{fetchImage(e.Owner.PhotoUrl)}}"/>
+                                         title="{{e.Owner.fullName}}"
+                                         ng-click="goToProfile(e.owner)"
+                                         ng-src="{{fetchImage(e.owner.photoUrl)}}"/>
                                     <div class="form-group line">
                                         <div class="col-md-12">
-                                            <label>{{e.Title}}</label>
+                                            <label>{{e.title}}</label>
                                         </div>
                                         <div class="col-md-12">
-                                            <span><i class="glyphicon glyphicon-map-marker"></i> {{e.Location}}</span>
+                                            <span><i class="glyphicon glyphicon-map-marker"></i> {{e.location}}</span>
                                         </div>
                                         <div class="col-md-12">
-                                            <span><i class="glyphicon glyphicon-time"></i> {{e.Date}}</span>
+                                            <span><i class="glyphicon glyphicon-time"></i> {{e.date}}</span>
                                         </div>
                                         <div class="col-md-12">
-                                            <span><i class="glyphicon glyphicon-user"></i> {{e.Guests}}</span>
+                                            <span><i class="glyphicon glyphicon-user"></i> {{e.guests}}</span>
                                         </div>
                                         <div class="col-md-12">
-                                            <span>{{e.TotalGuests}}</span>
+                                            <span>{{e.totalGuests}}</span>
                                         </div>
                                         <div class="col-md-12">
                                             <hr class="divider-horizontal"/>
                                         </div>
                                         <div class="col-md-12">
-                                            <label>{{e.Due ? 'Você foi?' : 'Você vai?'}}</label>
+                                            <label>{{e.due ? 'Você foi?' : 'Você vai?'}}</label>
                                         </div>
                                         <div class="col-md-4">
                                             <select class="form-control"
-                                                    ng-model="e.Status"
+                                                    ng-model="e.status"
                                                     ng-change="updateEventStatus(e);"
                                                     ng-options="status.name for status in e.stList track by status.id">
                                             </select>
@@ -264,40 +264,40 @@
 
                         <div ng-show="AllEvents.length > 0">
                             <div class="form-horizontal">
-                                <div class="event-box border-fade" ng-repeat="e in AllEvents| filter:{Answer:0}">
+                                <div class="event-box border-fade" ng-repeat="e in AllEvents| filter:{answer:0}">
                                     <img class="cover-event clickable" 
                                          alt="cover" 
                                          src="" 
-                                         title="{{e.Title}}"
+                                         title="{{e.title}}"
                                          ng-click="goToEvent(e)"
-                                         ng-src="{{fetchImage(e.CoverUrl)}}"/>
+                                         ng-src="{{fetchImage(e.coverUrl)}}"/>
                                     <img class="profile-photo-cover border-fade clickable" 
                                          alt="owner" 
                                          src=""
-                                         title="{{e.Owner.FullName}}"
-                                         ng-click="goToProfile(e.Owner)"
-                                         ng-src="{{fetchImage(e.Owner.PhotoUrl)}}"/>
+                                         title="{{e.owner.fullName}}"
+                                         ng-click="goToProfile(e.owner)"
+                                         ng-src="{{fetchImage(e.owner.photoUrl)}}"/>
                                     <div class="form-group line">
                                         <div class="col-md-12">
-                                            <label>{{e.Title}}</label>
+                                            <label>{{e.title}}</label>
                                         </div>
                                         <div class="col-md-12">
-                                            <span><i class="glyphicon glyphicon-map-marker"></i> {{e.Location}}</span>
+                                            <span><i class="glyphicon glyphicon-map-marker"></i> {{e.location}}</span>
                                         </div>
                                         <div class="col-md-12">
-                                            <span><i class="glyphicon glyphicon-time"></i> {{e.Date}}</span>
+                                            <span><i class="glyphicon glyphicon-time"></i> {{e.date}}</span>
                                         </div>
                                         <div class="col-md-12">
-                                            <span><i class="glyphicon glyphicon-user"></i> {{e.Guests}}</span>
+                                            <span><i class="glyphicon glyphicon-user"></i> {{e.guests}}</span>
                                         </div>
                                         <div class="col-md-12">
-                                            <span>{{e.TotalGuests}}</span>
+                                            <span>{{e.totalGuests}}</span>
                                         </div>
                                         <div class="col-md-12">
                                             <hr class="divider-horizontal"/>
                                         </div>
                                         <div class="col-md-12">
-                                            <label>{{e.Due ? 'Você foi?' : 'Você vai?'}}</label>
+                                            <label>{{e.due ? 'Você foi?' : 'Você vai?'}}</label>
                                         </div>
                                         <div class="col-md-12">
                                             <div class="col-md-3">
@@ -320,7 +320,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div ng-show="AllEvents.length === 0 || (AllEvents | filter:{Answer:0}).length === 0">
+                        <div ng-show="AllEvents.length === 0 || (AllEvents | filter:{answer:0}).length === 0">
                             <div class="alert alert-info" role="alert">Nenhum evento novo encontrado.</div>
                         </div>
                     </div>
