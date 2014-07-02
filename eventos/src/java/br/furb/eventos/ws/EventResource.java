@@ -213,7 +213,9 @@ public class EventResource extends BaseWs {
     @Path("{id:[0-9]+}")
     public Response editEvent(@PathParam("id") long id, NewEventDto c) throws ParseException {
         Event e = dao.getById(id);
+        UserDAO userDAO = UserDAO.getInstance();
 
+        e.setOwner(userDAO.getById(c.getOwner()));
         e.setName(c.getTitle());
         e.setDescription(c.getDetail());
         e.setInitialdate(new SimpleDateFormat("dd/MM/yyyy hh:mm").parse(c.getInitialdate()));
