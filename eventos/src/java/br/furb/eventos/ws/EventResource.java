@@ -9,7 +9,8 @@ import br.furb.eventos.dto.NewEventDto;
 import br.furb.eventos.dto.UserDto;
 import br.furb.eventos.entity.Comment;
 import br.furb.eventos.entity.Event;
-import br.furb.eventos.entity.Event.UserStatus;
+import br.furb.eventos.entity.Guest;
+import br.furb.eventos.entity.Guest.UserStatus;
 import br.furb.eventos.entity.User;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -74,17 +75,17 @@ public class EventResource extends BaseWs {
 
         String s = "";
 
-        HashMap<User, Event.UserStatus> g = ev.getGuests();
-        
+        List<Guest> g = ev.getGuests();
+
         if (g != null) {
 
             int count = 0;
 
-            for (Map.Entry<User, Event.UserStatus> entry : g.entrySet()) {
-                User user = entry.getKey();
-                Event.UserStatus userStatus = entry.getValue();
+            for (Guest entry : g) {
+                User user = entry.getGuest();
+                UserStatus userStatus = entry.getStatus();
 
-                if (userStatus == Event.UserStatus.YES) {
+                if (userStatus == UserStatus.YES) {
                     s += user.getName() + " " + user.getLastname();
                 }
 
@@ -98,7 +99,7 @@ public class EventResource extends BaseWs {
                 }
             }
         }
-        
+
         e.setGuests(s);
 
         for (Comment comment : ev.getComments()) {
@@ -168,16 +169,17 @@ public class EventResource extends BaseWs {
 
             String s = "";
 
-            HashMap<User, Event.UserStatus> g = event.getGuests();
+            List<Guest> g = event.getGuests();
 
             if (g != null) {
+
                 int count = 0;
 
-                for (Map.Entry<User, Event.UserStatus> entry : g.entrySet()) {
-                    User user = entry.getKey();
-                    Event.UserStatus userStatus = entry.getValue();
+                for (Guest entry : g) {
+                    User user = entry.getGuest();
+                    UserStatus userStatus = entry.getStatus();
 
-                    if (userStatus == Event.UserStatus.YES) {
+                    if (userStatus == UserStatus.YES) {
                         s += user.getName() + " " + user.getLastname();
                     }
 
@@ -235,16 +237,17 @@ public class EventResource extends BaseWs {
 
             String s = "";
 
-            HashMap<User, Event.UserStatus> g = event.getGuests();
+            List<Guest> g = event.getGuests();
 
             if (g != null) {
+
                 int count = 0;
 
-                for (Map.Entry<User, Event.UserStatus> entry : g.entrySet()) {
-                    User user = entry.getKey();
-                    Event.UserStatus userStatus = entry.getValue();
+                for (Guest entry : g) {
+                    User user = entry.getGuest();
+                    UserStatus userStatus = entry.getStatus();
 
-                    if (userStatus == Event.UserStatus.YES) {
+                    if (userStatus == UserStatus.YES) {
                         s += user.getName() + " " + user.getLastname();
                     }
 
@@ -301,16 +304,17 @@ public class EventResource extends BaseWs {
 
             String s = "";
 
-            HashMap<User, Event.UserStatus> g = event.getGuests();
+            List<Guest> g = event.getGuests();
 
             if (g != null) {
+
                 int count = 0;
 
-                for (Map.Entry<User, Event.UserStatus> entry : g.entrySet()) {
-                    User user = entry.getKey();
-                    Event.UserStatus userStatus = entry.getValue();
+                for (Guest entry : g) {
+                    User user = entry.getGuest();
+                    UserStatus userStatus = entry.getStatus();
 
-                    if (userStatus == Event.UserStatus.YES) {
+                    if (userStatus == UserStatus.YES) {
                         s += user.getName() + " " + user.getLastname();
                     }
 
@@ -326,6 +330,7 @@ public class EventResource extends BaseWs {
             }
 
             e.setGuests(s);
+            
             ev.add(e);
         }
 
@@ -497,15 +502,14 @@ public class EventResource extends BaseWs {
         }
 
         UserDAO userDAO = UserDAO.getInstance();
-        HashMap<User, UserStatus> a = e.getGuests();
+        List<Guest> gs = e.getGuests();
+        Guest g = new Guest();
         
-        if (a == null) {
-            a = new HashMap<>();
-        }
+        g.setGuest(userDAO.getById(idUser));
+        g.setStatus(status);
+        gs.add(g);
         
-        a.put(userDAO.getById(idUser), status);
-
-        e.setGuests(a);
+        e.setGuests(gs);
 
         dao.save(e);
 

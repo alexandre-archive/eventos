@@ -70,11 +70,11 @@ public class Event {
         this.owner = owner;
     }
 
-    public HashMap<User, UserStatus> getGuests() {
+    public List<Guest> getGuests() {
         return guests;
     }
 
-    public void setGuests(HashMap<User, UserStatus> guests) {
+    public void setGuests(List<Guest> guests) {
         this.guests = guests;
     }
 
@@ -110,14 +110,6 @@ public class Event {
         this.shares = shares;
     }
     
-    public enum UserStatus
-    {
-        YES,
-        MAYBE,
-        NO,
-        INVITED,
-    }
-    
     public enum EventStatus
     {
         Open,
@@ -150,7 +142,7 @@ public class Event {
     private Date finaldate;
 
     private User owner;
-    private HashMap<User, UserStatus> guests;
+    private List<Guest> guests;
     
     private List<User> likes;
     

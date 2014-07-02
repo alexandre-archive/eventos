@@ -7,6 +7,7 @@
     <class>br.furb.eventos.entity.Permission</class>
     <class>br.furb.eventos.entity.Event</class>
     <class>br.furb.eventos.entity.Comment</class>
+    <class>br.furb.eventos.entity.Guest</class>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:sqlite:\\C:\Users\Public\eventos.db"/>
       <property name="javax.persistence.jdbc.user" value="root"/>
