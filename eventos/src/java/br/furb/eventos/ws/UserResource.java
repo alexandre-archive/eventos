@@ -2,7 +2,7 @@ package br.furb.eventos.ws;
 
 import br.furb.eventos.dto.UserDto;
 import br.furb.eventos.entity.User;
-import br.furb.eventos.entity.UserDAO;
+import br.furb.eventos.dao.UserDAO;
 import java.io.IOException;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Consumes;

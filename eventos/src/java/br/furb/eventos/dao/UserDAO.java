@@ -1,9 +1,10 @@
-package br.furb.eventos.entity;
+package br.furb.eventos.dao;
 
+import br.furb.eventos.entity.PersistenseUtil;
+import br.furb.eventos.entity.User;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
-import javax.persistence.NoResultException;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
