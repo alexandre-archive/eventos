@@ -11,7 +11,9 @@ public class EventDto {
     private UserDto owner;
     private String coverUrl;
     private String title;
-    private String date;
+    private String initialDate;
+    private String finalDate;
+    private String date; // datas concatenadas.
     private String location;
     private String detail;
     private String guests;
@@ -145,6 +147,22 @@ public class EventDto {
 
     public void setComments(ArrayList<CommentDto> comments) {
         this.comments = comments;
+    }
+
+    public String getInitialDate() {
+        return initialDate;
+    }
+
+    public void setInitialDate(String initialDate) {
+        this.initialDate = initialDate;
+    }
+
+    public String getFinalDate() {
+        return finalDate;
+    }
+
+    public void setFinalDate(String finalDate) {
+        this.finalDate = finalDate;
     }
     
     

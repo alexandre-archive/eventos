@@ -553,6 +553,9 @@ App.controller('NewEventCtrl', ['$scope', '$http', '$sce', '$rootScope', '$q', f
                 Detail: "",
                 Guests: "",
             };
+            
+            $('#initTime').val(""); // Não ta atualizando o model do angular.
+            $('#endTime').val("");
         };
 
         $scope.reloadCover = function() {
@@ -567,15 +570,15 @@ App.controller('NewEventCtrl', ['$scope', '$http', '$sce', '$rootScope', '$q', f
             var data = {
                 id: 0,
                 owner: window.localStorage.userId,
-                coverUrl: $scope.Dto.CoverUrl,
+                coverUrl: $scope.src,
                 title: $scope.Dto.Title,
-                initialdate: $scope.Dto.InitialDate,
-                finaldate: $scope.Dto.FinalDate,
+                initialdate: $('#initTime').val(), // Não ta atualizando o model do angular.
+                finaldate: $('#endTime').val(),
                 location: $scope.Dto.Location,
                 detail: $scope.Dto.Detail,
                 guests: $scope.Dto.Guest
             };
-
+            
             $http({
                 method: 'POST',
                 url: '/eventos/api/event',
@@ -584,6 +587,7 @@ App.controller('NewEventCtrl', ['$scope', '$http', '$sce', '$rootScope', '$q', f
                 $rootScope.showAlertBox("Evento cadastrado com sucesso.", "i", true);
                 $scope.reset();
             }).error(function(data, status, headers, config) {
+                console.log(data)
                 $rootScope.showAlertBox("Erro ao processar request. Código: " + status, "e", true);
             });
         };

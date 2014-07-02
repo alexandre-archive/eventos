@@ -40,6 +40,6 @@ $(document).ready(function() {
     });
 
     $(".datetime").datetimepicker({
-        //language: 'pt-BR' // esta exibindo errada a mascara.
+        language: 'pt-BR' // esta exibindo errada a mascara.
     });
 });

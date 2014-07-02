@@ -8,6 +8,7 @@ import br.furb.eventos.entity.EventDAO;
 import br.furb.eventos.entity.User;
 import br.furb.eventos.entity.UserDAO;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -123,8 +124,8 @@ public class EventResource extends BaseWs {
         e.setOwner(userDAO.getById(c.getOwner()));
         e.setName(c.getTitle());
         e.setDescription(c.getDetail());
-        //e.setInitialdate(new SimpleDateFormat("dd/MM/yyyy").parse(c.getInitialdate()));
-        //e.setFinaldate(new SimpleDateFormat("dd/MM/yyyy").parse(c.getFinaldate()));
+        e.setInitialdate(new SimpleDateFormat("dd/MM/yyyy hh:mm").parse(c.getInitialdate()));
+        e.setFinaldate(new SimpleDateFormat("dd/MM/yyyy hh:mm").parse(c.getFinaldate()));
         e.setAddress(c.getLocation());
         
         dao.save(e);
@@ -136,13 +137,13 @@ public class EventResource extends BaseWs {
     @Produces(JSON)
     @Consumes(JSON)
     @Path("{id:[0-9]+}")
-    public Response editEvent(@PathParam("id") long id, EventDto c) {        
+    public Response editEvent(@PathParam("id") long id, NewEventDto c) throws ParseException {        
         Event e = dao.getById(id);
 
         e.setName(c.getTitle());
         e.setDescription(c.getDetail());
-        //e.setInitialdate(new SimpleDateFormat("dd/MM/yyyy").parse(c.getInitialdate()));
-        //e.setFinaldate(new SimpleDateFormat("dd/MM/yyyy").parse(c.getFinaldate()));
+        e.setInitialdate(new SimpleDateFormat("dd/MM/yyyy hh:mm").parse(c.getInitialdate()));
+        e.setFinaldate(new SimpleDateFormat("dd/MM/yyyy hh:mm").parse(c.getFinaldate()));
         e.setAddress(c.getLocation());
         
         dao.save(e);
