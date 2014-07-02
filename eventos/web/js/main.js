@@ -46,6 +46,15 @@ function setLoginInfo(id, login, fullName, photoUrl, isAuthenticated) {
     window.localStorage.isAuthenticated = isAuthenticated || false;
 }
 
+function getUser() {
+    return {
+        id: window.localStorage.userId,
+        login: window.localStorage.login,
+        fullName: window.localStorage.username,
+        photoUrl: window.localStorage.photoUrl,
+    };
+}
+
 /*
  Session timeout control.
  */
@@ -387,6 +396,7 @@ App.controller('MyEventsCtrl', ['$scope', '$http', '$sce', '$rootScope', '$q', f
 
 App.controller('FindEventsCtrl', ['$scope', '$http', '$sce', '$rootScope', '$q', function($scope, $http, $sce, $rootScope, $q) {
 
+        $scope.userComment = "";
         $scope.Event = null;
         $scope.AllEvents = [];
 
@@ -440,25 +450,53 @@ App.controller('FindEventsCtrl', ['$scope', '$http', '$sce', '$rootScope', '$q',
             };
             console.log(data);
         };
-        
-        $scope.like = function (event) {
-            
+
+        $scope.comment = function(event) {
+
+            if (!$scope.userComment) {
+                return;
+            }
+
+            var data = {
+                id: 0,
+                user: getUser().id,
+                comment: $scope.userComment,
+            };
+
+            console.log(data);
+
+            $http({
+                method: 'PUT',
+                url: '/eventos/api/event/' + event.id + '/comment',
+                data: data,
+            }).success(function(data, status, headers, config) {
+                $scope.userComment = "";
+                window.location.reload(); // UGH!!!
+            }).error(function(data, status, headers, config) {
+                console.log(data);
+                $rootScope.showAlertBox("Erro ao processar request. Status: " + status, "e", false);
+            });
+
         };
-        
-        $scope.unlike = function (event) {
-            
+
+        $scope.like = function(event) {
+
         };
-        
-        $scope.share = function (event) {
-            
+
+        $scope.unlike = function(event) {
+
         };
-        
-        $scope.likeComment = function (event, comm) {
-            
+
+        $scope.share = function(event) {
+
         };
-        
-        $scope.unlikeComment = function (event, comm) {
-            
+
+        $scope.likeComment = function(event, comm) {
+
+        };
+
+        $scope.unlikeComment = function(event, comm) {
+
         };
 
         $('a[href="#find"], a[href="#event"]').on('show.bs.tab', function(e) {

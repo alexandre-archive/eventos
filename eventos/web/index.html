@@ -164,9 +164,9 @@
                                 <div class="w50 w50-rigth">
                                     <div class="mini-box" style="padding-bottom: 15px">
                                         <div class="input-group">
-                                            <input class="form-control" placeholder="Compartilhe algo"/>
+                                            <input class="form-control" placeholder="Compartilhe algo" ng-model="userComment"/>
                                             <div class="input-group-btn">
-                                                <button type="button" class="btn btn-default">OK</button>
+                                                <button type="button" class="btn btn-default" ng-disabled="!userComment" ng-click="comment(Event)">OK</button>
                                             </div>
                                         </div>
                                     </div>
@@ -176,13 +176,13 @@
                                                 <img class="profile-photo-comment border-fade clickable" 
                                                      alt="owner" 
                                                      src=""
-                                                     title="{{c.User.FullName}}"
-                                                     ng-click="goToProfile(c.User)"
-                                                     ng-src="{{fetchImage(c.User.PhotoUrl)}}"/>
+                                                     title="{{c.user.fullName}}"
+                                                     ng-click="goToProfile(c.user)"
+                                                     ng-src="{{fetchImage(c.user.photoUrl)}}"/>
                                             </div>
                                             <div class="col-md-10">
-                                                <label>{{c.User.FullName}}</label><br />
-                                                <span>{{c.Comment}}</span>
+                                                <label>{{c.user.fullName}}</label><br />
+                                                <span>{{c.comment}}</span>
                                             </div>
                                         </div>
                                         <div class="form-group">
@@ -195,7 +195,7 @@
                                                 </span>
                                             </div>
                                             <div class="col-md-10">
-                                                <small>{{c.Likes}}</small>
+                                                <small>{{c.likes}}</small>
                                             </div>
                                         </div>
                                     </div>
