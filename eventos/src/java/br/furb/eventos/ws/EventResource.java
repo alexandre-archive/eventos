@@ -67,10 +67,16 @@ public class EventResource extends BaseWs {
         e.setFinalDate(ev.getFinaldate().toString());
         e.setLocation(ev.getAddress());
         e.setDetail(ev.getDescription());
-        //e.setGuests();
-        //e.setTotalGuests();
+        
+        e.setGuests("João");
+        
+        boolean due = false;
+        int total = 0;
+        String tempo = (total == 1) ? (due ? "foi" : "vai") : (due ? "foram" : "vão") ; // ou "foi", "vão", "foram";
+        
+        e.setTotalGuests(total == 1 ? String.format("Uma pessoa %s", tempo) : String.format("%d pessoas %s", total, tempo));
         e.setLike(true);
-        //e.setLikes(id);
+        e.setLikes(10);
 
         return ok(e);
     }
