@@ -1,5 +1,6 @@
 package br.furb.eventos.ws;
 
+import br.furb.eventos.dto.CommentDto;
 import br.furb.eventos.dto.EventDto;
 import br.furb.eventos.dto.NewCommentDto;
 import br.furb.eventos.dto.NewEventDto;
@@ -47,6 +48,7 @@ public class EventResource extends BaseWs {
             return notFound();
         }
 
+        ArrayList<CommentDto> cmDto = new ArrayList<>();
         User owner = ev.getOwner();
 
         EventDto e = new EventDto();
@@ -67,6 +69,27 @@ public class EventResource extends BaseWs {
         e.setFinalDate(ev.getFinaldate().toString());
         e.setLocation(ev.getAddress());
         e.setDetail(ev.getDescription());
+        
+        for (Comment comment : ev.getComments()) {
+            
+            CommentDto c = new CommentDto();
+            u = new UserDto();
+            User userComment = comment.getUser();
+
+            u.setId(userComment.getId());
+            u.setFullName(userComment.getName() + " " + userComment.getLastname());
+            u.setName(userComment.getName());
+            u.setSurName(userComment.getLastname());
+            u.setLogin(userComment.getLogin());
+            u.setPhotoUrl(userComment.getPhotoUrl());
+
+            c.setUser(u);
+            c.setComment(comment.getComment());
+
+            cmDto.add(c);
+        }
+
+        e.setComments(cmDto);
         
         e.setGuests("João");
         
