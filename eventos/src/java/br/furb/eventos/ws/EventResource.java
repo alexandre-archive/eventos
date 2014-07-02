@@ -13,7 +13,9 @@ import br.furb.eventos.dao.UserDAO;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -68,9 +70,38 @@ public class EventResource extends BaseWs {
         e.setFinalDate(ev.getFinaldate().toString());
         e.setLocation(ev.getAddress());
         e.setDetail(ev.getDescription());
+
+        String s = "";
+
+        HashMap<User, Event.UserStatus> g = ev.getGuests();
         
+        if (g != null) {
+
+            int count = 0;
+
+            for (Map.Entry<User, Event.UserStatus> entry : g.entrySet()) {
+                User user = entry.getKey();
+                Event.UserStatus userStatus = entry.getValue();
+
+                if (userStatus == Event.UserStatus.YES) {
+                    s += user.getName() + " " + user.getLastname();
+                }
+
+                count++;
+
+                if (count < 5) {
+                    s += ", ";
+                } else {
+                    s += " e mais";
+                    break;
+                }
+            }
+        }
+        
+        e.setGuests(s);
+
         for (Comment comment : ev.getComments()) {
-            
+
             CommentDto c = new CommentDto();
             u = new UserDto();
             User userComment = comment.getUser();
@@ -90,9 +121,9 @@ public class EventResource extends BaseWs {
         }
 
         e.setComments(cmDto);
-        
+
         e.setGuests("João");
-        
+
         int total = 0;
         e.setTotalGuests(total);
         e.setLike(true);
@@ -100,7 +131,7 @@ public class EventResource extends BaseWs {
 
         return ok(e);
     }
-    
+
     @GET
     @Produces(JSON)
     @Path("user/{idUser:[0-9]+}")
@@ -134,12 +165,40 @@ public class EventResource extends BaseWs {
             e.setLocation(event.getAddress());
             e.setDetail(event.getDescription());
 
+            String s = "";
+
+            HashMap<User, Event.UserStatus> g = event.getGuests();
+
+            if (g != null) {
+                int count = 0;
+
+                for (Map.Entry<User, Event.UserStatus> entry : g.entrySet()) {
+                    User user = entry.getKey();
+                    Event.UserStatus userStatus = entry.getValue();
+
+                    if (userStatus == Event.UserStatus.YES) {
+                        s += user.getName() + " " + user.getLastname();
+                    }
+
+                    count++;
+
+                    if (count < 5) {
+                        s += ", ";
+                    } else {
+                        s += " e mais";
+                        break;
+                    }
+                }
+            }
+
+            e.setGuests(s);
+
             ev.add(e);
         }
 
         return ok(ev);
     }
-    
+
     @GET
     @Produces(JSON)
     @Path("user/{idUser:[0-9]+}/othersEvents")
@@ -172,6 +231,34 @@ public class EventResource extends BaseWs {
             e.setFinalDate(event.getFinaldate().toString());
             e.setLocation(event.getAddress());
             e.setDetail(event.getDescription());
+
+            String s = "";
+
+            HashMap<User, Event.UserStatus> g = event.getGuests();
+
+            if (g != null) {
+                int count = 0;
+
+                for (Map.Entry<User, Event.UserStatus> entry : g.entrySet()) {
+                    User user = entry.getKey();
+                    Event.UserStatus userStatus = entry.getValue();
+
+                    if (userStatus == Event.UserStatus.YES) {
+                        s += user.getName() + " " + user.getLastname();
+                    }
+
+                    count++;
+
+                    if (count < 5) {
+                        s += ", ";
+                    } else {
+                        s += " e mais";
+                        break;
+                    }
+                }
+            }
+
+            e.setGuests(s);
 
             ev.add(e);
         }
@@ -211,6 +298,33 @@ public class EventResource extends BaseWs {
             e.setLocation(event.getAddress());
             e.setDetail(event.getDescription());
 
+            String s = "";
+
+            HashMap<User, Event.UserStatus> g = event.getGuests();
+
+            if (g != null) {
+                int count = 0;
+
+                for (Map.Entry<User, Event.UserStatus> entry : g.entrySet()) {
+                    User user = entry.getKey();
+                    Event.UserStatus userStatus = entry.getValue();
+
+                    if (userStatus == Event.UserStatus.YES) {
+                        s += user.getName() + " " + user.getLastname();
+                    }
+
+                    count++;
+
+                    if (count < 5) {
+                        s += ", ";
+                    } else {
+                        s += " e mais";
+                        break;
+                    }
+                }
+            }
+
+            e.setGuests(s);
             ev.add(e);
         }
 
@@ -221,7 +335,7 @@ public class EventResource extends BaseWs {
     @Produces(JSON)
     @Consumes(JSON)
     public Response addEvent(NewEventDto c) throws ParseException {
-        
+
         Event e = new Event();
         UserDAO userDAO = UserDAO.getInstance();
 
@@ -242,13 +356,13 @@ public class EventResource extends BaseWs {
     @Consumes(JSON)
     @Path("{id:[0-9]+}")
     public Response editEvent(@PathParam("id") long id, NewEventDto c) throws ParseException {
-        
+
         Event e = dao.getById(id);
 
         if (e == null) {
             return notFound();
         }
-        
+
         UserDAO userDAO = UserDAO.getInstance();
 
         e.setOwner(userDAO.getById(c.getOwner()));
@@ -262,109 +376,108 @@ public class EventResource extends BaseWs {
 
         return noContent();
     }
-    
+
     @PUT
     @Produces(JSON)
     @Consumes(JSON)
     @Path("{id:[0-9]+}/comment")
     public Response addComment(@PathParam("id") long id, NewCommentDto c) {
-        
+
         Event e = dao.getById(id);
 
         if (e == null) {
             return notFound();
         }
-        
+
         Comment comment = new Comment();
-        UserDAO userDAO = UserDAO.getInstance();        
-        
+        UserDAO userDAO = UserDAO.getInstance();
+
         comment.setUser(userDAO.getById(c.getUser()));
         comment.setComment(c.getComment());
-        
+
         List<Comment> cm = e.getComments();
         cm.add(comment);
-        
-        e.setComments(cm);              
-        
+
+        e.setComments(cm);
+
         dao.save(e);
 
         return noContent();
     }
-    
+
     /*@PUT
-    @Produces(JSON)
-    @Consumes(JSON)
-    @Path("{id:[0-9]+}/comment/{idComment:[0-9]+}/like")
-    public Response likeComment(@PathParam("id") long id, @PathParam("idComment") long idComment, long idUser) {
+     @Produces(JSON)
+     @Consumes(JSON)
+     @Path("{id:[0-9]+}/comment/{idComment:[0-9]+}/like")
+     public Response likeComment(@PathParam("id") long id, @PathParam("idComment") long idComment, long idUser) {
         
-        Event e = dao.getById(id);
+     Event e = dao.getById(id);
 
-        if (e == null) {
-            return notFound();
-        }
+     if (e == null) {
+     return notFound();
+     }
         
-        CommentDAO commentDAO = CommentDAO.getInstance();        
-        Comment c = commentDAO.getById(idComment);
+     CommentDAO commentDAO = CommentDAO.getInstance();        
+     Comment c = commentDAO.getById(idComment);
         
-        if (c == null) {
-            return notFound();
-        }
+     if (c == null) {
+     return notFound();
+     }
         
-        UserDAO userDAO = UserDAO.getInstance();        
-        List<User> l = e.getLikes();
+     UserDAO userDAO = UserDAO.getInstance();        
+     List<User> l = e.getLikes();
         
-        l.add(userDAO.getById(idUser));
+     l.add(userDAO.getById(idUser));
         
-        e.setLikes(l);              
+     e.setLikes(l);              
         
-        dao.save(e);
+     dao.save(e);
 
-        return noContent();
-    }*/
-    
+     return noContent();
+     }*/
     @PUT
     @Produces(JSON)
     @Consumes(JSON)
     @Path("{id:[0-9]+}/like")
     public Response likeEvent(@PathParam("id") long id, long idUser) {
-        
+
         Event e = dao.getById(id);
 
         if (e == null) {
             return notFound();
         }
-        
-        UserDAO userDAO = UserDAO.getInstance();        
+
+        UserDAO userDAO = UserDAO.getInstance();
         List<User> l = e.getLikes();
-        
+
         l.add(userDAO.getById(idUser));
-        
-        e.setLikes(l);              
-        
+
+        e.setLikes(l);
+
         dao.save(e);
 
         return noContent();
     }
-    
+
     @PUT
     @Produces(JSON)
     @Consumes(JSON)
     @Path("{id:[0-9]+}/share")
     public Response shareEvent(@PathParam("id") long id, long idUser) {
-        
+
         Event e = dao.getById(id);
 
         if (e == null) {
             return notFound();
         }
-        
-        UserDAO userDAO = UserDAO.getInstance();        
+
+        UserDAO userDAO = UserDAO.getInstance();
         List<User> s = e.getShares();
-        
+
         s.add(userDAO.getById(idUser));
-        
-        e.setShares(s);              
-        
+
+        e.setShares(s);
+
         dao.save(e);
 
         return noContent();
